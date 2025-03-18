@@ -15,4 +15,5 @@ public class Europe {
 	public boolean addCity(City c) {
 		return cities.add(c);
 	}
+	
 }
