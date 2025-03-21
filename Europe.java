@@ -1,14 +1,15 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 
 public class Europe {
-	private HashSet<City> cities;
+	private ArrayList<City> cities;
 
 	public Europe() {
-		cities = new HashSet<>();
+		cities = new ArrayList<>();
 	}
 
-	public void AddEdge(City a, City b, int length, int ferry, TrainColor c) {
+	public void addEdge(City a, City b, int length, int ferry, TrainColor c) {
 		a.getRoads().add(new Road(b, length, ferry,c));
 		b.getRoads().add(new Road(a, length, ferry,c));
 	}
@@ -18,17 +19,18 @@ public class Europe {
 	}
 
 
-
+/** needs reworking
 	public void printGraph(HashSet<City> x) {
 		for (City y:x) {
 			ArrayList<Road> roads = y.getRoads();
 			System.out.println("\nVertex " + y.getName() + ":");
 			for (Road z : roads) {
-				System.out.print(" -> " + z.getDest().getName());
+				System.out.print(" -> " + z.getOtherNode().getName());
 			}
 			System.out.println();
 		}
 	}
+ **/
 
 	public void createDefaultCities() {
 
@@ -78,6 +80,27 @@ public class Europe {
 		addCity(new City("Lisbon"));
 		addCity(new City("Cadiz"));
 		addCity(new City("Sarajevo"));
+
+		cities.sort(null);
+
+		addEdge(citySearch("Edinburgh"), citySearch("London"), 4, 0, TrainColor.Black);
+		addEdge(citySearch("Edinburgh"), citySearch("London"), 4, 0, TrainColor.Orange);
+
 	}
+
+	public City citySearch(String name) {
+
+		int tracker = cities.size() / 2;
+		City find = cities.get(tracker);
+		while (name.compareTo(find.getName()) != 0) {
+			if (name.compareTo(find.getName()) < 0) {
+				tracker /= 2;
+			} else {
+				tracker += (cities.size() - tracker + 1) / 2;
+			}
+		}
+		return find;
+	}
+
 
 }

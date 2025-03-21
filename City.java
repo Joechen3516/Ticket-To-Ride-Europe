@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class City {
+public class City implements Comparable{
 	private String name;
 	private ArrayList<Road> roadlist = new ArrayList<>();
 	private boolean station = false;
@@ -20,6 +20,8 @@ public class City {
 		owner = c;
 		station = true;
 	}
+
+
 	
 	public String getName() {
 		return name;
@@ -27,5 +29,17 @@ public class City {
 	
 	public ArrayList<Road> getRoads() {
 		return roadlist;
+	}
+
+	public String toString() {
+		return name;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		return this.getName().compareTo(o.toString());
+	}
+	public int compare(City o) {
+		return this.getName().compareTo(o.toString());
 	}
 }
