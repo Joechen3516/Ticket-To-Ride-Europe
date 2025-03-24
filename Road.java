@@ -41,5 +41,9 @@ public class Road {
 		taken = true;
 		owner = c;
 	}
-	
+
+	@Override
+	public String toString() {
+		return a.getName() + " to " + b.getName() + " of length " + getLength().toString() + " owned by ";
+	}
 }

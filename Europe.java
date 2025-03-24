@@ -10,8 +10,8 @@ public class Europe {
 	}
 
 	public void addEdge(City a, City b, int length, int ferry, TrainColor c) {
-		a.getRoads().add(new Road(b, length, ferry,c));
-		b.getRoads().add(new Road(a, length, ferry,c));
+		a.getRoads().add(new Road(b, a, length, ferry,c));
+		b.getRoads().add(new Road(a, b, length, ferry,c));
 	}
 
 	public boolean addCity(City c) {
@@ -30,7 +30,7 @@ public class Europe {
 			System.out.println();
 		}
 	}
- **/
+**/
 
 	public void createDefaultCities() {
 
@@ -85,21 +85,34 @@ public class Europe {
 
 		addEdge(citySearch("Edinburgh"), citySearch("London"), 4, 0, TrainColor.Black);
 		addEdge(citySearch("Edinburgh"), citySearch("London"), 4, 0, TrainColor.Orange);
+		addEdge(citySearch("London"), citySearch("Amsterdam"), 2, 2, TrainColor.all);
+		addEdge(citySearch("London"), citySearch("Dieppe"), 2, 1, TrainColor.all);
+		addEdge(citySearch("London"), citySearch("Dieppe"), 2, 1, TrainColor.all); //yes, there are two of the same route, this is not a mistake
+		addEdge(citySearch("Dieppe"), citySearch("Brest"), 2, 0, TrainColor.Orange);
+		addEdge(citySearch("Brest"), citySearch("Paris"), 3, 0, TrainColor.Black);
+		addEdge(citySearch("Brest"), citySearch("Pamplona"), 4, 0, TrainColor.Pink);
+		addEdge(citySearch("Dieppe"), citySearch("Paris"), 1, 0, TrainColor.Pink);
+		addEdge(citySearch("Dieppe"), citySearch("Bruxelles"), 2, 0, TrainColor.Green);
+		addEdge(citySearch("Bruxelles"), citySearch("Paris"), 2, 0, TrainColor.Yellow);
+		addEdge(citySearch("Bruxelles"), citySearch("Paris"), 2, 0, TrainColor.Red);
+		addEdge(citySearch("Bruxelles"), citySearch("Amsterdam"), 1, 0, TrainColor.Black);
+		addEdge(citySearch("Bruxelles"), citySearch("Frankfurt"), 2, 0, TrainColor.Blue);
+		addEdge(citySearch("Amsterdam"), citySearch("Essen"), 3, 0, TrainColor.Yellow);
+		addEdge(citySearch("Amsterdam"), citySearch("Frankfurt"), 2, 0, TrainColor.White);
+
+		
 
 	}
 
 	public City citySearch(String name) {
 
-		int tracker = cities.size() / 2;
-		City find = cities.get(tracker);
-		while (name.compareTo(find.getName()) != 0) {
-			if (name.compareTo(find.getName()) < 0) {
-				tracker /= 2;
-			} else {
-				tracker += (cities.size() - tracker + 1) / 2;
-			}
+		int tracker = 0;
+
+
+		while (name.compareTo(cities.get(tracker).getName()) != 0) {
+			tracker++;
 		}
-		return find;
+		return cities.get(tracker);
 	}
 
 
