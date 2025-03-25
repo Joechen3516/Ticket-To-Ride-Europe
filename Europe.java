@@ -108,7 +108,7 @@ public class Europe {
 		addEdge(citySearch("Essen"), citySearch("Berlin"), 2, 0, TrainColor.Blue);
 		addEdge(citySearch("Essen"), citySearch("Kobenhavn"), 3, 1, TrainColor.all);
 		addEdge(citySearch("Essen"), citySearch("Kobenhavn"), 3, 1, TrainColor.all);
-		addEdge(citySearch("Kobenhavn"), citySearch("Stockholm"), 3, 0, TrainColor.all);
+		addEdge(citySearch("Kobenhavn"), citySearch("Stockholm"), 3, 0, TrainColor.Yellow);
 
 
 
