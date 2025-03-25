@@ -99,8 +99,19 @@ public class Europe {
 		addEdge(citySearch("Bruxelles"), citySearch("Frankfurt"), 2, 0, TrainColor.Blue);
 		addEdge(citySearch("Amsterdam"), citySearch("Essen"), 3, 0, TrainColor.Yellow);
 		addEdge(citySearch("Amsterdam"), citySearch("Frankfurt"), 2, 0, TrainColor.White);
+		addEdge(citySearch("Frankfurt"), citySearch("Paris"), 3, 0, TrainColor.White);
+		addEdge(citySearch("Frankfurt"), citySearch("Paris"), 3, 0, TrainColor.Orange);
+		addEdge(citySearch("Frankfurt"), citySearch("Monchen"), 2, 0, TrainColor.Pink);
+		addEdge(citySearch("Frankfurt"), citySearch("Berlin"), 3, 0, TrainColor.Black);
+		addEdge(citySearch("Frankfurt"), citySearch("Berlin"), 3, 0, TrainColor.Red);
+		addEdge(citySearch("Frankfurt"), citySearch("Essen"), 2, 0, TrainColor.Green);
+		addEdge(citySearch("Essen"), citySearch("Berlin"), 2, 0, TrainColor.Blue);
+		addEdge(citySearch("Essen"), citySearch("Kobenhavn"), 3, 1, TrainColor.all);
+		addEdge(citySearch("Essen"), citySearch("Kobenhavn"), 3, 1, TrainColor.all);
+		addEdge(citySearch("Kobenhavn"), citySearch("Stockholm"), 3, 0, TrainColor.all);
 
-		
+
+
 
 	}
 

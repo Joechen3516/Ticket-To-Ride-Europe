@@ -9,15 +9,26 @@ public class Road {
 	private City b;
 	private boolean taken = false;
 	private PlayerColor owner;
-	
+	private boolean mountainous;
+
+	public Road(City a, City b, int length, int ferry, TrainColor color, boolean hasMountains) { //length means total length: ferry + normal cards = total
+		this.a = a;
+		this.b = b;
+		this.ferry = ferry;
+		this.length = length;
+		this.roadColor = color;
+		this.mountainous = hasMountains;
+	}
 	public Road(City a, City b, int length, int ferry, TrainColor color) { //length means total length: ferry + normal cards = total
 		this.a = a;
 		this.b = b;
 		this.ferry = ferry;
 		this.length = length;
 		this.roadColor = color;
+		this.mountainous = false;
 	}
-	
+
+	public boolean hasMountains() {return mountainous;}
 	
 	public int[] getLength() {
 		return new int[] {length,ferry};
