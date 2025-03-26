@@ -17,4 +17,7 @@ public class TTREGUI extends JPanel{
 	public TTREGUI(GameFrame frame) {
 		
 	}
+	public void paintComponent(Graphics g) {
+		System.out.println("success");
+	}
 }
