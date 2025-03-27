@@ -13,6 +13,10 @@ public class Europe {
 		a.getRoads().add(new Road(b, a, length, ferry,c));
 		b.getRoads().add(new Road(a, b, length, ferry,c));
 	}
+	public void addEdge(City a, City b, int length, int ferry, TrainColor c, Boolean m) {
+		a.getRoads().add(new Road(b, a, length, ferry,c, m));
+		b.getRoads().add(new Road(a, b, length, ferry,c, m));
+	}
 
 	public boolean addCity(City c) {
 		return cities.add(c);
@@ -46,7 +50,7 @@ public class Europe {
 		addCity(new City("Smolensk"));
 		addCity(new City("Wilno"));
 		addCity(new City("Kyiv"));
-		addCity(new City("Kharakov"));
+		addCity(new City("Kharkov"));
 		addCity(new City("Rostov"));
 		addCity(new City("Sochi"));
 		addCity(new City("Erzurum"));
@@ -80,6 +84,7 @@ public class Europe {
 		addCity(new City("Lisbon"));
 		addCity(new City("Cadiz"));
 		addCity(new City("Sarajevo"));
+		addCity(new City("Rica"));
 
 		cities.sort(null);
 
@@ -109,6 +114,17 @@ public class Europe {
 		addEdge(citySearch("Essen"), citySearch("Kobenhavn"), 3, 1, TrainColor.all);
 		addEdge(citySearch("Essen"), citySearch("Kobenhavn"), 3, 1, TrainColor.all);
 		addEdge(citySearch("Kobenhavn"), citySearch("Stockholm"), 3, 0, TrainColor.Yellow);
+		addEdge(citySearch("Kobenhavn"), citySearch("Stockholm"), 3, 0, TrainColor.White);
+		addEdge(citySearch("Stockholm"), citySearch("Petrograd"), 8, 0, TrainColor.all, true);
+		addEdge(citySearch("Petrograd"), citySearch("Rica"), 4, 0, TrainColor.all);
+		addEdge(citySearch("Petrograd"), citySearch("Wilno"), 4, 0, TrainColor.Blue);
+		addEdge(citySearch("Petrograd"), citySearch("Moskova"), 4, 0, TrainColor.White);
+		addEdge(citySearch("Moskova"), citySearch("Smolensk"), 2, 0, TrainColor.Orange);
+		addEdge(citySearch("Moskova"), citySearch("Kharkov"), 4, 0, TrainColor.all);
+
+
+
+
 
 
 
