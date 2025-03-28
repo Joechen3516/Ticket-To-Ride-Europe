@@ -61,11 +61,10 @@ public class Europe {
 		addCity(new City("Palermo"));
 		addCity(new City("Brindisi"));
 		addCity(new City("Sofia"));
-		addCity(new City("Buceresti"));
+		addCity(new City("Bucuresti"));
 		addCity(new City("Sevastopol"));
 		addCity(new City("Warszawa"));
 		addCity(new City("Danzic"));
-		addCity(new City("Berlin"));
 		addCity(new City("Wien"));
 		addCity(new City("Zacrad"));
 		addCity(new City("Venezia"));
@@ -85,6 +84,8 @@ public class Europe {
 		addCity(new City("Cadiz"));
 		addCity(new City("Sarajevo"));
 		addCity(new City("Rica"));
+		addCity(new City("Budapest"));
+
 
 		cities.sort(null);
 
@@ -121,10 +122,45 @@ public class Europe {
 		addEdge(citySearch("Petrograd"), citySearch("Moskova"), 4, 0, TrainColor.White);
 		addEdge(citySearch("Moskova"), citySearch("Smolensk"), 2, 0, TrainColor.Orange);
 		addEdge(citySearch("Moskova"), citySearch("Kharkov"), 4, 0, TrainColor.all);
+		addEdge(citySearch("Wilno"), citySearch("Kyiv"), 2, 0, TrainColor.all);
+		addEdge(citySearch("Wilno"), citySearch("Warszawa"), 3, 0, TrainColor.Red);
+		addEdge(citySearch("Smolensk"), citySearch("Wilno"), 3, 0, TrainColor.Yellow);
+		addEdge(citySearch("Smolensk"), citySearch("Kyiv"), 3, 0, TrainColor.Red);
+		addEdge(citySearch("Rica"), citySearch("Wilno"), 4, 0, TrainColor.Green);
+		addEdge(citySearch("Kyiv"), citySearch("Warszawa"), 4, 0, TrainColor.all);
+		addEdge(citySearch("Kyiv"), citySearch("Kharkov"), 4, 0, TrainColor.all);
+		addEdge(citySearch("Kyiv"), citySearch("Bucuresti"), 4, 0, TrainColor.all);
+		addEdge(citySearch("Kyiv"), citySearch("Budapest"), 6, 0, TrainColor.all, true);
+		addEdge(citySearch("Kharkov"), citySearch("Rostov"), 2, 0, TrainColor.Green);
+		addEdge(citySearch("Rostov"), citySearch("Sevastopol"), 4, 0, TrainColor.all);
+		addEdge(citySearch("Rostov"), citySearch("Sochi"), 2, 0, TrainColor.all);
+		addEdge(citySearch("Sevastopol"), citySearch("Bucuresti"), 4, 0, TrainColor.White);
+		addEdge(citySearch("Sevastopol"), citySearch("Constantinople"), 4, 2, TrainColor.all);
+		addEdge(citySearch("Sevastopol"), citySearch("Erzurum"), 4, 2, TrainColor.all);
+		addEdge(citySearch("Sevastopol"), citySearch("Sochi"), 2, 1, TrainColor.all);
+		addEdge(citySearch("Erzurum"), citySearch("Ancora"), 3, 0, TrainColor.Black);
+		addEdge(citySearch("Ancora"), citySearch("Smyrna"), 3, 0, TrainColor.Orange, true);
+		addEdge(citySearch("Ancora"), citySearch("Constantinople"), 2, 0, TrainColor.all, true);
+		addEdge(citySearch("Smyrna"), citySearch("Palermo"), 6, 2, TrainColor.all);
+		addEdge(citySearch("Smyrna"), citySearch("Athina"), 2, 1, TrainColor.all);
+		addEdge(citySearch("Smyrna"), citySearch("Constantinople"), 2, 0, TrainColor.all, true);
+		addEdge(citySearch("Constantinople"), citySearch("Bucuresti"), 3, 0, TrainColor.Yellow);
+		addEdge(citySearch("Constantinople"), citySearch("Sofia"), 3, 0, TrainColor.Blue);
+		addEdge(citySearch("Bucuresti"), citySearch("Budapest"), 4, 0, TrainColor.all, true);
+		addEdge(citySearch("Bucuresti"), citySearch("Sofia"), 2, 0, TrainColor.all, true);
+		addEdge(citySearch("Sofia"), citySearch("Sarajevo"), 2, 0, TrainColor.all, true);
+		addEdge(citySearch("Sofia"), citySearch("Athina"), 3, 0, TrainColor.Pink);
+		addEdge(citySearch("Athina"), citySearch("Brindisi"), 4, 1, TrainColor.all);
+		addEdge(citySearch("Athina"), citySearch("Sarajevo"), 4, 0, TrainColor.Green);
+		addEdge(citySearch("Sarajevo"), citySearch("Zacrad"), 3, 0, TrainColor.Red);
+		addEdge(citySearch("Sarajevo"), citySearch("Budapest"), 3, 0, TrainColor.Pink);
+		addEdge(citySearch("Budapest"), citySearch(""), , 0, TrainColor.);
 
 
 
 
+
+		addEdge(citySearch(""), citySearch(""), , 0, TrainColor.);
 
 
 
@@ -140,6 +176,10 @@ public class Europe {
 			tracker++;
 		}
 		return cities.get(tracker);
+	}
+
+	public String getDouble() {
+
 	}
 
 
