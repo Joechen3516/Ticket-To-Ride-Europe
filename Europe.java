@@ -154,7 +154,15 @@ public class Europe {
 		addEdge(citySearch("Athina"), citySearch("Sarajevo"), 4, 0, TrainColor.Green);
 		addEdge(citySearch("Sarajevo"), citySearch("Zacrad"), 3, 0, TrainColor.Red);
 		addEdge(citySearch("Sarajevo"), citySearch("Budapest"), 3, 0, TrainColor.Pink);
-		addEdge(citySearch("Budapest"), citySearch(""), , 0, TrainColor.);
+		addEdge(citySearch("Budapest"), citySearch("Zacrad"), 2, 0, TrainColor.Orange);
+		addEdge(citySearch("Budapest"), citySearch("Wien"), 1, 0, TrainColor.White);
+		addEdge(citySearch("Budapest"), citySearch("Wien"), 1, 0, TrainColor.Red);
+		addEdge(citySearch("Warszawa"), citySearch("Danzic"), 2, 0, TrainColor.all);
+		addEdge(citySearch("Warszawa"), citySearch("Berlin"), 4, 0, TrainColor.Pink);
+		addEdge(citySearch("Warszawa"), citySearch("Berlin"), 4, 0, TrainColor.Yellow);
+		addEdge(citySearch("Warszawa"), citySearch("Wien"), 4, 0, TrainColor.Blue);
+		addEdge(citySearch(""), citySearch(""), , 0, TrainColor.);
+
 
 
 

@@ -2,52 +2,6 @@ public class temporaryclassfortesting {
     public static void main(String[] args) {
         Europe jeff = new Europe();
         jeff.createDefaultCities();
-        addCity(new City("Edinburgh"));
-        addCity(new City("London"));
-        addCity(new City("Amsterdam"));
-        addCity(new City("Essen"));
-        addCity(new City("Berlin"));
-        addCity(new City("Kobenhavn"));
-        addCity(new City("Stockholm"));
-        addCity(new City("Petrograd"));
-        addCity(new City("Moskova"));
-        addCity(new City("Smolensk"));
-        addCity(new City("Wilno"));
-        addCity(new City("Kyiv"));
-        addCity(new City("Kharkov"));
-        addCity(new City("Rostov"));
-        addCity(new City("Sochi"));
-        addCity(new City("Erzurum"));
-        addCity(new City("Ancora"));
-        addCity(new City("Smyrna"));
-        addCity(new City("Constantinople"));
-        addCity(new City("Athina"));
-        addCity(new City("Palermo"));
-        addCity(new City("Brindisi"));
-        addCity(new City("Sofia"));
-        addCity(new City("Bucuresti"));
-        addCity(new City("Sevastopol"));
-        addCity(new City("Warszawa"));
-        addCity(new City("Danzic"));
-        addCity(new City("Wien"));
-        addCity(new City("Zacrad"));
-        addCity(new City("Venezia"));
-        addCity(new City("Zurich"));
-        addCity(new City("Monchen"));
-        addCity(new City("Frankfurt"));
-        addCity(new City("Bruxelles"));
-        addCity(new City("Dieppe"));
-        addCity(new City("Brest"));
-        addCity(new City("Paris"));
-        addCity(new City("Pamplona"));
-        addCity(new City("Barcelona"));
-        addCity(new City("Marseille"));
-        addCity(new City("Roma"));
-        addCity(new City("Madrid"));
-        addCity(new City("Lisbon"));
-        addCity(new City("Cadiz"));
-        addCity(new City("Sarajevo"));
-        addCity(new City("Rica"));
-        addCity(new City("Budapest"));
+
     }
 }
