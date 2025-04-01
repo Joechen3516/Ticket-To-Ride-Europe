@@ -206,9 +206,6 @@ public class Europe {
 		return cities.get(tracker);
 	}
 
-	public String getDouble() {
-
-	}
 
 
 }
