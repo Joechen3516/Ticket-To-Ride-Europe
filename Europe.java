@@ -75,13 +75,13 @@ public class Europe {
 		addCity(new City("Dieppe")); //done
 		addCity(new City("Brest")); //done
 		addCity(new City("Paris")); //done
-		addCity(new City("Pamplona"));
-		addCity(new City("Barcelona"));
-		addCity(new City("Marseille"));
-		addCity(new City("Roma"));
-		addCity(new City("Madrid"));
-		addCity(new City("Lisbon"));
-		addCity(new City("Cadiz"));
+		addCity(new City("Pamplona")); //done
+		addCity(new City("Barcelona")); //done
+		addCity(new City("Marseille")); //done
+		addCity(new City("Roma")); //done
+		addCity(new City("Madrid")); //done
+		addCity(new City("Lisboa")); //done
+		addCity(new City("Cadiz")); //done
 		addCity(new City("Sarajevo")); //done
 		addCity(new City("Rica")); //done
 		addCity(new City("Budapest")); //done
@@ -180,13 +180,16 @@ public class Europe {
 		addEdge(citySearch("Paris"), citySearch("Pamplona"), 4, 0, TrainColor.Green);
 		addEdge(citySearch("Paris"), citySearch("Pamplona"), 4, 0, TrainColor.Blue);
 		addEdge(citySearch("Paris"), citySearch("Marseille"), 4, 0, TrainColor.all);
-
-
-
-
-
-		addEdge(citySearch(""), citySearch(""), , 0, TrainColor.);
-
+		addEdge(citySearch("Roma"), citySearch("Marseille"), 4, 0, TrainColor.all, true);
+		addEdge(citySearch("Marseille"), citySearch("Pamplona"), 4, 0, TrainColor.Red);
+		addEdge(citySearch("Marseille"), citySearch("Barcelona"), 4, 0, TrainColor.all);
+		addEdge(citySearch("Barcelona"), citySearch("Madrid"), 2, 0, TrainColor.Yellow);
+		addEdge(citySearch("Pamplona"), citySearch("Madrid"), 3, 0, TrainColor.Black, true);
+		addEdge(citySearch("Pamplona"), citySearch("Madrid"), 3, 0, TrainColor.White, true);
+		addEdge(citySearch("Pamplona"), citySearch("Barcelona"), 2, 0, TrainColor.all, true);
+		addEdge(citySearch("Madrid"), citySearch("Lisboa"), 3, 0, TrainColor.Pink);
+		addEdge(citySearch("Lisboa"), citySearch("Cadiz"), 2, 0, TrainColor.Blue);
+		addEdge(citySearch("Cadiz"), citySearch("Madrid"), 3, 0, TrainColor.Orange);
 
 
 
