@@ -1,0 +1,3 @@
+﻿For trains cards, make a folder in eclipse named “trains”
+For routes, make a folder in eclipse named “routes”
+For any other image, make a folder in eclipse named “images”
