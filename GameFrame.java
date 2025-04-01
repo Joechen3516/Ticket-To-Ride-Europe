@@ -10,8 +10,10 @@ public class GameFrame extends JFrame{
 		mainPanel = new JPanel(cardLayout);
 		StartPanel start = new StartPanel(this);
 		TTREGUI gamePanel = new TTREGUI(this);
+		CardScreen midpanel = new CardScreen(this);
 		mainPanel.add(start,"startpanel");
 		mainPanel.add(gamePanel,"TickettoRide");
+		mainPanel.add(midpanel,"midpanel");
 		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		this.setSize(WIDTH,HEIGHT);
 		this.add(mainPanel);
