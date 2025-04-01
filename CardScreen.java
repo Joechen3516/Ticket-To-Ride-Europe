@@ -38,7 +38,18 @@ public class CardScreen extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == next) {
                 	System.out.println("clicked");
-                    frame.switchPanel("TickettoRide");  // Ensure this matches GameFrame
+                	num++;
+                	if (num ==1 ) {
+                		message = "Player 2, choose which routes you want to remove";
+                	} else if (num == 2) {
+                		message = "Player 3, choose which routes you want to remove";
+                	}else if (num == 3){
+                		message = "Player 4, choose which routes you want to remove";
+                	} else if(num == 4) {
+                		frame.switchPanel("TickettoRide");
+                	}
+                	repaint();
+                     // Ensure this matches GameFrame
                 }
             }
         });
