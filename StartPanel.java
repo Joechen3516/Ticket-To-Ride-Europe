@@ -33,7 +33,7 @@ public class StartPanel extends JPanel {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == button) {
-                    frame.switchPanel("midpanel");  // switches to the card selection screen
+                    frame.switchPanel("TickettoRide");  // Ensure this matches GameFrame
                 }
             }
         });
