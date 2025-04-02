@@ -153,16 +153,16 @@ public class CardScreen extends JPanel{
 		
 		g.drawImage(routeImages[one], getWidth()/10, getHeight()/5, getWidth()/5, getHeight()/5, null);
 		BufferedImage[] x1 = removeImage(routeImages, one);
-		int two = ((int)(Math.random() * routeImages.length))-1;
+		int two = ((int)(Math.random() * (routeImages.length - 1)));
 		g.drawImage(x1[two], 7*getWidth()/20, getHeight()/5, getWidth()/5, getHeight()/5, null);
 		BufferedImage[] x2=removeImage(routeImages, two);
-		int three = ((int)(Math.random() * routeImages.length))-1;
+		int three = ((int)(Math.random() * (routeImages.length - 1)));
 		g.drawImage(x2[three], 6*getWidth()/10, getHeight()/5, getWidth()/5, getHeight()/5, null);
 		BufferedImage[] x3=removeImage(routeImages, three);
-		int four = ((int)(Math.random() * routeImages.length))-1;
+		int four = ((int)(Math.random() * (routeImages.length - 1)));
 		g.drawImage(x3[four], getWidth()/10, 3*getHeight()/5, getWidth()/5, getHeight()/5, null);
 		BufferedImage[] x4 = removeImage(routeImages, four);
-		int five = ((int)(Math.random() * routeImages.length))-1;
+		int five = ((int)(Math.random() * (routeImages.length - 1)));
 		g.drawImage(x4[(int)(Math.random() * routeImages.length)], 6*getWidth()/10, 3*getHeight()/5, getWidth()/5, getHeight()/5, null);
 		BufferedImage[] x5 = removeImage(routeImages, five);
 		//prevents duplicate cards
