@@ -1,6 +1,5 @@
-
 public enum PlayerState {
-	Draw,
-	Build,
+	DestinationChoosing,
+	DrawOrBuild,
 	End
 }
