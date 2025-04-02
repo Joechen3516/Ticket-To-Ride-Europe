@@ -20,6 +20,7 @@ public class CardScreen extends JPanel{
 	private String message = "Player 1, choose which routes you want to remove";
 	private JButton next;
 	private String message1 = "Next";
+	private int num = 0; 
 	
 	public CardScreen(GameFrame frame) {
 		this.setLayout(null);
