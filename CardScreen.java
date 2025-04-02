@@ -147,6 +147,7 @@ public class CardScreen extends JPanel{
 		g.setFont(new Font("TimesRoman", Font.BOLD, 75)); 
 		g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
 		g.drawString(message, 10, 100);
+		g.drawString("You must keep at least 2 cards", 10, 175);
 		g.drawString(message1, (int)(getWidth() * 0.86), (int)(getHeight()*0.85));
 		int one = (int)(Math.random() * routeImages.length);
 		g.drawImage(routeImages[one], getWidth()/10, getHeight()/5, getWidth()/5, getHeight()/5, null);
