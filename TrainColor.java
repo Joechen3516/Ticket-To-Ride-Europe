@@ -8,6 +8,5 @@ public enum TrainColor {
 	White,
 	Yellow,
 	Pink,
-	Wild,
-	all
+	Wild
 }
