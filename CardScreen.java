@@ -124,16 +124,7 @@ public class CardScreen extends JPanel{
             }
         });
 	}
-	public BufferedImage[] removeImage(BufferedImage[] original, int indexToRemove) {
-	    if (original == null || indexToRemove < 0 || indexToRemove >= original.length) {
-	        return original;
-	    }
-
-	    BufferedImage[] newArray = new BufferedImage[original.length - 1];
-	    System.arraycopy(original, 0, newArray, 0, indexToRemove);
-	    System.arraycopy(original, indexToRemove + 1, newArray, indexToRemove, original.length - indexToRemove - 1);
-	    return newArray;
-	}
+	
 	
 	public void paintComponent(Graphics g) {
 		try {
@@ -149,22 +140,19 @@ public class CardScreen extends JPanel{
 		g.drawString(message, 10, 100);
 		g.drawString("You must keep at least 2 cards", 10, 175);
 		g.drawString(message1, (int)(getWidth() * 0.86), (int)(getHeight()*0.85));
-		int one = ((int)(Math.random() * routeImages.length))-1;
 		
-		g.drawImage(routeImages[one], getWidth()/10, getHeight()/5, getWidth()/5, getHeight()/5, null);
-		BufferedImage[] x1 = removeImage(routeImages, one);
-		int two = ((int)(Math.random() * (routeImages.length - 1)));
-		g.drawImage(x1[two], 7*getWidth()/20, getHeight()/5, getWidth()/5, getHeight()/5, null);
-		BufferedImage[] x2=removeImage(routeImages, two);
-		int three = ((int)(Math.random() * (routeImages.length - 1)));
-		g.drawImage(x2[three], 6*getWidth()/10, getHeight()/5, getWidth()/5, getHeight()/5, null);
-		BufferedImage[] x3=removeImage(routeImages, three);
-		int four = ((int)(Math.random() * (routeImages.length - 1)));
-		g.drawImage(x3[four], getWidth()/10, 3*getHeight()/5, getWidth()/5, getHeight()/5, null);
-		BufferedImage[] x4 = removeImage(routeImages, four);
-		int five = ((int)(Math.random() * (routeImages.length - 1)));
-		g.drawImage(x4[(int)(Math.random() * routeImages.length)], 6*getWidth()/10, 3*getHeight()/5, getWidth()/5, getHeight()/5, null);
-		BufferedImage[] x5 = removeImage(routeImages, five);
+		
+		g.drawImage(routeImages[(int)(Math.random() * (routeImages.length - 1))], getWidth()/10, getHeight()/5, getWidth()/5, getHeight()/5, null);
+		
+		
+		g.drawImage(routeImages[(int)(Math.random() * (routeImages.length - 1))], 7*getWidth()/20, getHeight()/5, getWidth()/5, getHeight()/5, null);
+		
+		g.drawImage(routeImages[(int)(Math.random() * (routeImages.length - 1))], 6*getWidth()/10, getHeight()/5, getWidth()/5, getHeight()/5, null);
+		
+		g.drawImage(routeImages[(int)(Math.random() * (routeImages.length - 1))], getWidth()/10, 3*getHeight()/5, getWidth()/5, getHeight()/5, null);
+		
+		g.drawImage(routeImages[(int)(Math.random() * (routeImages.length - 1))], 6*getWidth()/10, 3*getHeight()/5, getWidth()/5, getHeight()/5, null);
+		
 		//prevents duplicate cards
 	}
 }
