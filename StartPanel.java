@@ -13,7 +13,7 @@ public class StartPanel extends JPanel {
     private BufferedImage startbg, play;
     private JButton button;
 
-    public StartPanel(GameFrame frame) {
+    public StartPanel(GameController controller) {
         this.setLayout(null);
         button = new JButton();
         add(button);
@@ -33,7 +33,7 @@ public class StartPanel extends JPanel {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == button) {
-                    frame.switchPanel("midpanel");  // switches to the card selection screen
+                    controller.HandleAction(ActionEvents.Start);
                 }
             }
         });
