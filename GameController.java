@@ -11,16 +11,34 @@ public class GameController {
 
 
 
-    private int turn = 0;
+    private int turn = -4;
     private Stack<RouteCard> routes = new Stack<>();
+    private Stack<RouteCard> lRoutes = new Stack<>();
     private Stack<TrainCard> deck = new Stack<>();
     private ArrayList<TrainCard> show5 = new ArrayList<>();
     private PlayerState state = PlayerState.DestinationChoosing;
     private ArrayList<Player> players = new ArrayList<>();
-
+    private List<GameListener> listeners = new ArrayList<>();
+    private String currentScreen = "dest";
 
     public Player getCurrentPlayer() {
         return players.get(turn);
+    }
+    
+    
+    public void addListener(GameListener l) {
+    	listeners.add(l);
+    }
+    
+    private void notifyScreenChange() {
+    	for(GameListener l : listeners) {
+    		l.onScreenChange(currentScreen);
+    	}
+    }
+    
+    public void switchScreen(String newScreen) {
+    	this.currentScreen = newScreen;
+    	notifyScreenChange();
     }
 
     public void nextTurn() {
@@ -30,10 +48,28 @@ public class GameController {
             turn = 0;
         }
     }
+    
+    public void chooseDestinations() {
+    	if(turn < 0) {
+    		
+    		
+    		
+    		
+    	}else if(turn >= 0) {
+    		
+    		
+    		
+    	}
+    	
+    	
+    	
+    }
 
 
-    public void HandleAction() {
-
+    public void HandleAction(ActionEvents x) {
+    	if(x.equals(ActionEvents.Start)) {
+    		switchScreen("Destination");
+    	}
 
 
 
