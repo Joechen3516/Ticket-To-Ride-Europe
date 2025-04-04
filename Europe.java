@@ -1,211 +1,285 @@
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.List;
+import javax.imageio.ImageIO;
 
 public class Europe {
-	private ArrayList<City> cities;
-
-	public Europe() {
-		cities = new ArrayList<>();
-	}
-
-	public void addEdge(City a, City b, int length, int ferry, TrainColor c) {
-		a.getRoads().add(new Road(b, a, length, ferry,c));
-		b.getRoads().add(new Road(a, b, length, ferry,c));
-	}
-	public void addEdge(City a, City b, int length, int ferry, TrainColor c, Boolean m) {
-		a.getRoads().add(new Road(b, a, length, ferry,c, m));
-		b.getRoads().add(new Road(a, b, length, ferry,c, m));
-	}
-
-	public boolean addCity(City c) {
-		return cities.add(c);
-	}
-
-
-/** needs reworking
-	public void printGraph(HashSet<City> x) {
-		for (City y:x) {
-			ArrayList<Road> roads = y.getRoads();
-			System.out.println("\nVertex " + y.getName() + ":");
-			for (Road z : roads) {
-				System.out.print(" -> " + z.getOtherNode().getName());
-			}
-			System.out.println();
-		}
-	}
-**/
-
-	public void createDefaultCities() {
-
-		addCity(new City("Edinburgh")); //done
-		addCity(new City("London")); //done
-		addCity(new City("Amsterdam")); //done
-		addCity(new City("Essen")); //done
-		addCity(new City("Berlin")); //done
-		addCity(new City("Kobenhavn")); //done
-		addCity(new City("Stockholm")); //done
-		addCity(new City("Petrograd")); //done
-		addCity(new City("Moskova")); //done
-		addCity(new City("Smolensk")); //done
-		addCity(new City("Wilno")); //done
-		addCity(new City("Kyiv")); //done
-		addCity(new City("Kharkov")); //done
-		addCity(new City("Rostov")); //done
-		addCity(new City("Sochi")); //done
-		addCity(new City("Erzurum")); //done
-		addCity(new City("Ancora")); //done
-		addCity(new City("Smyrna")); //done
-		addCity(new City("Constantinople")); //done
-		addCity(new City("Athina")); //done
-		addCity(new City("Palermo")); //done
-		addCity(new City("Brindisi")); //done
-		addCity(new City("Sofia")); //done
-		addCity(new City("Bucuresti")); //done
-		addCity(new City("Sevastopol")); //done
-		addCity(new City("Warszawa")); //done
-		addCity(new City("Danzic")); //done
-		addCity(new City("Wien")); //done
-		addCity(new City("Zacrad")); //done
-		addCity(new City("Venezia")); //done
-		addCity(new City("Zurich")); //done
-		addCity(new City("Monchen")); //done
-		addCity(new City("Frankfurt")); //done
-		addCity(new City("Bruxelles")); //done
-		addCity(new City("Dieppe")); //done
-		addCity(new City("Brest")); //done
-		addCity(new City("Paris")); //done
-		addCity(new City("Pamplona")); //done
-		addCity(new City("Barcelona")); //done
-		addCity(new City("Marseille")); //done
-		addCity(new City("Roma")); //done
-		addCity(new City("Madrid")); //done
-		addCity(new City("Lisboa")); //done
-		addCity(new City("Cadiz")); //done
-		addCity(new City("Sarajevo")); //done
-		addCity(new City("Rica")); //done
-		addCity(new City("Budapest")); //done
-
-
-		cities.sort(null);
-
-		addEdge(citySearch("Edinburgh"), citySearch("London"), 4, 0, TrainColor.Black);
-		addEdge(citySearch("Edinburgh"), citySearch("London"), 4, 0, TrainColor.Orange);
-		addEdge(citySearch("London"), citySearch("Amsterdam"), 2, 2, TrainColor.Wild);
-		addEdge(citySearch("London"), citySearch("Dieppe"), 2, 1, TrainColor.Wild);
-		addEdge(citySearch("London"), citySearch("Dieppe"), 2, 1, TrainColor.Wild); //yes, there are two of the same route, this is not a mistake
-		addEdge(citySearch("Dieppe"), citySearch("Brest"), 2, 0, TrainColor.Orange);
-		addEdge(citySearch("Brest"), citySearch("Paris"), 3, 0, TrainColor.Black);
-		addEdge(citySearch("Brest"), citySearch("Pamplona"), 4, 0, TrainColor.Pink);
-		addEdge(citySearch("Dieppe"), citySearch("Paris"), 1, 0, TrainColor.Pink);
-		addEdge(citySearch("Dieppe"), citySearch("Bruxelles"), 2, 0, TrainColor.Green);
-		addEdge(citySearch("Bruxelles"), citySearch("Paris"), 2, 0, TrainColor.Yellow);
-		addEdge(citySearch("Bruxelles"), citySearch("Paris"), 2, 0, TrainColor.Red);
-		addEdge(citySearch("Bruxelles"), citySearch("Amsterdam"), 1, 0, TrainColor.Black);
-		addEdge(citySearch("Bruxelles"), citySearch("Frankfurt"), 2, 0, TrainColor.Blue);
-		addEdge(citySearch("Amsterdam"), citySearch("Essen"), 3, 0, TrainColor.Yellow);
-		addEdge(citySearch("Amsterdam"), citySearch("Frankfurt"), 2, 0, TrainColor.White);
-		addEdge(citySearch("Frankfurt"), citySearch("Paris"), 3, 0, TrainColor.White);
-		addEdge(citySearch("Frankfurt"), citySearch("Paris"), 3, 0, TrainColor.Orange);
-		addEdge(citySearch("Frankfurt"), citySearch("Monchen"), 2, 0, TrainColor.Pink);
-		addEdge(citySearch("Frankfurt"), citySearch("Berlin"), 3, 0, TrainColor.Black);
-		addEdge(citySearch("Frankfurt"), citySearch("Berlin"), 3, 0, TrainColor.Red);
-		addEdge(citySearch("Frankfurt"), citySearch("Essen"), 2, 0, TrainColor.Green);
-		addEdge(citySearch("Essen"), citySearch("Berlin"), 2, 0, TrainColor.Blue);
-		addEdge(citySearch("Essen"), citySearch("Kobenhavn"), 3, 1, TrainColor.Wild);
-		addEdge(citySearch("Essen"), citySearch("Kobenhavn"), 3, 1, TrainColor.Wild);
-		addEdge(citySearch("Kobenhavn"), citySearch("Stockholm"), 3, 0, TrainColor.Yellow);
-		addEdge(citySearch("Kobenhavn"), citySearch("Stockholm"), 3, 0, TrainColor.White);
-		addEdge(citySearch("Stockholm"), citySearch("Petrograd"), 8, 0, TrainColor.Wild, true);
-		addEdge(citySearch("Petrograd"), citySearch("Rica"), 4, 0, TrainColor.Wild);
-		addEdge(citySearch("Petrograd"), citySearch("Wilno"), 4, 0, TrainColor.Blue);
-		addEdge(citySearch("Petrograd"), citySearch("Moskova"), 4, 0, TrainColor.White);
-		addEdge(citySearch("Moskova"), citySearch("Smolensk"), 2, 0, TrainColor.Orange);
-		addEdge(citySearch("Moskova"), citySearch("Kharkov"), 4, 0, TrainColor.Wild);
-		addEdge(citySearch("Wilno"), citySearch("Kyiv"), 2, 0, TrainColor.Wild);
-		addEdge(citySearch("Wilno"), citySearch("Warszawa"), 3, 0, TrainColor.Red);
-		addEdge(citySearch("Smolensk"), citySearch("Wilno"), 3, 0, TrainColor.Yellow);
-		addEdge(citySearch("Smolensk"), citySearch("Kyiv"), 3, 0, TrainColor.Red);
-		addEdge(citySearch("Rica"), citySearch("Wilno"), 4, 0, TrainColor.Green);
-		addEdge(citySearch("Kyiv"), citySearch("Warszawa"), 4, 0, TrainColor.Wild);
-		addEdge(citySearch("Kyiv"), citySearch("Kharkov"), 4, 0, TrainColor.Wild);
-		addEdge(citySearch("Kyiv"), citySearch("Bucuresti"), 4, 0, TrainColor.Wild);
-		addEdge(citySearch("Kyiv"), citySearch("Budapest"), 6, 0, TrainColor.Wild, true);
-		addEdge(citySearch("Kharkov"), citySearch("Rostov"), 2, 0, TrainColor.Green);
-		addEdge(citySearch("Rostov"), citySearch("Sevastopol"), 4, 0, TrainColor.Wild);
-		addEdge(citySearch("Rostov"), citySearch("Sochi"), 2, 0, TrainColor.Wild);
-		addEdge(citySearch("Sevastopol"), citySearch("Bucuresti"), 4, 0, TrainColor.White);
-		addEdge(citySearch("Sevastopol"), citySearch("Constantinople"), 4, 2, TrainColor.Wild);
-		addEdge(citySearch("Sevastopol"), citySearch("Erzurum"), 4, 2, TrainColor.Wild);
-		addEdge(citySearch("Sevastopol"), citySearch("Sochi"), 2, 1, TrainColor.Wild);
-		addEdge(citySearch("Sochi"), citySearch("Erzurum"), 3, 0, TrainColor.Red, true);
-		addEdge(citySearch("Erzurum"), citySearch("Ancora"), 3, 0, TrainColor.Black);
-		addEdge(citySearch("Ancora"), citySearch("Smyrna"), 3, 0, TrainColor.Orange, true);
-		addEdge(citySearch("Ancora"), citySearch("Constantinople"), 2, 0, TrainColor.Wild, true);
-		addEdge(citySearch("Smyrna"), citySearch("Palermo"), 6, 2, TrainColor.Wild);
-		addEdge(citySearch("Smyrna"), citySearch("Athina"), 2, 1, TrainColor.Wild);
-		addEdge(citySearch("Smyrna"), citySearch("Constantinople"), 2, 0, TrainColor.Wild, true);
-		addEdge(citySearch("Palermo"), citySearch("Brindisi"), 3, 1, TrainColor.Wild);
-		addEdge(citySearch("Palermo"), citySearch("Roma"), 4, 1, TrainColor.Wild);
-		addEdge(citySearch("Constantinople"), citySearch("Bucuresti"), 3, 0, TrainColor.Yellow);
-		addEdge(citySearch("Constantinople"), citySearch("Sofia"), 3, 0, TrainColor.Blue);
-		addEdge(citySearch("Bucuresti"), citySearch("Budapest"), 4, 0, TrainColor.Wild, true);
-		addEdge(citySearch("Bucuresti"), citySearch("Sofia"), 2, 0, TrainColor.Wild, true);
-		addEdge(citySearch("Sofia"), citySearch("Sarajevo"), 2, 0, TrainColor.Wild, true);
-		addEdge(citySearch("Sofia"), citySearch("Athina"), 3, 0, TrainColor.Pink);
-		addEdge(citySearch("Athina"), citySearch("Brindisi"), 4, 1, TrainColor.Wild);
-		addEdge(citySearch("Athina"), citySearch("Sarajevo"), 4, 0, TrainColor.Green);
-		addEdge(citySearch("Brindisi"), citySearch("Roma"), 2, 0, TrainColor.White);
-		addEdge(citySearch("Sarajevo"), citySearch("Zacrad"), 3, 0, TrainColor.Red);
-		addEdge(citySearch("Sarajevo"), citySearch("Budapest"), 3, 0, TrainColor.Pink);
-		addEdge(citySearch("Budapest"), citySearch("Zacrad"), 2, 0, TrainColor.Orange);
-		addEdge(citySearch("Budapest"), citySearch("Wien"), 1, 0, TrainColor.White);
-		addEdge(citySearch("Budapest"), citySearch("Wien"), 1, 0, TrainColor.Red);
-		addEdge(citySearch("Warszawa"), citySearch("Danzic"), 2, 0, TrainColor.Wild);
-		addEdge(citySearch("Warszawa"), citySearch("Berlin"), 4, 0, TrainColor.Pink);
-		addEdge(citySearch("Warszawa"), citySearch("Berlin"), 4, 0, TrainColor.Yellow);
-		addEdge(citySearch("Warszawa"), citySearch("Wien"), 4, 0, TrainColor.Blue);
-		addEdge(citySearch("Danzic"), citySearch("Rica"), 3, 0, TrainColor.Black);
-		addEdge(citySearch("Danzic"), citySearch("Berlin"), 4, 0, TrainColor.Wild);
-		addEdge(citySearch("Berlin"), citySearch("Wien"), 3, 0, TrainColor.Green);
-		addEdge(citySearch("Zacrad"), citySearch("Wien"), 2, 0, TrainColor.Wild);
-		addEdge(citySearch("Zacrad"), citySearch("Venezia"), 2, 0, TrainColor.Wild);
-		addEdge(citySearch("Venezia"), citySearch("Roma"), 2, 0, TrainColor.Black);
-		addEdge(citySearch("Venezia"), citySearch("Monchen"), 2, 0, TrainColor.Blue, true);
-		addEdge(citySearch("Venezia"), citySearch("Zurich"), 2, 0, TrainColor.Green, true);
-		addEdge(citySearch("Wien"), citySearch("Monchen"), 3, 0, TrainColor.Orange);
-		addEdge(citySearch("Monchen"), citySearch("Zurich"), 2, 0, TrainColor.Yellow, true);
-		addEdge(citySearch("Zurich"), citySearch("Marseille"), 2, 0, TrainColor.Pink, true);
-		addEdge(citySearch("Zurich"), citySearch("Paris"), 3, 0, TrainColor.Wild, true);
-		addEdge(citySearch("Paris"), citySearch("Pamplona"), 4, 0, TrainColor.Green);
-		addEdge(citySearch("Paris"), citySearch("Pamplona"), 4, 0, TrainColor.Blue);
-		addEdge(citySearch("Paris"), citySearch("Marseille"), 4, 0, TrainColor.Wild);
-		addEdge(citySearch("Roma"), citySearch("Marseille"), 4, 0, TrainColor.Wild, true);
-		addEdge(citySearch("Marseille"), citySearch("Pamplona"), 4, 0, TrainColor.Red);
-		addEdge(citySearch("Marseille"), citySearch("Barcelona"), 4, 0, TrainColor.Wild);
-		addEdge(citySearch("Barcelona"), citySearch("Madrid"), 2, 0, TrainColor.Yellow);
-		addEdge(citySearch("Pamplona"), citySearch("Madrid"), 3, 0, TrainColor.Black, true);
-		addEdge(citySearch("Pamplona"), citySearch("Madrid"), 3, 0, TrainColor.White, true);
-		addEdge(citySearch("Pamplona"), citySearch("Barcelona"), 2, 0, TrainColor.Wild, true);
-		addEdge(citySearch("Madrid"), citySearch("Lisboa"), 3, 0, TrainColor.Pink);
-		addEdge(citySearch("Lisboa"), citySearch("Cadiz"), 2, 0, TrainColor.Blue);
-		addEdge(citySearch("Cadiz"), citySearch("Madrid"), 3, 0, TrainColor.Orange);
-
-
-
-	}
-
-	public City citySearch(String name) {
-
-		int tracker = 0;
-
-
-		while (name.compareTo(cities.get(tracker).getName()) != 0) {
-			tracker++;
-		}
-		return cities.get(tracker);
-	}
-
-
-
+    private final List<City> cities;
+    private final List<RouteCard> routes;
+    
+    public Europe() {
+        cities = Collections.synchronizedList(new ArrayList<>());
+        routes = Collections.synchronizedList(new ArrayList<>());
+        initializeCities();
+    }
+    
+    public static void main(String[] args) {
+        Europe europe = new Europe();
+        try {
+            europe.createDefaultRoutes();
+        } catch (IOException e) {
+            System.err.println("Failed to create default routes: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    public void initializeCities() {
+        // Create all cities first
+        addCity(new City("Edinburgh"));
+        addCity(new City("London"));
+        addCity(new City("Amsterdam"));
+        addCity(new City("Essen"));
+        addCity(new City("Berlin"));
+        addCity(new City("Kobenhavn"));
+        addCity(new City("Stockholm"));
+        addCity(new City("Petrograd"));
+        addCity(new City("Moskova"));
+        addCity(new City("Smolensk"));
+        addCity(new City("Wilno"));
+        addCity(new City("Kyiv"));
+        addCity(new City("Kharkov"));
+        addCity(new City("Rostov"));
+        addCity(new City("Sochi"));
+        addCity(new City("Erzurum"));
+        addCity(new City("Ancora"));
+        addCity(new City("Smyrna"));
+        addCity(new City("Constantinople"));
+        addCity(new City("Athina"));
+        addCity(new City("Palermo"));
+        addCity(new City("Brindisi"));
+        addCity(new City("Sofia"));
+        addCity(new City("Bucuresti"));
+        addCity(new City("Sevastopol"));
+        addCity(new City("Warszawa"));
+        addCity(new City("Danzic"));
+        addCity(new City("Wien"));
+        addCity(new City("Zacrad"));
+        addCity(new City("Venezia"));
+        addCity(new City("Zurich"));
+        addCity(new City("Monchen"));
+        addCity(new City("Frankfurt"));
+        addCity(new City("Bruxelles"));
+        addCity(new City("Dieppe"));
+        addCity(new City("Brest"));
+        addCity(new City("Paris"));
+        addCity(new City("Pamplona"));
+        addCity(new City("Barcelona"));
+        addCity(new City("Marseille"));
+        addCity(new City("Roma"));
+        addCity(new City("Madrid"));
+        addCity(new City("Lisboa"));
+        addCity(new City("Cadiz"));
+        addCity(new City("Sarajevo"));
+        addCity(new City("Rica"));
+        addCity(new City("Budapest"));
+        
+        // Sort cities for binary search
+        Collections.sort(cities);
+        
+        // Create all connections
+        createCityConnections();
+    }
+    
+    private void createCityConnections() {
+        addEdge("Edinburgh", "London", 4, 0, TrainColor.Black);
+        addEdge("Edinburgh", "London", 4, 0, TrainColor.Orange);
+        addEdge("London", "Amsterdam", 2, 2, TrainColor.Wild);
+        addEdge("London", "Dieppe", 2, 1, TrainColor.Wild);
+        addEdge("London", "Dieppe", 2, 1, TrainColor.Wild);
+        addEdge("Dieppe", "Brest", 2, 0, TrainColor.Orange);
+        addEdge("Brest", "Paris", 3, 0, TrainColor.Black);
+        addEdge("Brest", "Pamplona", 4, 0, TrainColor.Pink);
+        addEdge("Dieppe", "Paris", 1, 0, TrainColor.Pink);
+        addEdge("Dieppe", "Bruxelles", 2, 0, TrainColor.Green);
+        addEdge("Bruxelles", "Paris", 2, 0, TrainColor.Yellow);
+        addEdge("Bruxelles", "Paris", 2, 0, TrainColor.Red);
+        addEdge("Bruxelles", "Amsterdam", 1, 0, TrainColor.Black);
+        addEdge("Bruxelles", "Frankfurt", 2, 0, TrainColor.Blue);
+        addEdge("Amsterdam", "Essen", 3, 0, TrainColor.Yellow);
+        addEdge("Amsterdam", "Frankfurt", 2, 0, TrainColor.White);
+        addEdge("Frankfurt", "Paris", 3, 0, TrainColor.White);
+        addEdge("Frankfurt", "Paris", 3, 0, TrainColor.Orange);
+        addEdge("Frankfurt", "Monchen", 2, 0, TrainColor.Pink);
+        addEdge("Frankfurt", "Berlin", 3, 0, TrainColor.Black);
+        addEdge("Frankfurt", "Berlin", 3, 0, TrainColor.Red);
+        addEdge("Frankfurt", "Essen", 2, 0, TrainColor.Green);
+        addEdge("Essen", "Berlin", 2, 0, TrainColor.Blue);
+        addEdge("Essen", "Kobenhavn", 3, 1, TrainColor.Wild);
+        addEdge("Essen", "Kobenhavn", 3, 1, TrainColor.Wild);
+        addEdge("Kobenhavn", "Stockholm", 3, 0, TrainColor.Yellow);
+        addEdge("Kobenhavn", "Stockholm", 3, 0, TrainColor.White);
+        addEdge("Stockholm", "Petrograd", 8, 0, TrainColor.Wild, true);
+        addEdge("Petrograd", "Rica", 4, 0, TrainColor.Wild);
+        addEdge("Petrograd", "Wilno", 4, 0, TrainColor.Blue);
+        addEdge("Petrograd", "Moskova", 4, 0, TrainColor.White);
+        addEdge("Moskova", "Smolensk", 2, 0, TrainColor.Orange);
+        addEdge("Moskova", "Kharkov", 4, 0, TrainColor.Wild);
+        addEdge("Wilno", "Kyiv", 2, 0, TrainColor.Wild);
+        addEdge("Wilno", "Warszawa", 3, 0, TrainColor.Red);
+        addEdge("Smolensk", "Wilno", 3, 0, TrainColor.Yellow);
+        addEdge("Smolensk", "Kyiv", 3, 0, TrainColor.Red);
+        addEdge("Rica", "Wilno", 4, 0, TrainColor.Green);
+        addEdge("Kyiv", "Warszawa", 4, 0, TrainColor.Wild);
+        addEdge("Kyiv", "Kharkov", 4, 0, TrainColor.Wild);
+        addEdge("Kyiv", "Bucuresti", 4, 0, TrainColor.Wild);
+        addEdge("Kyiv", "Budapest", 6, 0, TrainColor.Wild, true);
+        addEdge("Kharkov", "Rostov", 2, 0, TrainColor.Green);
+        addEdge("Rostov", "Sevastopol", 4, 0, TrainColor.Wild);
+        addEdge("Rostov", "Sochi", 2, 0, TrainColor.Wild);
+        addEdge("Sevastopol", "Bucuresti", 4, 0, TrainColor.White);
+        addEdge("Sevastopol", "Constantinople", 4, 2, TrainColor.Wild);
+        addEdge("Sevastopol", "Erzurum", 4, 2, TrainColor.Wild);
+        addEdge("Sevastopol", "Sochi", 2, 1, TrainColor.Wild);
+        addEdge("Sochi", "Erzurum", 3, 0, TrainColor.Red, true);
+        addEdge("Erzurum", "Ancora", 3, 0, TrainColor.Black);
+        addEdge("Ancora", "Smyrna", 3, 0, TrainColor.Orange, true);
+        addEdge("Ancora", "Constantinople", 2, 0, TrainColor.Wild, true);
+        addEdge("Smyrna", "Palermo", 6, 2, TrainColor.Wild);
+        addEdge("Smyrna", "Athina", 2, 1, TrainColor.Wild);
+        addEdge("Smyrna", "Constantinople", 2, 0, TrainColor.Wild, true);
+        addEdge("Palermo", "Brindisi", 3, 1, TrainColor.Wild);
+        addEdge("Palermo", "Roma", 4, 1, TrainColor.Wild);
+        addEdge("Constantinople", "Bucuresti", 3, 0, TrainColor.Yellow);
+        addEdge("Constantinople", "Sofia", 3, 0, TrainColor.Blue);
+        addEdge("Bucuresti", "Budapest", 4, 0, TrainColor.Wild, true);
+        addEdge("Bucuresti", "Sofia", 2, 0, TrainColor.Wild, true);
+        addEdge("Sofia", "Sarajevo", 2, 0, TrainColor.Wild, true);
+        addEdge("Sofia", "Athina", 3, 0, TrainColor.Pink);
+        addEdge("Athina", "Brindisi", 4, 1, TrainColor.Wild);
+        addEdge("Athina", "Sarajevo", 4, 0, TrainColor.Green);
+        addEdge("Brindisi", "Roma", 2, 0, TrainColor.White);
+        addEdge("Sarajevo", "Zacrad", 3, 0, TrainColor.Red);
+        addEdge("Sarajevo", "Budapest", 3, 0, TrainColor.Pink);
+        addEdge("Budapest", "Zacrad", 2, 0, TrainColor.Orange);
+        addEdge("Budapest", "Wien", 1, 0, TrainColor.White);
+        addEdge("Budapest", "Wien", 1, 0, TrainColor.Red);
+        addEdge("Warszawa", "Danzic", 2, 0, TrainColor.Wild);
+        addEdge("Warszawa", "Berlin", 4, 0, TrainColor.Pink);
+        addEdge("Warszawa", "Berlin", 4, 0, TrainColor.Yellow);
+        addEdge("Warszawa", "Wien", 4, 0, TrainColor.Blue);
+        addEdge("Danzic", "Rica", 3, 0, TrainColor.Black);
+        addEdge("Danzic", "Berlin", 4, 0, TrainColor.Wild);
+        addEdge("Berlin", "Wien", 3, 0, TrainColor.Green);
+        addEdge("Zacrad", "Wien", 2, 0, TrainColor.Wild);
+        addEdge("Zacrad", "Venezia", 2, 0, TrainColor.Wild);
+        addEdge("Venezia", "Roma", 2, 0, TrainColor.Black);
+        addEdge("Venezia", "Monchen", 2, 0, TrainColor.Blue, true);
+        addEdge("Venezia", "Zurich", 2, 0, TrainColor.Green, true);
+        addEdge("Wien", "Monchen", 3, 0, TrainColor.Orange);
+        addEdge("Monchen", "Zurich", 2, 0, TrainColor.Yellow, true);
+        addEdge("Zurich", "Marseille", 2, 0, TrainColor.Pink, true);
+        addEdge("Zurich", "Paris", 3, 0, TrainColor.Wild, true);
+        addEdge("Paris", "Pamplona", 4, 0, TrainColor.Green);
+        addEdge("Paris", "Pamplona", 4, 0, TrainColor.Blue);
+        addEdge("Paris", "Marseille", 4, 0, TrainColor.Wild);
+        addEdge("Roma", "Marseille", 4, 0, TrainColor.Wild, true);
+        addEdge("Marseille", "Pamplona", 4, 0, TrainColor.Red);
+        addEdge("Marseille", "Barcelona", 4, 0, TrainColor.Wild);
+        addEdge("Barcelona", "Madrid", 2, 0, TrainColor.Yellow);
+        addEdge("Pamplona", "Madrid", 3, 0, TrainColor.Black, true);
+        addEdge("Pamplona", "Madrid", 3, 0, TrainColor.White, true);
+        addEdge("Pamplona", "Barcelona", 2, 0, TrainColor.Wild, true);
+        addEdge("Madrid", "Lisboa", 3, 0, TrainColor.Pink);
+        addEdge("Lisboa", "Cadiz", 2, 0, TrainColor.Blue);
+        addEdge("Cadiz", "Madrid", 3, 0, TrainColor.Orange);
+    }
+    
+    private void addEdge(String city1, String city2, int length, int ferry, TrainColor color) {
+        addEdge(city1, city2, length, ferry, color, false);
+    }
+    
+    private void addEdge(String city1, String city2, int length, int ferry, TrainColor color, boolean mountain) {
+        City c1 = citySearch(city1);
+        City c2 = citySearch(city2);
+        
+        if (c1 == null || c2 == null) {
+            throw new IllegalArgumentException("One or both cities not found: " + city1 + ", " + city2);
+        }
+        
+        c1.getRoads().add(new Road(c2, c1, length, ferry, color, mountain));
+        c2.getRoads().add(new Road(c1, c2, length, ferry, color, mountain));
+    }
+    
+    public synchronized boolean addCity(City c) {
+        if (c == null) {
+            throw new IllegalArgumentException("City cannot be null");
+        }
+        return cities.add(c);
+    }
+    
+    public synchronized boolean addRoute(RouteCard r) {
+        if (r == null) {
+            throw new IllegalArgumentException("RouteCard cannot be null");
+        }
+        return routes.add(r);
+    }
+    
+    public synchronized List<RouteCard> getRoutes() {
+        return new ArrayList<>(routes); // Return a copy for thread safety
+    }
+    
+    public void createDefaultRoutes() throws IOException {
+        
+        addRoute(new RouteCard(citySearch("Amsterdam"), citySearch("Pamplona"), 7, false, ImageIO.read(getClass().getResource("/routes/Amsterdam-Pamplona7.png"))));
+        addRoute(new RouteCard(citySearch("Amsterdam"), citySearch("Wilno"), 12, false, ImageIO.read(getClass().getResource("/routes/Amsterdam-Wilno12.png"))));
+        addRoute(new RouteCard(citySearch("Ancora"), citySearch("Kharkov"), 10, false, ImageIO.read(getClass().getResource("/routes/Ancora-Kharkov10.png"))));
+        addRoute(new RouteCard(citySearch("Athina"), citySearch("Ancora"), 5, false, ImageIO.read(getClass().getResource("/routes/Athina-Ancora5.png"))));
+        addRoute(new RouteCard(citySearch("Athina"), citySearch("Wilno"), 11, false, ImageIO.read(getClass().getResource("/routes/Athina-Wilno11.png"))));
+        addRoute(new RouteCard(citySearch("Barcelona"), citySearch("Bruxelles"), 8, false, ImageIO.read(getClass().getResource("/routes/Barcelona-Bruxelles8.png"))));
+        addRoute(new RouteCard(citySearch("Barcelona"), citySearch("Monchen"), 8, false, ImageIO.read(getClass().getResource("/routes/Barcelona-Munchen8.png"))));
+        addRoute(new RouteCard(citySearch("Berlin"), citySearch("Bucuresti"), 8, false, ImageIO.read(getClass().getResource("/routes/Berlin-Bucuresti8.png"))));
+        addRoute(new RouteCard(citySearch("Berlin"), citySearch("Moskova"), 12, false, ImageIO.read(getClass().getResource("/routes/Berlin-Moskva12.png"))));
+        addRoute(new RouteCard(citySearch("Berlin"), citySearch("Roma"), 9, false, ImageIO.read(getClass().getResource("/routes/Berlin-Roma9.png"))));
+        addRoute(new RouteCard(citySearch("Brest"), citySearch("Marseille"), 7, false, ImageIO.read(getClass().getResource("/routes/Brest-Marseille7.png"))));
+        addRoute(new RouteCard(citySearch("Brest"), citySearch("Petrograd"), 20, true, ImageIO.read(getClass().getResource("/routes/Brest-Petrograd20.png"))));
+        addRoute(new RouteCard(citySearch("Brest"), citySearch("Venezia"), 8, false, ImageIO.read(getClass().getResource("/routes/Brest-Venezia8.png"))));
+        addRoute(new RouteCard(citySearch("Bruxelles"), citySearch("Danzic"), 9, false, ImageIO.read(getClass().getResource("/routes/Bruxelles-Danzic9.png"))));
+        addRoute(new RouteCard(citySearch("Budapest"), citySearch("Sofia"), 5, false, ImageIO.read(getClass().getResource("/routes/Budapest-Sofia5.png"))));
+        addRoute(new RouteCard(citySearch("Cadiz"), citySearch("Stockholm"), 21, true, ImageIO.read(getClass().getResource("/routes/Cadiz-Stockholm21.png"))));
+        addRoute(new RouteCard(citySearch("Edinburgh"), citySearch("Athina"), 21, true, ImageIO.read(getClass().getResource("/routes/Edinburgh-Athina21.png"))));
+        addRoute(new RouteCard(citySearch("Edinburgh"), citySearch("Paris"), 7, false, ImageIO.read(getClass().getResource("/routes/Edinburch-Paris7.png"))));
+        addRoute(new RouteCard(citySearch("Erzurum"), citySearch("Rostov"), 5, false, ImageIO.read(getClass().getResource("/routes/Erzurm-Rostov5.png"))));
+        addRoute(new RouteCard(citySearch("Essen"), citySearch("Kyiv"), 10, false, ImageIO.read(getClass().getResource("/routes/Essen-Kyiv10.png"))));
+        addRoute(new RouteCard(citySearch("Frankfurt"), citySearch("Kobenhavn"), 5, false, ImageIO.read(getClass().getResource("/routes/Frankfurt-Kobenhavn5.png"))));
+        addRoute(new RouteCard(citySearch("Frankfurt"), citySearch("Smolensk"), 13, false, ImageIO.read(getClass().getResource("/routes/Frankkfurt-Smolense13.png"))));
+        addRoute(new RouteCard(citySearch("Kobenhavn"), citySearch("Erzurum"), 21, true, ImageIO.read(getClass().getResource("/routes/Kobenhavn-Erzurum21.png"))));
+        addRoute(new RouteCard(citySearch("Kyiv"), citySearch("Petrograd"), 6, false, ImageIO.read(getClass().getResource("/routes/Kyiv-Petrocrad6.png"))));
+        addRoute(new RouteCard(citySearch("Kyiv"), citySearch("Sochi"), 8, false, ImageIO.read(getClass().getResource("/routes/Kyiv-Sochi8.png"))));
+        addRoute(new RouteCard(citySearch("Lisboa"), citySearch("Danzic"), 20, true, ImageIO.read(getClass().getResource("/routes/Lisboa-Danzic20.png"))));
+        addRoute(new RouteCard(citySearch("London"), citySearch("Berlin"), 7, false, ImageIO.read(getClass().getResource("/routes/London-Berlin7.png"))));
+        addRoute(new RouteCard(citySearch("London"), citySearch("Wien"), 10, false, ImageIO.read(getClass().getResource("/routes/London-Wien10.png"))));
+        addRoute(new RouteCard(citySearch("Madrid"), citySearch("Dieppe"), 8, false, ImageIO.read(getClass().getResource("/routes/Madrid-Dieppe8.png"))));
+        addRoute(new RouteCard(citySearch("Madrid"), citySearch("Zurich"), 8, false, ImageIO.read(getClass().getResource("/routes/Madrid-Zurich8.png"))));
+        addRoute(new RouteCard(citySearch("Marseille"), citySearch("Essen"), 8, false, ImageIO.read(getClass().getResource("/routes/Marseille-Essen8.png"))));
+        addRoute(new RouteCard(citySearch("Palermo"), citySearch("Constantinople"), 8, false, ImageIO.read(getClass().getResource("/routes/Palermo-Constantinople8.png"))));
+        addRoute(new RouteCard(citySearch("Palermo"), citySearch("Moskova"), 20, true, ImageIO.read(getClass().getResource("/routes/Palermo-Moskva20.png"))));
+        addRoute(new RouteCard(citySearch("Paris"), citySearch("Wien"), 8, false, ImageIO.read(getClass().getResource("/routes/Paris-Wien8.png"))));
+        addRoute(new RouteCard(citySearch("Paris"), citySearch("Zacrad"), 7, false, ImageIO.read(getClass().getResource("/routes/Paris-Zacrad7.png"))));
+        addRoute(new RouteCard(citySearch("Rica"), citySearch("Bucuresti"), 10, false, ImageIO.read(getClass().getResource("/routes/Rica-Bucuresti10.png"))));
+        addRoute(new RouteCard(citySearch("Roma"), citySearch("Smyrna"), 8, false, ImageIO.read(getClass().getResource("/routes/Roma-Smyrna8.png"))));
+        addRoute(new RouteCard(citySearch("Sarajevo"), citySearch("Sevastopol"), 8, false, ImageIO.read(getClass().getResource("/routes/Sarajevo-Sevastopol8.png"))));
+        addRoute(new RouteCard(citySearch("Smolensk"), citySearch("Rostov"), 8, false, ImageIO.read(getClass().getResource("/routes/Smolensk-Rostov8.png"))));
+        addRoute(new RouteCard(citySearch("Sofia"), citySearch("Smyrna"), 5, false, ImageIO.read(getClass().getResource("/routes/Sofia-Smyrna5.png"))));
+        addRoute(new RouteCard(citySearch("Stockholm"), citySearch("Wien"), 11, false, ImageIO.read(getClass().getResource("/routes/Stockholm-Wien11.png"))));
+        addRoute(new RouteCard(citySearch("Venezia"), citySearch("Constantinople"), 10, false, ImageIO.read(getClass().getResource("/routes/Venezia-Constantinople10.png"))));
+        addRoute(new RouteCard(citySearch("Warszawa"), citySearch("Smolensk"), 6, false, ImageIO.read(getClass().getResource("/routes/Warszawa-Smolensk6.png"))));
+        addRoute(new RouteCard(citySearch("Zacrad"), citySearch("Brindisi"), 6, false, ImageIO.read(getClass().getResource("/routes/Zacrab-Brindisi6.png"))));
+        addRoute(new RouteCard(citySearch("Zurich"), citySearch("Brindisi"), 6, false, ImageIO.read(getClass().getResource("/routes/Zurich-Brindisi6.png"))));
+        addRoute(new RouteCard(citySearch("Zurich"), citySearch("Budapest"), 6, false, ImageIO.read(getClass().getResource("/routes/Zurich-Budapest6.png"))));
+    }
+    
+    
+    
+    public City citySearch(String name) {
+        if (name == null || name.isEmpty()) {
+            return null;
+        }
+        
+        // Use binary search since cities are sorted
+        int index = Collections.binarySearch(cities, new City(name), 
+                (c1, c2) -> c1.getName().compareTo(c2.getName()));
+        
+        return index >= 0 ? cities.get(index) : null;
+    }
 }

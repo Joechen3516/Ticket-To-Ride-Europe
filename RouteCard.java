@@ -31,6 +31,14 @@ public class RouteCard {
 		return points; 
 		
 	}
+	public City getCityA() {
+		return a; 
+		
+	}
+	public City getCityB() {
+		return b; 
+		
+	}
 	
 	public BufferedImage getImage() {
 		return image; 
