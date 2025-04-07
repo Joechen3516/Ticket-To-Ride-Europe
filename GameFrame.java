@@ -19,7 +19,7 @@ public class GameFrame extends JFrame implements GameListener{
 		mainPanel = new JPanel(cardLayout);
 		
 		StartPanel start = new StartPanel(controller);
-		TTREGUI gamePanel = new TTREGUI(this);
+		TTREGUI gamePanel = new TTREGUI(controller);
 		CardScreen chooseRoutes = new CardScreen(this);
 		
 		mainPanel.add(start,"Start");
@@ -42,7 +42,7 @@ public class GameFrame extends JFrame implements GameListener{
 		if(newScreen == "Destination") {
 			this.switchPanel(newScreen);
 		}else if(newScreen == "Game") {
-			
+			this.switchPanel(newScreen);
 		}else if(newScreen == "Start") {
 			
 		}
