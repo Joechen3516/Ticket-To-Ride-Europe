@@ -7,6 +7,7 @@ public class Europe {
 
 	public Europe() {
 		cities = new ArrayList<>();
+		createDefaultCities();
 	}
 
 	public void addEdge(City a, City b, int length, int ferry, TrainColor c) {
