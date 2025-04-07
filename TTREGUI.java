@@ -21,10 +21,10 @@ import java.awt.Color;
 public class TTREGUI extends JPanel{
 	private BufferedImage gamebg,gameboard,routecardback,traincardback;
 	private Font f;
-	private GameController game;
 	private int citySide;
-	public TTREGUI(GameFrame frame) {
-		game = new GameController();
+	private GameController game;
+	public TTREGUI(GameController controller) {
+		game = controller;
 		f = new Font("Centaur", 0, 90);
 		this.setLayout(null);
 		try {
@@ -60,7 +60,19 @@ public class TTREGUI extends JPanel{
 		double angle = Math.toRadians(270);
 		rot.rotate(angle);
 		g2.drawImage(traincardback, rot, null);
-		g.fillRect((int)(getWidth()*0.10189),(int)(getHeight()*0.0317),citySide,citySide);
-		g.fillRect(140, 415, citySide, citySide);
+		g.fillRect((int)(getWidth()*0.10189), (int)(getHeight()*0.0317),citySide,citySide);
+		//Edinburgh
+		g.fillRect((int)(getWidth()*0.07458), (int)(getHeight()*0.39673), citySide, citySide);
+		//Brest
+		g.fillRect((int)(getWidth()*0.00525), (int)(getHeight()*0.76849), citySide, citySide);
+		//Lisbon
+		g.fillRect((int)(getWidth()*0.05777), (int)(getHeight()*0.73775), citySide, citySide);
+		//Madrid
+		g.setColor(Color.blue);
+		g.drawRect((int)(getWidth()*0.05777), (int)(getHeight()*0.73775), citySide, citySide);
+		g.fillRect((int)(getWidth()*0.15331), (int)(getHeight()*0.23631), citySide, citySide);
+		g.fillRect((int)(getWidth()*0.14391), (int)(getHeight()*0.35927), citySide, citySide);
+		g.fillRect((int)(getWidth()*0.20903), (int)(getHeight()*0.30451), citySide, citySide);
+		g.fillRect((int)(getWidth()*0.13288), (int)(getHeight()*0.62824), citySide, citySide);
 	}
 }
