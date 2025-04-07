@@ -61,7 +61,7 @@ public class CardScreen extends JPanel{
                  	}else if (num == 3){
                  		message = "Player 4, choose which routes you want to remove";
                  	} else if(num == 4) {
-                 		frame.switchPanel("TickettoRide");
+                 		
                  	}
                  	repaint();
                       // Ensure this matches GameFrame
@@ -121,4 +121,3 @@ public class CardScreen extends JPanel{
 		
 	}
 }
-

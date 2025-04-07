@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -6,6 +7,8 @@ import java.util.List;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.imageio.ImageIO;
 
 public class GameController {
 
@@ -20,8 +23,22 @@ public class GameController {
     private ArrayList<Player> players = new ArrayList<>();
     private List<GameListener> listeners = new ArrayList<>();
     private String currentScreen = "dest";
+    private Europe europe = new Europe();
+    
+    
+    
+    
+    
+    
+    public GameController() {
+    	makeDecks();
+    	createPlayers();
+    }
 
     public Player getCurrentPlayer() {
+    	if(turn<0) {
+    		 return players.get(turn+4);
+    	}
         return players.get(turn);
     }
     
@@ -68,7 +85,7 @@ public class GameController {
 
     public void HandleAction(ActionEvents x) {
     	if(x.equals(ActionEvents.Start)) {
-    		switchScreen("Game");
+    		switchScreen("Destination");
     	}
 
 
@@ -76,18 +93,7 @@ public class GameController {
 
     }
 
-    public void addRoutes(PlayerColor color, List<RouteCard> map) {
-    	Player temp;
-    	if(color == PlayerColor.Yellow)
-    		temp = players.get(0);
-    	else if(color == PlayerColor.Green)
-    		temp = players.get(1);
-    	else if(color == PlayerColor.Blue)
-    		temp = players.get(2);
-    	else
-    		temp = players.get(3);
-    	temp.addRouteCards(map);
-    }
+
 
     public TrainCard deckDraw() {
         return deck.pop();
@@ -140,7 +146,26 @@ public class GameController {
             show5.add(deckDraw());
         }
     }
-
+    
+    public ArrayList<RouteCard> getDrawnRoutes(){
+    	ArrayList<RouteCard> r = new ArrayList<>();
+    	if(turn < 0) {
+    		for(int i = 0; i < 4;i++) {
+    			r.add(routes.pop());
+    		}
+    		r.add(lRoutes.pop());
+    	}else {
+    		for(int i=0;i<3;i++) {
+    			r.add(routes.pop());
+    		}
+    	}
+    	return r;
+    }
+    
+    
+    public void addPlayerRoutes() {
+    	Player current = getCurrentPlayer();
+    }
 
     public void makeDecks() {
         for(TrainColor color : TrainColor.values()) {
@@ -156,8 +181,79 @@ public class GameController {
         }
         shuffledeck(deck);
         System.out.print(deck.size());
+        try {
+			createDefaultRoutes();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        shuffledeck(routes);
+        shuffledeck(lRoutes);
 
 
     }
+    public void createDefaultRoutes() throws IOException {
+        
+    	 addRoute(new RouteCard(europe.citySearch("Amsterdam"), europe.citySearch("Pamplona"), 7, false, ImageIO.read(getClass().getResource("/routes/Amsterdam-Pamplona7.png"))));
+         addRoute(new RouteCard(europe.citySearch("Amsterdam"), europe.citySearch("Wilno"), 12, false, ImageIO.read(getClass().getResource("/routes/Amsterdam-Wilno12.png"))));
+         addRoute(new RouteCard(europe.citySearch("Ancora"), europe.citySearch("Kharkov"), 10, false, ImageIO.read(getClass().getResource("/routes/Ancora-Kharkov10.png"))));
+         addRoute(new RouteCard(europe.citySearch("Athina"), europe.citySearch("Ancora"), 5, false, ImageIO.read(getClass().getResource("/routes/Athina-Ancora5.png"))));
+         addRoute(new RouteCard(europe.citySearch("Athina"), europe.citySearch("Wilno"), 11, false, ImageIO.read(getClass().getResource("/routes/Athina-Wilno11.png"))));
+         addRoute(new RouteCard(europe.citySearch("Barcelona"), europe.citySearch("Bruxelles"), 8, false, ImageIO.read(getClass().getResource("/routes/Barcelona-Bruxelles8.png"))));
+         addRoute(new RouteCard(europe.citySearch("Barcelona"), europe.citySearch("Monchen"), 8, false, ImageIO.read(getClass().getResource("/routes/Barcelona-Munchen8.png"))));
+         addRoute(new RouteCard(europe.citySearch("Berlin"), europe.citySearch("Bucuresti"), 8, false, ImageIO.read(getClass().getResource("/routes/Berlin-Bucuresti8.png"))));
+         addRoute(new RouteCard(europe.citySearch("Berlin"), europe.citySearch("Moskova"), 12, false, ImageIO.read(getClass().getResource("/routes/Berlin-Moskva12.png"))));
+         addRoute(new RouteCard(europe.citySearch("Berlin"), europe.citySearch("Roma"), 9, false, ImageIO.read(getClass().getResource("/routes/Berlin-Roma9.png"))));
+         addRoute(new RouteCard(europe.citySearch("Brest"), europe.citySearch("Marseille"), 7, false, ImageIO.read(getClass().getResource("/routes/Brest-Marseille7.png"))));
+         addRoute(new RouteCard(europe.citySearch("Brest"), europe.citySearch("Petrograd"), 20, true, ImageIO.read(getClass().getResource("/routes/Brest-Petrograd20.png"))));
+         addRoute(new RouteCard(europe.citySearch("Brest"), europe.citySearch("Venezia"), 8, false, ImageIO.read(getClass().getResource("/routes/Brest-Venezia8.png"))));
+         addRoute(new RouteCard(europe.citySearch("Bruxelles"), europe.citySearch("Danzic"), 9, false, ImageIO.read(getClass().getResource("/routes/Bruxelles-Danzic9.png"))));
+         addRoute(new RouteCard(europe.citySearch("Budapest"), europe.citySearch("Sofia"), 5, false, ImageIO.read(getClass().getResource("/routes/Budapest-Sofia5.png"))));
+         addRoute(new RouteCard(europe.citySearch("Cadiz"), europe.citySearch("Stockholm"), 21, true, ImageIO.read(getClass().getResource("/routes/Cadiz-Stockholm21.png"))));
+         addRoute(new RouteCard(europe.citySearch("Edinburgh"), europe.citySearch("Athina"), 21, true, ImageIO.read(getClass().getResource("/routes/Edinburgh-Athina21.png"))));
+         addRoute(new RouteCard(europe.citySearch("Edinburgh"), europe.citySearch("Paris"), 7, false, ImageIO.read(getClass().getResource("/routes/Edinburch-Paris7.png"))));
+         addRoute(new RouteCard(europe.citySearch("Erzurum"), europe.citySearch("Rostov"), 5, false, ImageIO.read(getClass().getResource("/routes/Erzurm-Rostov5.png"))));
+         addRoute(new RouteCard(europe.citySearch("Essen"), europe.citySearch("Kyiv"), 10, false, ImageIO.read(getClass().getResource("/routes/Essen-Kyiv10.png"))));
+         addRoute(new RouteCard(europe.citySearch("Frankfurt"), europe.citySearch("Kobenhavn"), 5, false, ImageIO.read(getClass().getResource("/routes/Frankfurt-Kobenhavn5.png"))));
+         addRoute(new RouteCard(europe.citySearch("Frankfurt"), europe.citySearch("Smolensk"), 13, false, ImageIO.read(getClass().getResource("/routes/Frankkfurt-Smolense13.png"))));
+         addRoute(new RouteCard(europe.citySearch("Kobenhavn"), europe.citySearch("Erzurum"), 21, true, ImageIO.read(getClass().getResource("/routes/Kobenhavn-Erzurum21.png"))));
+         addRoute(new RouteCard(europe.citySearch("Kyiv"), europe.citySearch("Petrograd"), 6, false, ImageIO.read(getClass().getResource("/routes/Kyiv-Petrocrad6.png"))));
+         addRoute(new RouteCard(europe.citySearch("Kyiv"), europe.citySearch("Sochi"), 8, false, ImageIO.read(getClass().getResource("/routes/Kyiv-Sochi8.png"))));
+         addRoute(new RouteCard(europe.citySearch("Lisboa"), europe.citySearch("Danzic"), 20, true, ImageIO.read(getClass().getResource("/routes/Lisboa-Danzic20.png"))));
+         addRoute(new RouteCard(europe.citySearch("London"), europe.citySearch("Berlin"), 7, false, ImageIO.read(getClass().getResource("/routes/London-Berlin7.png"))));
+         addRoute(new RouteCard(europe.citySearch("London"), europe.citySearch("Wien"), 10, false, ImageIO.read(getClass().getResource("/routes/London-Wien10.png"))));
+         addRoute(new RouteCard(europe.citySearch("Madrid"), europe.citySearch("Dieppe"), 8, false, ImageIO.read(getClass().getResource("/routes/Madrid-Dieppe8.png"))));
+         addRoute(new RouteCard(europe.citySearch("Madrid"), europe.citySearch("Zurich"), 8, false, ImageIO.read(getClass().getResource("/routes/Madrid-Zurich8.png"))));
+         addRoute(new RouteCard(europe.citySearch("Marseille"), europe.citySearch("Essen"), 8, false, ImageIO.read(getClass().getResource("/routes/Marseille-Essen8.png"))));
+         addRoute(new RouteCard(europe.citySearch("Palermo"), europe.citySearch("Constantinople"), 8, false, ImageIO.read(getClass().getResource("/routes/Palermo-Constantinople8.png"))));
+         addRoute(new RouteCard(europe.citySearch("Palermo"), europe.citySearch("Moskova"), 20, true, ImageIO.read(getClass().getResource("/routes/Palermo-Moskva20.png"))));
+         addRoute(new RouteCard(europe.citySearch("Paris"), europe.citySearch("Wien"), 8, false, ImageIO.read(getClass().getResource("/routes/Paris-Wien8.png"))));
+         addRoute(new RouteCard(europe.citySearch("Paris"), europe.citySearch("Zacrad"), 7, false, ImageIO.read(getClass().getResource("/routes/Paris-Zacrad7.png"))));
+         addRoute(new RouteCard(europe.citySearch("Rica"), europe.citySearch("Bucuresti"), 10, false, ImageIO.read(getClass().getResource("/routes/Rica-Bucuresti10.png"))));
+         addRoute(new RouteCard(europe.citySearch("Roma"), europe.citySearch("Smyrna"), 8, false, ImageIO.read(getClass().getResource("/routes/Roma-Smyrna8.png"))));
+         addRoute(new RouteCard(europe.citySearch("Sarajevo"), europe.citySearch("Sevastopol"), 8, false, ImageIO.read(getClass().getResource("/routes/Sarajevo-Sevastopol8.png"))));
+         addRoute(new RouteCard(europe.citySearch("Smolensk"), europe.citySearch("Rostov"), 8, false, ImageIO.read(getClass().getResource("/routes/Smolensk-Rostov8.png"))));
+         addRoute(new RouteCard(europe.citySearch("Sofia"), europe.citySearch("Smyrna"), 5, false, ImageIO.read(getClass().getResource("/routes/Sofia-Smyrna5.png"))));
+         addRoute(new RouteCard(europe.citySearch("Stockholm"), europe.citySearch("Wien"), 11, false, ImageIO.read(getClass().getResource("/routes/Stockholm-Wien11.png"))));
+         addRoute(new RouteCard(europe.citySearch("Venezia"), europe.citySearch("Constantinople"), 10, false, ImageIO.read(getClass().getResource("/routes/Venezia-Constantinople10.png"))));
+         addRoute(new RouteCard(europe.citySearch("Warszawa"), europe.citySearch("Smolensk"), 6, false, ImageIO.read(getClass().getResource("/routes/Warszawa-Smolensk6.png"))));
+         addRoute(new RouteCard(europe.citySearch("Zacrad"), europe.citySearch("Brindisi"), 6, false, ImageIO.read(getClass().getResource("/routes/Zacrab-Brindisi6.png"))));
+         addRoute(new RouteCard(europe.citySearch("Zurich"), europe.citySearch("Brindisi"), 6, false, ImageIO.read(getClass().getResource("/routes/Zurich-Brindisi6.png"))));
+         addRoute(new RouteCard(europe.citySearch("Zurich"), europe.citySearch("Budapest"), 6, false, ImageIO.read(getClass().getResource("/routes/Zurich-Budapest6.png"))));
+    }	
+
+    public boolean addRoute(RouteCard r) {
+        if (r == null) {
+            throw new IllegalArgumentException("RouteCard cannot be null");
+        } else if (r.isLong()) {
+        	return lRoutes.add(r);
+        } else {
+        	return routes.add(r);
+        }
+        
+    }
+    
+    
 
 }
