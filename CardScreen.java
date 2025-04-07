@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Random;
 import java.io.*;
 public class CardScreen extends JPanel{
@@ -24,61 +25,15 @@ public class CardScreen extends JPanel{
 	private JButton next;
 	private String message1 = "Next";
 	private int num = 0; 
-	private BufferedImage[] routeImages;
+	private GameController game;
 	
 	private void loadRouteImages() throws IOException {
-	    routeImages = new BufferedImage[] {
-	        ImageIO.read(StartPanel.class.getResource("/routes/Amsterdam-Pamplona7.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Amsterdam-Wilno12.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Ancora-Kharkov10.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Athina-Ancora5.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Athina-Wilno11.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Barcelona-Bruxelles8.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Barcelona-Munchen8.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Berlin-Bucuresti8.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Berlin-Moskva12.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Berlin-Roma9.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Brest-Marseille7.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Brest-Petrocrad20.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Brest-Venezia8.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Bruxelles-Danzic9.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Budapest-Sofia5.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Cadiz-Stockholm21.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Edinburch-Athina21.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Edinburch-Paris7.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Erzurm-Rostov5.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Essen-Kyiv10.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Frankfurt-Kobenhavn5.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Frankkfurt-Smolense13.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Kobenhavn-Erzurum21.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Kyiv-Petrocrad6.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Kyiv-Sochi8.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Lisboa-Danzic20.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/London-Berlin7.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/London-Wien10.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Madrid-Dieppe.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Madrid-Zurich8.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Marseille-Essen8.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Palermo-Constantinople.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Palermo-Moskva20.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Paris-Wien8.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Paris-Zacrad7.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Rica-Bucuresti.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Roma-Smyrna8.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Sarajevo-Sevastopol.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Smolensk-Rostov8.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Sofia-Smyrna.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Stockholm-Wien11.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Venezia-Constantinople10.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Warszawa-Smolensk6.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Zacrab-Brindisi6.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Zurich-Brindisi6.jpg")),
-	        ImageIO.read(StartPanel.class.getResource("/routes/Zurich-Budapest6.jpg"))
-	    };
+	    
 	}
 	
-	public CardScreen(GameFrame frame){
+	public CardScreen(GameController controller){
 		this.setLayout(null);
+		game = controller;
 		
 		next = new JButton();
         add(next);
@@ -142,17 +97,28 @@ public class CardScreen extends JPanel{
 		g.drawString(message1, (int)(getWidth() * 0.86), (int)(getHeight()*0.85));
 		
 		
-		g.drawImage(routeImages[(int)(Math.random() * (routeImages.length - 1))], getWidth()/10, getHeight()/5, getWidth()/5, getHeight()/5, null);
+		ArrayList<RouteCard> drawnRoutes = game.getDrawnRoutes();
+		if (drawnRoutes.size() == 3) {
+			int xcoords = 200;
+			for(int i = 0; i < 3; i++) {
+				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, 500, getWidth()/3, getHeight()/3, null);
+				xcoords = xcoords +50; 
+			}
+		} else {
+			int xcoords = 100;
+			for(int i = 0; i < 5; i++) {
+				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, 500, getWidth()/3, getHeight()/3, null);
+				xcoords = xcoords +50; 
+			}
+			
+		}
 		
 		
-		g.drawImage(routeImages[(int)(Math.random() * (routeImages.length - 1))], 7*getWidth()/20, getHeight()/5, getWidth()/5, getHeight()/5, null);
 		
-		g.drawImage(routeImages[(int)(Math.random() * (routeImages.length - 1))], 6*getWidth()/10, getHeight()/5, getWidth()/5, getHeight()/5, null);
 		
-		g.drawImage(routeImages[(int)(Math.random() * (routeImages.length - 1))], getWidth()/10, 3*getHeight()/5, getWidth()/5, getHeight()/5, null);
 		
-		g.drawImage(routeImages[(int)(Math.random() * (routeImages.length - 1))], 6*getWidth()/10, 3*getHeight()/5, getWidth()/5, getHeight()/5, null);
 		
-		//prevents duplicate cards
+		
 	}
 }
+
