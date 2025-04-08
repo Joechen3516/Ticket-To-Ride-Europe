@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,6 +25,7 @@ public class GameController {
     private List<GameListener> listeners = new ArrayList<>();
     private String currentScreen = "dest";
     private Europe europe = new Europe();
+    private Map<String,SwitchablePanel> panels = new HashMap<>();
     
     
     
@@ -34,6 +36,16 @@ public class GameController {
     	makeDecks();
     	createPlayers();
     }
+    
+    public void addPanelSwitch(String name,SwitchablePanel p) {
+    	panels.put(name,p);
+    }
+    
+    public void notifyPanel() {
+    	panels.get(currentScreen).OnSwitchedTo();
+    }
+    
+    
 
     public Player getCurrentPlayer() {
     	if(turn<0) {
@@ -41,6 +53,15 @@ public class GameController {
     	}
         return players.get(turn);
     }
+    
+    public int getCurrentPlayerNumber() {
+    	if(turn<0) {
+    		 return turn+4;
+    	}
+        return turn;
+    }
+    
+    
     
     
     public void addListener(GameListener l) {
@@ -51,6 +72,7 @@ public class GameController {
     	for(GameListener l : listeners) {
     		l.onScreenChange(currentScreen);
     	}
+    	notifyPanel();
     }
     
     public void switchScreen(String newScreen) {
@@ -86,6 +108,13 @@ public class GameController {
     public void HandleAction(ActionEvents x) {
     	if(x.equals(ActionEvents.Start)) {
     		switchScreen("Destination");
+    	}
+    	
+    	if(x.equals(ActionEvents.CardScreenConfirm)) {
+    		if(turn < 0) {
+    			nextTurn();
+    			notifyPanel();
+    		}
     	}
 
 
@@ -128,11 +157,6 @@ public class GameController {
 
     }
 
-    public void printPlayers() {
-        for(Player p : players) {
-            System.out.println(p);
-        }
-    }
 
 
 
@@ -159,12 +183,18 @@ public class GameController {
     			r.add(routes.pop());
     		}
     	}
+    	System.out.print(r.size()+"::");
+    	System.out.print(routes.size()+"::");
+    	System.out.print(lRoutes.size()+"::");
     	return r;
     }
     
     
-    public void addPlayerRoutes() {
+    public void addPlayerRoutes(ArrayList<RouteCard> r) {
     	Player current = getCurrentPlayer();
+    	for(RouteCard rc:r) {
+    		current.giveRoute(rc);
+    	}
     }
 
     public void makeDecks() {
@@ -180,7 +210,7 @@ public class GameController {
             }
         }
         shuffledeck(deck);
-        System.out.print(deck.size());
+
         try {
 			createDefaultRoutes();
 		} catch (IOException e) {
@@ -190,6 +220,7 @@ public class GameController {
         
         shuffledeck(routes);
         shuffledeck(lRoutes);
+
 
 
     }
@@ -253,6 +284,14 @@ public class GameController {
         }
         
     }
+
+	public int getMinSelection() {
+		if(turn < 0) {
+			return 2;
+		}else {
+			return 1;
+		}
+	}
     
     
 
