@@ -101,14 +101,14 @@ public class CardScreen extends JPanel{
 		if (drawnRoutes.size() == 3) {
 			int xcoords = 200;
 			for(int i = 0; i < 3; i++) {
-				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, 500, getWidth()/3, getHeight()/3, null);
-				xcoords = xcoords +50; 
+				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, 500, getWidth()/6, getHeight()/6, null);
+				xcoords = xcoords +350; 
 			}
 		} else {
 			int xcoords = 100;
 			for(int i = 0; i < 5; i++) {
-				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, 500, getWidth()/3, getHeight()/3, null);
-				xcoords = xcoords +50; 
+				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, 500, getWidth()/6, getHeight()/6, null);
+				xcoords = xcoords +350; 
 			}
 			
 		}
