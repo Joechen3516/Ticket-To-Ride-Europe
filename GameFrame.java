@@ -20,7 +20,7 @@ public class GameFrame extends JFrame implements GameListener{
 		
 		StartPanel start = new StartPanel(controller);
 		TTREGUI gamePanel = new TTREGUI(controller);
-		CardScreen chooseRoutes = new CardScreen(this);
+		CardScreen chooseRoutes = new CardScreen(controller);
 		
 		mainPanel.add(start,"Start");
 		mainPanel.add(gamePanel,"Game");
