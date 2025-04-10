@@ -207,6 +207,17 @@ public class Europe {
 		return cities.get(tracker);
 	}
 
+	public ArrayList<Road> roadSearch(City a, City b) {
+		ArrayList<Road> result = new ArrayList<>();
+		for (Road n: a.getRoads()) {
+			if (n.getOtherNode(a).getName().equals(b.getName())) {
+				result.add(n);
+			}
+		}
+
+		return result;
+	}
+
 
 
 }
