@@ -21,10 +21,9 @@ import java.awt.Color;
 public class TTREGUI extends JPanel{
 	private BufferedImage gamebg,gameboard,routecardback,traincardback;
 	private Font f;
-	
 	private int citySide;
+
 	public TTREGUI(GameFrame frame) {
-		
 		f = new Font("Centaur", 0, 90);
 		this.setLayout(null);
 		try {
@@ -60,7 +59,99 @@ public class TTREGUI extends JPanel{
 		double angle = Math.toRadians(270);
 		rot.rotate(angle);
 		g2.drawImage(traincardback, rot, null);
-		g.fillRect((int)(getWidth()*0.10189),(int)(getHeight()*0.0317),citySide,citySide);
-		g.fillRect(140, 415, citySide, citySide);
+		g.fillRect((int)(getWidth()*0.10189), (int)(getHeight()*0.0317),citySide,citySide);
+		//Edinburgh
+		g.fillRect((int)(getWidth()*0.07458), (int)(getHeight()*0.39673), citySide, citySide);
+		//Brest
+		g.fillRect((int)(getWidth()*0.00525), (int)(getHeight()*0.76849), citySide, citySide);
+		//Lisbon
+		g.fillRect((int)(getWidth()*0.05777), (int)(getHeight()*0.73775), citySide, citySide);
+		//Madrid
+		g.fillRect((int)(getWidth()*0.15331), (int)(getHeight()*0.23631), citySide, citySide);
+		//London
+		g.fillRect((int)(getWidth()*0.14391), (int)(getHeight()*0.35927), citySide, citySide);
+		//Dieppe
+		g.fillRect((int)(getWidth()*0.20903), (int)(getHeight()*0.30451), citySide, citySide);
+		//Bruxelles
+		g.fillRect((int)(getWidth()*0.13288), (int)(getHeight()*0.62824), citySide, citySide);
+		//Pamplona
+		g.fillRect((int)(getWidth()*0.22584), (int)(getHeight()*0.24015), citySide, citySide);
+		//Amsterdam
+		g.fillRect((int)(getWidth()*0.18225), (int)(getHeight()*0.41883), citySide, citySide);
+		//Paris
+		g.fillRect((int)(getWidth()*0.28851), (int)(getHeight()*0.25456), citySide, citySide);
+		//Essen
+		g.fillRect((int)(getWidth()*0.36450), (int)(getHeight()*0.27328), citySide, citySide);
+		//Berlin
+		g.fillRect((int)(getWidth()*0.05672), (int)(getHeight()*0.83958), citySide, citySide);
+		//Cadiz
+		g.fillRect((int)(getWidth()*0.14181), (int)(getHeight()*0.75216), citySide, citySide);
+		//Barcelona
+		g.fillRect((int)(getWidth()*0.24895), (int)(getHeight()*0.62152), citySide, citySide);
+		//Marseille
+		g.fillRect((int)(getWidth()*0.27048), (int)(getHeight()*0.49472), citySide, citySide);
+		//Zurich
+		g.fillRect((int)(getWidth()*0.33981), (int)(getHeight()*0.66090), citySide, citySide);
+		//Roma
+		g.fillRect((int)(getWidth()*0.32038), (int)(getHeight()*0.40826), citySide, citySide);
+		//Munchen
+		g.fillRect((int)(getWidth()*0.27731), (int)(getHeight()*0.34874), citySide, citySide);
+		//Frankfurt
+		g.fillRect((int)(getWidth()*0.34296), (int)(getHeight()*0.10951), citySide, citySide);
+		//Kobenhavn
+		g.fillRect((int)(getWidth()*0.42227), (int)(getHeight()*0.00288), citySide, citySide);
+		//Stockholm
+		g.fillRect((int)(getWidth()*0.51471), (int)(getHeight()*0.04323), citySide, citySide);
+		//Riga
+		g.fillRect((int)(getWidth()*0.45168), (int)(getHeight()*0.16523), citySide, citySide);
+		//Danzig
+		g.fillRect((int)(getWidth()*0.33351), (int)(getHeight()*0.53794), citySide, citySide);
+		//Venezia
+		g.fillRect((int)(getWidth()*0.36922), (int)(getHeight()*0.84054), citySide, citySide);
+		//Palermo
+		g.fillRect((int)(getWidth()*0.40599), (int)(getHeight()*0.69549), citySide, citySide);
+		//Brindisi
+		g.fillRect((int)(getWidth()*0.39811), (int)(getHeight()*0.55620), citySide, citySide);
+		//Zagrab
+		g.fillRect((int)(getWidth()*0.40704), (int)(getHeight()*0.43036), citySide, citySide);
+		//Wien
+		g.fillRect((int)(getWidth()*0.44568), (int)(getHeight()*0.46590), citySide, citySide);
+		//Budapest
+		g.fillRect((int)(getWidth()*0.46218), (int)(getHeight()*0.63401), citySide, citySide);
+		//Sarajevo
+		g.fillRect((int)(getWidth()*0.51471), (int)(getHeight()*0.64745), citySide, citySide);
+		//Sofia
+		g.fillRect((int)(getWidth()*0.50000), (int)(getHeight()*0.80019), citySide, citySide);
+		//Athina
+		g.fillRect((int)(getWidth()*0.56618), (int)(getHeight()*0.83573), citySide, citySide);
+		//Smyrna
+		g.fillRect((int)(getWidth()*0.60032), (int)(getHeight()*0.72815), citySide, citySide);
+		//Constantinople
+		g.fillRect((int)(getWidth()*0.65851), (int)(getHeight()*0.80211), citySide, citySide);
+		//Angora
+		g.fillRect((int)(getWidth()*0.72059), (int)(getHeight()*0.77233), citySide, citySide);
+		//Erzurum
+		g.fillRect((int)(getWidth()*0.60534), (int)(getHeight()*0.33433), citySide, citySide);
+		//Kyiv
+		g.fillRect((int)(getWidth()*0.71901), (int)(getHeight()*0.20077), citySide, citySide);
+		//Moskva
+		g.fillRect((int)(getWidth()*0.64483), (int)(getHeight()*0.03730), citySide, citySide);
+		//Petrograd
+		g.fillRect((int)(getWidth()*0.48897), (int)(getHeight()*0.26129), citySide, citySide);
+		//Warszawa
+		g.fillRect((int)(getWidth()*0.56145), (int)(getHeight()*0.56004), citySide, citySide);
+		//Bucuresti
+		g.fillRect((int)(getWidth()*0.57511), (int)(getHeight()*0.22757), citySide, citySide);
+		//Wilno
+		g.fillRect((int)(getWidth()*0.65389), (int)(getHeight()*0.23535), citySide, citySide);
+		//Smolensk
+		g.fillRect((int)(getWidth()*0.70746), (int)(getHeight()*0.40538), citySide, citySide);
+		//Kharkov
+		g.fillRect((int)(getWidth()*0.73937), (int)(getHeight()*0.47746), citySide, citySide);
+		//Rostov
+		g.fillRect((int)(getWidth()*0.66702), (int)(getHeight()*0.58021), citySide, citySide);
+		//Sevastopol
+		g.fillRect((int)(getWidth()*0.73748), (int)(getHeight()*0.59942), citySide, citySide);
+		//Sochi
 	}
 }
