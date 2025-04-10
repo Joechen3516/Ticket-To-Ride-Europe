@@ -36,5 +36,9 @@ public class RouteCard {
 		return image; 
 	}
 	
+	public String toString() {
+		return a.getName() + "<->" + b.getName(); 
+	}
+	
 
 }

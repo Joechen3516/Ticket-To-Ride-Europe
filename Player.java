@@ -30,4 +30,11 @@ public class Player {
 		return f;
 	}
 
+
+
+	public void giveRoute(RouteCard rc) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

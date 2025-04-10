@@ -18,14 +18,17 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Random;
 import java.io.*;
-public class CardScreen extends JPanel{
+@SuppressWarnings("serial")
+public class CardScreen extends JPanel implements SwitchablePanel{
 	private BufferedImage background; 
 	
-	private String message = "Player 1, choose which routes you want to remove";
+	
+	private int turn = 0;
 	private JButton next;
-	private String message1 = "Next";
-	private int num = 0; 
 	private GameController game;
+	private ArrayList<RouteCard> drawnRoutes;
+	private int minSelection = 2;
+	
 	
 	private void loadRouteImages() throws IOException {
 	    
@@ -36,10 +39,11 @@ public class CardScreen extends JPanel{
 		game = controller;
 		
 		next = new JButton();
-        add(next);
+        
         next.setOpaque(false);
         next.setContentAreaFilled(false);
-        next.setBorderPainted(true);
+        next.setBorderPainted(false);
+        add(next);
 		try {
 			
             background = ImageIO.read(StartPanel.class.getResource("/images/midpanel1-ezgif.com-webp-to-png-converter.png"));
@@ -52,19 +56,8 @@ public class CardScreen extends JPanel{
 		next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == next) {
-                	System.out.println("clicked");
-                	num++;
-                 	if (num ==1 ) {
-                 		message = "Player 2, choose which routes you want to remove";
-                 	} else if (num == 2) {
-                 		message = "Player 3, choose which routes you want to remove";
-                 	}else if (num == 3){
-                 		message = "Player 4, choose which routes you want to remove";
-                 	} else if(num == 4) {
-                 		
-                 	}
+                	game.HandleAction(ActionEvents.CardScreenConfirm);
                  	repaint();
-                      // Ensure this matches GameFrame
                 }
             }
         });
@@ -85,19 +78,22 @@ public class CardScreen extends JPanel{
 		try {
 			loadRouteImages();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
+		
+		String message = "Player " + (turn+1) + ", choose which routes you want to remove";
+		String minMessage = "You must keep at least " + minSelection;
 		System.out.println("success");
 		g.setColor(Color.YELLOW);
 		g.setFont(new Font("TimesRoman", Font.BOLD, 75)); 
 		g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
 		g.drawString(message, 10, 100);
-		g.drawString("You must keep at least 2 cards", 10, 175);
-		g.drawString(message1, (int)(getWidth() * 0.86), (int)(getHeight()*0.85));
+		g.drawString(minMessage, 10, 175);
+		g.drawString("Confirm", (int)(getWidth() * 0.83), (int)(getHeight()*0.85));
 		
 		
-		ArrayList<RouteCard> drawnRoutes = game.getDrawnRoutes();
+		
 		if (drawnRoutes.size() == 3) {
 			int xcoords = 200;
 			for(int i = 0; i < 3; i++) {
@@ -117,6 +113,14 @@ public class CardScreen extends JPanel{
 		
 		
 		
+		
+		
+	}
+
+	public void OnSwitchedTo() {
+		this.drawnRoutes = game.getDrawnRoutes();
+		this.turn = game.getCurrentPlayerNumber();
+		this.minSelection = game.getMinSelection();
 		
 		
 	}
