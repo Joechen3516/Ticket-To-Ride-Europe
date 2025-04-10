@@ -22,9 +22,8 @@ public class TTREGUI extends JPanel{
 	private BufferedImage gamebg,gameboard,routecardback,traincardback;
 	private Font f;
 	private int citySide;
-	private GameController game;
-	public TTREGUI(GameController controller) {
-		game = controller;
+
+	public TTREGUI(GameFrame frame) {
 		f = new Font("Centaur", 0, 90);
 		this.setLayout(null);
 		try {
