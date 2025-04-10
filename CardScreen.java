@@ -21,59 +21,148 @@ import java.io.*;
 @SuppressWarnings("serial")
 public class CardScreen extends JPanel implements SwitchablePanel{
 	private BufferedImage background; 
-	
-	
+
+
 	private int turn = 0;
 	private JButton next;
 	private GameController game;
 	private ArrayList<RouteCard> drawnRoutes;
 	private int minSelection = 2;
-	
-	
+
+
+	private JButton c0;
+	private JButton c1;
+	private JButton c2;
+	private JButton c3;
+	private JButton c4;
+
+	private ArrayList<RouteCard> selected = new ArrayList<RouteCard>();
+
 	private void loadRouteImages() throws IOException {
-	    
+
 	}
-	
+
 	public CardScreen(GameController controller){
 		this.setLayout(null);
 		game = controller;
-		
+
 		next = new JButton();
-        
-        next.setOpaque(false);
-        next.setContentAreaFilled(false);
-        next.setBorderPainted(false);
-        add(next);
+
+		next.setOpaque(false);
+		next.setContentAreaFilled(false);
+		next.setBorderPainted(false);
+		add(next);
+
+		c0 = new JButton();
+		c1 = new JButton();
+		c2 = new JButton();
+		c3 = new JButton();
+		c4 = new JButton();
+
+		c0.setBounds(200, 500, getWidth()/6, getWidth()/6);
+		c1.setBounds(550, 500, getWidth()/6, getWidth()/6);
+		c2.setBounds(900, 500, getWidth()/6, getWidth()/6);
+		c3.setBounds(1250, 500, getWidth()/6, getWidth()/6);
+		c4.setBounds(1600, 500, getWidth()/6, getWidth()/6);
+
+		c0.setOpaque(false);
+		c0.setContentAreaFilled(true);
+		c0.setBorderPainted(true);
+		add(c0);
+		c1.setOpaque(false);
+		c1.setContentAreaFilled(false);
+		c1.setBorderPainted(false);
+		add(c1);
+		c2.setOpaque(false);
+		c2.setContentAreaFilled(false);
+		c2.setBorderPainted(false);
+		add(c2);
+		c3.setOpaque(false);
+		c3.setContentAreaFilled(false);
+		c3.setBorderPainted(false);
+		add(c3);
+		c4.setOpaque(false);
+		c4.setContentAreaFilled(false);
+		c4.setBorderPainted(false);
+		add(c4);
+
+
 		try {
-			
-            background = ImageIO.read(StartPanel.class.getResource("/images/midpanel1-ezgif.com-webp-to-png-converter.png"));
-            
-        
-            
-        } catch (Exception e) {
-            System.out.println("StartPanel error: " + e.getMessage());
-        }
+
+			background = ImageIO.read(StartPanel.class.getResource("/images/midpanel1-ezgif.com-webp-to-png-converter.png"));
+
+
+
+		} catch (Exception e) {
+			System.out.println("StartPanel error: " + e.getMessage());
+		}
 		next.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == next) {
-                	game.HandleAction(ActionEvents.CardScreenConfirm);
-                 	repaint();
-                }
-            }
-        });
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == next) {
+					game.addPlayerRoutes(selected);
+					game.HandleAction(ActionEvents.CardScreenConfirm);	
+					repaint();
+				}
+			}
+		});
+
+		c0.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == c0 && selected.size() < minSelection ) {
+					selected.add(drawnRoutes.get(0));
+					System.out.print("drawnRoutes.get(0)");
+				}
+			}
+		});
+
+		c1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == c1 && selected.size() < minSelection) {
+					selected.add(drawnRoutes.get(1));
+				}
+			}
+		});
+
+		c2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == c2 && selected.size() < minSelection) {
+					selected.add(drawnRoutes.get(2));
+				}
+			}
+		});
+
+		c3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == c3 && selected.size() < minSelection) {
+					if(drawnRoutes.size() > 3) {
+						selected.add(drawnRoutes.get(3));
+					}
+				}
+			}
+		});
+
+		c4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == c4 && selected.size() < minSelection) {
+					if(drawnRoutes.size() > 3) {
+						selected.add(drawnRoutes.get(4));
+					}
+				}
+			}
+		});
 		this.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                int btnX = (int) (getWidth() * 0.80279);
-                int btnY = (int) (getHeight() * 0.78663);
-                int btnWidth = (int) (getWidth() * 0.86341);
-                int btnHeight = (int) (getHeight() * 0.79105);
-                next.setBounds(btnX, btnY, btnWidth, btnHeight);
-            }
-        });
+			@Override
+			public void componentResized(ComponentEvent e) {
+				int btnX = (int) (getWidth() * 0.80279);
+				int btnY = (int) (getHeight() * 0.78663);
+				int btnWidth = (int) (getWidth() * 0.86341);
+				int btnHeight = (int) (getHeight() * 0.79105);
+				next.setBounds(btnX, btnY, btnWidth, btnHeight);
+			}
+		});
 	}
-	
-	
+
+
 	public void paintComponent(Graphics g) {
 		try {
 			loadRouteImages();
@@ -81,7 +170,7 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 
 			e.printStackTrace();
 		}
-		
+
 		String message = "Player " + (turn+1) + ", choose which routes you want to remove";
 		String minMessage = "You must keep at least " + minSelection;
 		System.out.println("success");
@@ -91,37 +180,42 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		g.drawString(message, 10, 100);
 		g.drawString(minMessage, 10, 175);
 		g.drawString("Confirm", (int)(getWidth() * 0.83), (int)(getHeight()*0.85));
-		
-		
-		
+
+
+
 		if (drawnRoutes.size() == 3) {
 			int xcoords = 200;
 			for(int i = 0; i < 3; i++) {
 				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, 500, getWidth()/6, getHeight()/6, null);
 				xcoords = xcoords +350; 
 			}
+
+
+
 		} else {
 			int xcoords = 100;
 			for(int i = 0; i < 5; i++) {
 				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, 500, getWidth()/6, getHeight()/6, null);
 				xcoords = xcoords +350; 
 			}
-			
 		}
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
 	}
 
 	public void OnSwitchedTo() {
 		this.drawnRoutes = game.getDrawnRoutes();
 		this.turn = game.getCurrentPlayerNumber();
 		this.minSelection = game.getMinSelection();
-		
-		
+
+
 	}
+
+
+
 }
