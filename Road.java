@@ -55,6 +55,10 @@ public class Road {
 
 	@Override
 	public String toString() {
-		return a.getName() + " to " + b.getName() + " of length " + getLength().toString() + " owned by ";
+		String ownersubstitute = "nobody";
+		if (owner != null) {
+			ownersubstitute = owner.name();
+		}
+		return a.getName() + " to " + b.getName() + " of color " + roadColor.name() + " of length " + getLength()[0] + " including " + getLength()[1] + " ferries and owned by " + ownersubstitute;
 	}
 }
