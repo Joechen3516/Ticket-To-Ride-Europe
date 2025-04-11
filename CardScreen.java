@@ -59,13 +59,13 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		c3 = new JButton();
 		c4 = new JButton();
 
-		c0.setBounds(200, 500, getWidth()/6, getWidth()/6);
-		c1.setBounds(550, 500, getWidth()/6, getWidth()/6);
-		c2.setBounds(900, 500, getWidth()/6, getWidth()/6);
-		c3.setBounds(1250, 500, getWidth()/6, getWidth()/6);
-		c4.setBounds(1600, 500, getWidth()/6, getWidth()/6);
+		c0.setBounds(100, 500, 315, 175);
+		c1.setBounds(550, 500, 315, 175);
+		c2.setBounds(900, 500, 315, 175);
+		c3.setBounds(1250, 500, 315, 175);
+		c4.setBounds(1600, 500, 315, 175);
 
-		c0.setOpaque(false);
+		c0.setOpaque(true);
 		c0.setContentAreaFilled(true);
 		c0.setBorderPainted(true);
 		add(c0);
@@ -99,6 +99,9 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == next) {
+					for(RouteCard r: selected) {
+						System.out.print(r + "::");
+					}
 					game.addPlayerRoutes(selected);
 					game.HandleAction(ActionEvents.CardScreenConfirm);	
 					repaint();
@@ -153,11 +156,35 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		this.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
+				int w = getWidth();
+				int h = getHeight();
 				int btnX = (int) (getWidth() * 0.80279);
 				int btnY = (int) (getHeight() * 0.78663);
 				int btnWidth = (int) (getWidth() * 0.86341);
 				int btnHeight = (int) (getHeight() * 0.79105);
 				next.setBounds(btnX, btnY, btnWidth, btnHeight);
+				
+				
+				
+				
+				c0.setBounds(w * (100/1920), h * (500/1920), w * (100/1920), w * (100/1920));
+				c1.setBounds(w * (550/1920), h * (500/1920), w * (100/1920), w * (100/1920));
+				c2.setBounds(w * (900/1920), h * (500/1920), w * (100/1920), w * (100/1920));
+				c3.setBounds(w * (1250/1920), h * (500/1920), w * (100/1920), w * (100/1920));
+				c4.setBounds(w * (1600/1920), h * (500/1920), w * (100/1920), w * (100/1920));
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			}
 		});
 	}
@@ -173,7 +200,6 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 
 		String message = "Player " + (turn+1) + ", choose which routes you want to remove";
 		String minMessage = "You must keep at least " + minSelection;
-		System.out.println("success");
 		g.setColor(Color.YELLOW);
 		g.setFont(new Font("TimesRoman", Font.BOLD, 75)); 
 		g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
@@ -187,7 +213,7 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 			int xcoords = 200;
 			for(int i = 0; i < 3; i++) {
 				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, 500, getWidth()/6, getHeight()/6, null);
-				xcoords = xcoords +350; 
+				xcoords = xcoords +(350/1920); 
 			}
 
 
