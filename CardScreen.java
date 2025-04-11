@@ -23,10 +23,10 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 	private GameController game;
 	private ArrayList<RouteCard> drawnRoutes;
 	private int minSelection = 2;
-	
+
 
 	private JButton c0, c1,c2,c3,c4;
-	
+
 	private boolean c0click, c1click, c2click, c3click, c4click; 
 	private ArrayList<RouteCard> selected = new ArrayList<RouteCard>();
 
@@ -51,7 +51,7 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		c3 = new JButton();
 		c4 = new JButton();
 
-		
+
 
 		c0.setOpaque(false);
 		c0.setContentAreaFilled(false);
@@ -104,8 +104,8 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 				} else {
 					c0click = false;
 				}
-				
-				
+
+
 				if (e.getSource() == c0 && selected.size() < minSelection ) {
 					selected.add(drawnRoutes.get(0));
 					System.out.print("drawnRoutes.get(0)");
@@ -151,55 +151,55 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		this.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
-				
+
 				int btnX = (int) (getWidth() * 0.80279);
 				int btnY = (int) (getHeight() * 0.78663);
 				int btnWidth = (int) (getWidth() * 0.86341);
 				int btnHeight = (int) (getHeight() * 0.79105);
 				next.setBounds(btnX, btnY, btnWidth, btnHeight);
-				
-				
-				
-				
+
+
+
+
 				int c0X = (int)(getWidth() * 0.05208333333);
 				int c0Y = (int)(getHeight() * 0.48);
 				int c0Width = (int)(getWidth() * 0.17);
 				int c0Height = (int)(getHeight() * 0.172);
-				
+
 				c0.setBounds(c0X, c0Y, c0Width, c0Height);
-				
+
 				int c1X = (int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382);
-				
-				
+
+
 				c1.setBounds(c1X, c0Y, c0Width, c0Height);
-				
+
 				int c2X = (int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382);
-				
-				
+
+
 				c2.setBounds(c2X, c0Y, c0Width, c0Height);
 				int c3X = (int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382);
-				
-				
+
+
 				c3.setBounds(c3X, c0Y, c0Width, c0Height);
-				
+
 				int c4X = (int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382);
-				
-				
+
+
 				c4.setBounds(c4X, c0Y, c0Width, c0Height);
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			}
 		});
 	}
@@ -225,7 +225,7 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 
 		System.out.println(getWidth() + " " + getHeight());
 		if (drawnRoutes.size() == 3) {
-			int xcoords = (int)(getWidth()*0.10504);
+			int xcoords = (int)(getWidth()*0.05252);
 			for(int i = 0; i < 3; i++) {
 				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, (int)(getHeight()*0.48031), getWidth()/6, getHeight()/6, null);
 				xcoords = xcoords + (int)(getWidth()*0.18382); 
@@ -246,7 +246,7 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		int c0Height = (int)(getHeight() * 0.172);
 		if(c0click) {
 			g.setColor(Color.RED);
-			
+
 			g.drawRect(c0X, c0Y, c0Width, c0Height);
 		}
 
