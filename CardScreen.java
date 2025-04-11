@@ -167,11 +167,24 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 				
 				
 				
-				c0.setBounds(w * (100/1920), h * (500/1920), w * (100/1920), w * (100/1920));
-				c1.setBounds(w * (550/1920), h * (500/1920), w * (100/1920), w * (100/1920));
-				c2.setBounds(w * (900/1920), h * (500/1920), w * (100/1920), w * (100/1920));
-				c3.setBounds(w * (1250/1920), h * (500/1920), w * (100/1920), w * (100/1920));
-				c4.setBounds(w * (1600/1920), h * (500/1920), w * (100/1920), w * (100/1920));
+				int c0X = (int)(getWidth() * 0.05208333333);
+				int c0Y = (int)(getHeight() * 0.48);
+				int c0Width = (int)(getWidth() * 0.17);
+				int c0Height = (int)(getHeight() * 0.172);
+				
+				c0.setBounds(c0X, c0Y, c0Width, c0Height);
+				
+				int c1X = (int)(getWidth() * 0.05208333333);
+				int c1Y = (int)(getHeight() * 0.48);
+				int c1Width = (int)(getWidth() * 0.17);
+				int c1Height = (int)(getHeight() * 0.172);
+				
+				c1.setBounds(c1X, c1Y, c1Width, c1Height);
+				
+				//c1.setBounds(w * (550/1920), h * (500/1920), w * (100/1920), w * (100/1920));
+				//c2.setBounds(w * (900/1920), h * (500/1920), w * (100/1920), w * (100/1920));
+				//c3.setBounds(w * (1250/1920), h * (500/1920), w * (100/1920), w * (100/1920));
+				//c4.setBounds(w * (1600/1920), h * (500/1920), w * (100/1920), w * (100/1920));
 				
 				
 				
