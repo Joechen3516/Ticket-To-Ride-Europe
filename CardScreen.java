@@ -1,3 +1,18 @@
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
 @SuppressWarnings("serial")
 public class CardScreen extends JPanel implements SwitchablePanel{
 	private BufferedImage background; 
