@@ -216,26 +216,26 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		g.setColor(Color.YELLOW);
 		g.setFont(new Font("TimesRoman", Font.BOLD, 75)); 
 		g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
-		g.drawString(message, 10, 100);
-		g.drawString(minMessage, 10, 175);
+		g.drawString(message, (int)(getWidth()*0.00525), (int)(getHeight()*0.09606));
+		g.drawString(minMessage, (int)(getWidth()*0.00525), (int)(getHeight()*0.16811));
 		g.drawString("Confirm", (int)(getWidth() * 0.83), (int)(getHeight()*0.85));
 
 
-
+		System.out.println(getWidth() + " " + getHeight());
 		if (drawnRoutes.size() == 3) {
-			int xcoords = 200;
+			int xcoords = (int)(getWidth()*0.10504);
 			for(int i = 0; i < 3; i++) {
-				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, 500, getWidth()/6, getHeight()/6, null);
-				xcoords = xcoords +(350/1920); 
+				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, (int)(getHeight()*0.48031), getWidth()/6, getHeight()/6, null);
+				xcoords = xcoords + (int)(getWidth()*0.18382); 
 			}
 
 
 
 		} else {
-			int xcoords = 100;
+			int xcoords = (int)(getWidth()*0.05252);
 			for(int i = 0; i < 5; i++) {
-				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, 500, getWidth()/6, getHeight()/6, null);
-				xcoords = xcoords +350; 
+				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, (int)(getHeight()*0.48031), getWidth()/6, getHeight()/6, null);
+				xcoords = xcoords + (int)(getWidth()*0.18382); 
 			}
 		}
 
