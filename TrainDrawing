@@ -1,0 +1,18 @@
+public void paintComponenet(Graphics g) {
+		Graphics2D g2 = (Graphics2D)g.create();
+	       
+
+	   
+	      double angle = Math.toRadians(45);
+	    g2.rotate(angle);
+	    g2.setColor(Color.RED);
+	    
+	    g2.fill3DRect(x, y, 60, 60, true);
+	    g2.draw3DRect(x,y,60,60,true);
+	    g2.draw3DRect(x+1,y+1,60,60,true);
+	    g2.draw3DRect(x+2,y+2,60,60,true);
+	    g2.draw3DRect(x+3,y+3,60,60,true);
+	    g2.draw3DRect(x+4,y+4,60,60,true);
+	    g2.draw3DRect(x+5,y+5,60,60,true);
+	}
+}
