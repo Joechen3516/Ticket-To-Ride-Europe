@@ -1,6 +1,8 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -27,7 +29,13 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 
 	private JButton c0, c1,c2,c3,c4;
 
-	private boolean c0click, c1click, c2click, c3click, c4click; 
+	private boolean c0click = false; 
+	private boolean c1click = false; 
+	private boolean c2click = false; 
+	private boolean c3click = false; 
+	private boolean c4click = false; 
+	
+	
 	private ArrayList<RouteCard> selected = new ArrayList<RouteCard>();
 
 	private void loadRouteImages() throws IOException {
@@ -86,12 +94,17 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		}
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == next) {
-					if(validateTurn()) {
-						game.addPlayerRoutes(selected);
-						game.HandleAction(ActionEvents.CardScreenConfirm);	
+				if (e.getSource() == next && selected.size() > 1) {
+					for(RouteCard r: selected) {
+						System.out.print(r.toString() + "::");
 					}
-					
+					game.addPlayerRoutes(selected);
+					game.HandleAction(ActionEvents.CardScreenConfirm);	
+					c0click = false;
+					c1click = false;
+					c2click = false; 
+					c3click = false; 
+					c4click = false; 
 					repaint();
 				}
 			}
@@ -99,47 +112,120 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 
 		c0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
 
-				if (e.getSource() == c0 && selected.size() < drawnRoutes.size() - minSelection ) {
+				if (e.getSource() == c0 && c0click == false) {
 					selected.add(drawnRoutes.get(0));
-					System.out.print("drawnRoutes.get(0)");
+					
 				}
+				if (e.getSource() == c0 && c0click == true) {
+					selected.remove(drawnRoutes.get(0));
+					
+				}
+				if (c0click == false) {
+					c0click = true;
+				} else {
+					c0click = false;
+				}
+				
+				repaint();
 			}
 		});
 
 		c1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == c1 && selected.size() < minSelection) {
+				
+				
+				if (e.getSource() == c1 && c1click == false) {
 					selected.add(drawnRoutes.get(1));
+					
 				}
+				if (e.getSource() == c1 && c1click == true) {
+					selected.remove(drawnRoutes.get(1));
+					
+				}
+				
+				if (c1click == false) {
+					c1click = true;
+				} else {
+					c1click = false;
+				}
+				
+				
+				repaint();
 			}
 		});
 
 		c2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == c2 && selected.size() < minSelection) {
+				
+				
+				if (e.getSource() == c2 && c2click == false) {
 					selected.add(drawnRoutes.get(2));
+					
 				}
+				if (e.getSource() == c2 && c2click == true) {
+					selected.remove(drawnRoutes.get(2));
+					
+				}
+				if (c2click == false) {
+					c2click = true;
+				} else {
+					c2click = false;
+				}
+				
+				repaint();
 			}
 		});
 
 		c3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == c3 && selected.size() < minSelection) {
+				
+				if (e.getSource() == c3 && c3click == false) {
 					if(drawnRoutes.size() > 3) {
 						selected.add(drawnRoutes.get(3));
+						
 					}
 				}
+				if (e.getSource() == c3 && c3click == true) {
+					selected.remove(drawnRoutes.get(3));
+					
+				}
+				if (c3click == false) {
+					c3click = true;
+				} else {
+					c3click = false;
+				}
+				
+				repaint();
 			}
 		});
 
 		c4.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == c4 && selected.size() < minSelection) {
+				
+				if (e.getSource() == c4 && c4click == false ) {
 					if(drawnRoutes.size() > 3) {
 						selected.add(drawnRoutes.get(4));
+						
 					}
 				}
+				if (e.getSource() == c4 && c4click == true) {
+					selected.remove(drawnRoutes.get(4));
+					
+				}
+				
+				
+				if (c4click == false) {
+					c4click = true;
+				} else {
+					c4click = false;
+				}
+				
+				
+				repaint();
 			}
 		});
 		this.addComponentListener(new ComponentAdapter() {
@@ -197,18 +283,6 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 			}
 		});
 	}
-	
-	
-	private boolean validateTurn() {
-		if(drawnRoutes.size() == 5) {
-			if(selected.size() <= 3) {
-				return true;
-			}else {
-				return false;
-			}
-		}
-		return true;
-	}
 
 
 	public void paintComponent(Graphics g) {
@@ -218,18 +292,37 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 
 			e.printStackTrace();
 		}
-
-		String message = "Player " + (turn+1) + ", choose which routes you want to remove";
+		String update; 
+		String message = "Player " + (turn+1) + ", choose which routes you want to keep";
 		String minMessage = "You must keep at least " + minSelection;
+		if (selected.size() < 2) {
+			
+			update = "You must keep at least " + (-(selected.size()-2)) +" more";
+			
+		} else {
+			
+			
+			update = "You have selected the mininum amount of routes";
+			
+		}
+		
 		g.setColor(Color.YELLOW);
 		g.setFont(new Font("TimesRoman", Font.BOLD, 75)); 
 		g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
 		g.drawString(message, (int)(getWidth()*0.00525), (int)(getHeight()*0.09606));
 		g.drawString(minMessage, (int)(getWidth()*0.00525), (int)(getHeight()*0.16811));
+		if (selected.size() < 2) {
+			g.setColor(Color.RED);
+			
+		} else {
+			g.setColor(Color.GREEN);
+		}
+		g.drawString(update, (int)(getWidth()*0.00525), (int)(getHeight()*0.24811));
+		g.setColor(Color.YELLOW);
 		g.drawString("Confirm", (int)(getWidth() * 0.83), (int)(getHeight()*0.85));
 
 
-		System.out.println(getWidth() + " " + getHeight());
+		
 		if (drawnRoutes.size() == 3) {
 			int xcoords = (int)(getWidth()*0.05252);
 			for(int i = 0; i < 3; i++) {
@@ -246,15 +339,44 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 				xcoords = xcoords + (int)(getWidth()*0.18382); 
 			}
 		}
-		int c0X = (int)(getWidth() * 0.05208333333);
-		int c0Y = (int)(getHeight() * 0.48);
-		int c0Width = (int)(getWidth() * 0.17);
-		int c0Height = (int)(getHeight() * 0.172);
+		Graphics2D g2 = (Graphics2D) g;
 		if(c0click) {
-			g.setColor(Color.RED);
-
-			g.drawRect(c0X, c0Y, c0Width, c0Height);
+			g2.setColor(Color.RED);
+			g2.setStroke(new BasicStroke(10));
+			g2.drawRect((int)(getWidth() * 0.05208333333), (int)(getHeight() * 0.48),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
+			g2.setColor(Color.YELLOW);
 		}
+		if(c1click) {
+			g2.setColor(Color.RED);
+			g2.setStroke(new BasicStroke(10));
+			g2.drawRect((int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382), (int)(getHeight() * 0.48),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
+			g2.setColor(Color.YELLOW);
+		}
+		if(c2click) {
+			g2.setColor(Color.RED);
+			g2.setStroke(new BasicStroke(10));
+			g2.drawRect((int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382), (int)(getHeight() * 0.48),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
+			g2.setColor(Color.YELLOW);
+		}
+		if(c3click) {
+			g2.setColor(Color.RED);
+			g2.setStroke(new BasicStroke(10));
+			g2.drawRect((int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382), (int)(getHeight() * 0.48),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
+			g2.setColor(Color.YELLOW);
+		}
+		if(c4click) {
+			g2.setColor(Color.RED);
+			g2.setStroke(new BasicStroke(10));
+			g2.drawRect((int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382), (int)(getHeight() * 0.48),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
+			g2.setColor(Color.YELLOW);
+		}
+		
+		
+		
+		
+		
+		
+		
 
 
 
@@ -271,6 +393,8 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 
 
 	}
+	
+	
 
 
 
