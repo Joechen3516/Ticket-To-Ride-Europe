@@ -66,9 +66,31 @@ public class Player {
 		numStations --;
 		return true;
 	}
-	
+
+	public ArrayList<RouteCard> getCompletedRoutes() {
+
+	}
+
+	//returns the roads the player owns that are connected to a city a.
+	private ArrayList<Road> playerRoadsPerCity(City a) {
+		ArrayList<Road> result = new ArrayList<>();
+		for (Road n: roads) {
+			if (n.getOtherNode(a) != null) {
+				result.add(n);
+			}
+		}
+		return result;
+	}
 
 
 
+	private Boolean isRouteCompleted(City a, City b, ArrayList<City> visited) {
+		for (Road n: playerRoadsPerCity(a)) {
+			if (n.getOtherNode(a).equals(b)) {
+				return true;
+			}
 
+		}
+
+	}
 }
