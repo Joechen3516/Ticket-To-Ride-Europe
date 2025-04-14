@@ -87,11 +87,11 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == next) {
-					for(RouteCard r: selected) {
-						System.out.print(r + "::");
+					if(validateTurn()) {
+						game.addPlayerRoutes(selected);
+						game.HandleAction(ActionEvents.CardScreenConfirm);	
 					}
-					game.addPlayerRoutes(selected);
-					game.HandleAction(ActionEvents.CardScreenConfirm);	
+					
 					repaint();
 				}
 			}
@@ -99,14 +99,8 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 
 		c0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (c0click == false) {
-					c0click = true;
-				} else {
-					c0click = false;
-				}
 
-
-				if (e.getSource() == c0 && selected.size() < minSelection ) {
+				if (e.getSource() == c0 && selected.size() < drawnRoutes.size() - minSelection ) {
 					selected.add(drawnRoutes.get(0));
 					System.out.print("drawnRoutes.get(0)");
 				}
@@ -202,6 +196,18 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 
 			}
 		});
+	}
+	
+	
+	private boolean validateTurn() {
+		if(drawnRoutes.size() == 5) {
+			if(selected.size() <= 3) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+		return true;
 	}
 
 
