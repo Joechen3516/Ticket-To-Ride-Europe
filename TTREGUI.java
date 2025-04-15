@@ -65,7 +65,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				cityCoords = temp2d;
 				citySide = (int)(getWidth()*0.011556);
 				int index = 0;
-				for(String str : cityButtons.keySet()) {
+				for(String str : names) {
 					cityButtons.get(str).setBounds(cityCoords[index][0], cityCoords[index][1], citySide, citySide);
 					index++;
 				}
