@@ -21,18 +21,18 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
-public class TTREGUI extends JPanel implements SwitchablePanel{
+public class TTREGUI extends JPanel implements SwitchablePanel, ActionListener{
 	private BufferedImage gamebg,gameboard,routecardback,traincardback;
 	private Font f;
 	private int citySide;
 	private HashMap<String, JButton> cityButtons;
+	private boolean done;
 
 	public TTREGUI(GameController game) {
-		citySide = (int)(getWidth()*0.011556);
 		f = new Font("Centaur", 0, 90);
+		done = false;
 		cityButtons = new HashMap<String, JButton>();
 		String[] names = {"Edinburgh", "Brest", "Lisbon", "Madrid", "London", "Dieppe", "Bruxelles", "Pamplona", "Amsterdam", "Paris", "Essen", "Berlin", "Cadiz", "Barcelona", "Marseille", "Zurich", "Roma", "Munchen", "Frankfurt", "Kobenhavn", "Stockholm", "Riga", "Danzig", "Venezia", "Palermo", "Brindisi", "Zagrab", "Wien", "Budapest", "Sarajevo", "Sofia", "Athina", "Smyrna", "Constantinople", "Angora", "Erzurum", "Kyiv", "Moskva", "Petrograd", "Warszawa", "Bucuresti", "Wilno", "Smolensk", "Kharkov", "Rostov", "Sevastopol", "Sochi"};
-		int[][] cityCoords = {{(int)(getWidth()*0.10189), (int)(getHeight()*0.03170)}, {(int)(getWidth()*0.07458), (int)(getHeight()*0.39673)}, {(int)(getWidth()*0.00525), (int)(getHeight()*0.76849)}, {(int)(getWidth()*0.05777), (int)(getHeight()*0.73775)}, {(int)(getWidth()*0.15331), (int)(getHeight()*0.23631)}, {(int)(getWidth()*0.14391), (int)(getHeight()*0.35927)}, {(int)(getWidth()*0.20903), (int)(getHeight()*0.30451)}, {(int)(getWidth()*0.13288), (int)(getHeight()*0.62824)}, {(int)(getWidth()*0.22584), (int)(getHeight()*0.24015)}, {(int)(getWidth()*0.18225), (int)(getHeight()*0.41883)}, {(int)(getWidth()*0.28851), (int)(getHeight()*0.25456)}, {(int)(getWidth()*0.36450), (int)(getHeight()*0.27328)}, {(int)(getWidth()*0.05672), (int)(getHeight()*0.83958)}, {(int)(getWidth()*0.14181), (int)(getHeight()*0.75216)}, {(int)(getWidth()*0.24895), (int)(getHeight()*0.62152)}, {(int)(getWidth()*0.27048), (int)(getHeight()*0.49472)}, {(int)(getWidth()*0.33981), (int)(getHeight()*0.66090)}, {(int)(getWidth()*0.32038), (int)(getHeight()*0.40826)}, {(int)(getWidth()*0.27731), (int)(getHeight()*0.34874)}, {(int)(getWidth()*0.34296), (int)(getHeight()*0.10951)}, {(int)(getWidth()*0.42227), (int)(getHeight()*0.00288)}, {(int)(getWidth()*0.51471), (int)(getHeight()*0.04323)}, {(int)(getWidth()*0.45168), (int)(getHeight()*0.16523)}, {(int)(getWidth()*0.33351), (int)(getHeight()*0.53794)}, {(int)(getWidth()*0.36922), (int)(getHeight()*0.84054)}, {(int)(getWidth()*0.40599), (int)(getHeight()*0.69549)}, {(int)(getWidth()*0.39811), (int)(getHeight()*0.55620)}, {(int)(getWidth()*0.40704), (int)(getHeight()*0.43036)}, {(int)(getWidth()*0.44568), (int)(getHeight()*0.46590)}, {(int)(getWidth()*0.46218), (int)(getHeight()*0.63401)}, {(int)(getWidth()*0.51471), (int)(getHeight()*0.64745)}, {(int)(getWidth()*0.50000), (int)(getHeight()*0.80019)}, {(int)(getWidth()*0.56618), (int)(getHeight()*0.83573)}, {(int)(getWidth()*0.60032), (int)(getHeight()*0.72815)}, {(int)(getWidth()*0.65851), (int)(getHeight()*0.80211)}, {(int)(getWidth()*0.72059), (int)(getHeight()*0.77233)}, {(int)(getWidth()*0.60534), (int)(getHeight()*0.33433)}, {(int)(getWidth()*0.71901), (int)(getHeight()*0.20077)}, {(int)(getWidth()*0.64483), (int)(getHeight()*0.03730)}, {(int)(getWidth()*0.48897), (int)(getHeight()*0.26129)}, {(int)(getWidth()*0.56145), (int)(getHeight()*0.56004)}, {(int)(getWidth()*0.57511), (int)(getHeight()*0.22757)}, {(int)(getWidth()*0.65389), (int)(getHeight()*0.23535)}, {(int)(getWidth()*0.70746), (int)(getHeight()*0.40538)}, {(int)(getWidth()*0.73937), (int)(getHeight()*0.47746)}, {(int)(getWidth()*0.66702), (int)(getHeight()*0.58021)}, {(int)(getWidth()*0.73748), (int)(getHeight()*0.59942)}};
 		this.setLayout(null);
 		try {
 			gamebg = ImageIO.read(TTREGUI.class.getResource("/images/gamebg.jfif"));
@@ -43,11 +43,32 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		catch(Exception e) {
 			System.out.println("TTRE GUI image issue");
 		}
-		for(int i = 0; i < 47; i ++) {
-			JButton but = new JButton(names[i]);
-			but.setBounds(cityCoords[i][0], cityCoords[i][1], citySide, citySide);
-			cityButtons.put(names[i], but);
-		}
+		this.addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				int[][] cityCoords = {{(int)(getWidth()*0.10189), (int)(getHeight()*0.03170)}, {(int)(getWidth()*0.07458), (int)(getHeight()*0.39673)}, {(int)(getWidth()*0.00525), (int)(getHeight()*0.76849)}, {(int)(getWidth()*0.05777), (int)(getHeight()*0.73775)}, {(int)(getWidth()*0.15331), (int)(getHeight()*0.23631)}, {(int)(getWidth()*0.14391), (int)(getHeight()*0.35927)}, {(int)(getWidth()*0.20903), (int)(getHeight()*0.30451)}, {(int)(getWidth()*0.13288), (int)(getHeight()*0.62824)}, {(int)(getWidth()*0.22584), (int)(getHeight()*0.24015)}, {(int)(getWidth()*0.18225), (int)(getHeight()*0.41883)}, {(int)(getWidth()*0.28851), (int)(getHeight()*0.25456)}, {(int)(getWidth()*0.36450), (int)(getHeight()*0.27328)}, {(int)(getWidth()*0.05672), (int)(getHeight()*0.83958)}, {(int)(getWidth()*0.14181), (int)(getHeight()*0.75216)}, {(int)(getWidth()*0.24895), (int)(getHeight()*0.62152)}, {(int)(getWidth()*0.27048), (int)(getHeight()*0.49472)}, {(int)(getWidth()*0.33981), (int)(getHeight()*0.66090)}, {(int)(getWidth()*0.32038), (int)(getHeight()*0.40826)}, {(int)(getWidth()*0.27731), (int)(getHeight()*0.34874)}, {(int)(getWidth()*0.34296), (int)(getHeight()*0.10951)}, {(int)(getWidth()*0.42227), (int)(getHeight()*0.00288)}, {(int)(getWidth()*0.51471), (int)(getHeight()*0.04323)}, {(int)(getWidth()*0.45168), (int)(getHeight()*0.16523)}, {(int)(getWidth()*0.33351), (int)(getHeight()*0.53794)}, {(int)(getWidth()*0.36922), (int)(getHeight()*0.84054)}, {(int)(getWidth()*0.40599), (int)(getHeight()*0.69549)}, {(int)(getWidth()*0.39811), (int)(getHeight()*0.55620)}, {(int)(getWidth()*0.40704), (int)(getHeight()*0.43036)}, {(int)(getWidth()*0.44568), (int)(getHeight()*0.46590)}, {(int)(getWidth()*0.46218), (int)(getHeight()*0.63401)}, {(int)(getWidth()*0.51471), (int)(getHeight()*0.64745)}, {(int)(getWidth()*0.50000), (int)(getHeight()*0.80019)}, {(int)(getWidth()*0.56618), (int)(getHeight()*0.83573)}, {(int)(getWidth()*0.60032), (int)(getHeight()*0.72815)}, {(int)(getWidth()*0.65851), (int)(getHeight()*0.80211)}, {(int)(getWidth()*0.72059), (int)(getHeight()*0.77233)}, {(int)(getWidth()*0.60534), (int)(getHeight()*0.33433)}, {(int)(getWidth()*0.71901), (int)(getHeight()*0.20077)}, {(int)(getWidth()*0.64483), (int)(getHeight()*0.03730)}, {(int)(getWidth()*0.48897), (int)(getHeight()*0.26129)}, {(int)(getWidth()*0.56145), (int)(getHeight()*0.56004)}, {(int)(getWidth()*0.57511), (int)(getHeight()*0.22757)}, {(int)(getWidth()*0.65389), (int)(getHeight()*0.23535)}, {(int)(getWidth()*0.70746), (int)(getHeight()*0.40538)}, {(int)(getWidth()*0.73937), (int)(getHeight()*0.47746)}, {(int)(getWidth()*0.66702), (int)(getHeight()*0.58021)}, {(int)(getWidth()*0.73548), (int)(getHeight()*0.59942)}};
+				citySide = (int)(getWidth()*0.011556);
+				for(int i = 0; i < 47; i ++) {
+					System.out.println(cityCoords[i][0] + " " + cityCoords[i][1]);
+					JButton but = new JButton();
+					but.setBounds(cityCoords[i][0], cityCoords[i][1], citySide, citySide);
+					but.setName(names[i]);
+					add(but);
+					//but.setOpaque(false);
+			        //but.setContentAreaFilled(false);
+			       // but.setBorderPainted(false);
+					cityButtons.put(names[i], but);
+					done = true;
+				}
+			}
+		});
+		/*for(String str : names) {
+			JButton temp = cityButtons.get(str);
+			temp.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+				}
+			});
+		}*/
 	}
 	public void paintComponent(Graphics g) {
 		System.out.println(getWidth() + " " + getHeight());
@@ -71,7 +92,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		double angle = Math.toRadians(270);
 		rot.rotate(angle);
 		g2.drawImage(traincardback, rot, null);
-		g.fillRect((int)(getWidth()*0.10189), (int)(getHeight()*0.03170), citySide, citySide);
+		/*g.fillRect((int)(getWidth()*0.10189), (int)(getHeight()*0.03170), citySide, citySide);
 		//Edinburgh
 		g.fillRect((int)(getWidth()*0.07458), (int)(getHeight()*0.39673), citySide, citySide);
 		//Brest
@@ -163,12 +184,21 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		//Rostov
 		g.fillRect((int)(getWidth()*0.66702), (int)(getHeight()*0.58021), citySide, citySide);
 		//Sevastopol
-		g.fillRect((int)(getWidth()*0.73748), (int)(getHeight()*0.59942), citySide, citySide);
-		//Sochi
+		g.fillRect((int)(getWidth()*0.73548), (int)(getHeight()*0.59942), citySide, citySide);
+		//Sochi*/
+		
 	}
 	@Override
 	public void OnSwitchedTo() {
 		// TODO Auto-generated method stub
 		repaint();
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton clickedButton = (JButton)e.getSource();
+		String buttonName = clickedButton.getName();
+		System.out.println("buttonName: " + buttonName);
+		if(buttonName.equals("Edinburgh"))
+			System.out.println("Success");
 	}
 }
