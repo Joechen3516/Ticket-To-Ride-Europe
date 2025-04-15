@@ -1,4 +1,5 @@
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Array;
 
 public class RouteCard {
 	private int points;
@@ -38,6 +39,10 @@ public class RouteCard {
 	
 	public String toString() {
 		return a.getName() + "<->" + b.getName(); 
+	}
+
+	public City[] getCities() {
+		return new City[] {a,b};
 	}
 	
 

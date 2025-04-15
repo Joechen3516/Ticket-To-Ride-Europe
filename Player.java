@@ -67,8 +67,20 @@ public class Player {
 		return true;
 	}
 
+	//returns an ArrayList of the route cards the player has completed.
 	public ArrayList<RouteCard> getCompletedRoutes() {
+		ArrayList<RouteCard> result = new ArrayList<>();
+		for (RouteCard n: routeCards) {
+			if (isRouteCompleted(n.getCities()[0], n.getCities()[1], new ArrayList<>())) {
+				result.add(n);
+			}
+		}
+		return result;
+	}
 
+	//returns all the routecards a player owns in an arraylist
+	public ArrayList<RouteCard> getRoutes() {
+		return routeCards;
 	}
 
 	//returns the roads the player owns that are connected to a city a.
@@ -83,14 +95,29 @@ public class Player {
 	}
 
 
-
+	//helper function for the getCompletedRoutes method. this method uses a recursive DFS algorithm.
 	private Boolean isRouteCompleted(City a, City b, ArrayList<City> visited) {
+		visited.add(a);
 		for (Road n: playerRoadsPerCity(a)) {
 			if (n.getOtherNode(a).equals(b)) {
 				return true;
 			}
+			if (!objectIsInCityList(n.getOtherNode(a), visited)) {
+				return isRouteCompleted(n.getOtherNode(a), b, visited);
+			}
 
 		}
+		return false;
 
+	}
+
+	//helper function that sees if a city is in a citylist. this method is used exactly once.
+	private Boolean objectIsInCityList(City a, ArrayList<City> list) {
+		for (Object m: list) {
+			if (a.equals(m)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
