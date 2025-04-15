@@ -25,6 +25,7 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 	private GameController game;
 	private ArrayList<RouteCard> drawnRoutes;
 	private int minSelection = 2;
+	private BufferedImage gameImage; 
 
 
 	private JButton c0, c1,c2,c3,c4;
@@ -63,30 +64,30 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 
 		c0.setOpaque(false);
 		c0.setContentAreaFilled(false);
-		c0.setBorderPainted(true);
+		c0.setBorderPainted(false);
 		add(c0);
 		c1.setOpaque(false);
 		c1.setContentAreaFilled(false);
-		c1.setBorderPainted(true);
+		c1.setBorderPainted(false);
 		add(c1);
 		c2.setOpaque(false);
 		c2.setContentAreaFilled(false);
-		c2.setBorderPainted(true);
+		c2.setBorderPainted(false);
 		add(c2);
 		c3.setOpaque(false);
 		c3.setContentAreaFilled(false);
-		c3.setBorderPainted(true);
+		c3.setBorderPainted(false);
 		add(c3);
 		c4.setOpaque(false);
 		c4.setContentAreaFilled(false);
-		c4.setBorderPainted(true);
+		c4.setBorderPainted(false);
 		add(c4);
 
 
 		try {
 
 			background = ImageIO.read(StartPanel.class.getResource("/images/midpanel1-ezgif.com-webp-to-png-converter.png"));
-
+			gameImage =  ImageIO.read(StartPanel.class.getResource("/images/gameboard.PNG"));
 
 
 		} catch (Exception e) {
@@ -99,6 +100,9 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 						System.out.print(r.toString() + "::");
 					}
 					game.addPlayerRoutes(selected);
+					while(selected.size() > 0) {
+						selected.remove(0);
+					}
 					game.HandleAction(ActionEvents.CardScreenConfirm);	
 					c0click = false;
 					c1click = false;
@@ -242,7 +246,7 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 
 
 				int c0X = (int)(getWidth() * 0.05208333333);
-				int c0Y = (int)(getHeight() * 0.48);
+				int c0Y = (int)(getHeight() * 0.28);
 				int c0Width = (int)(getWidth() * 0.17);
 				int c0Height = (int)(getHeight() * 0.172);
 
@@ -294,7 +298,7 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		}
 		String update; 
 		String message = "Player " + (turn+1) + ", choose which routes you want to keep";
-		String minMessage = "You must keep at least " + minSelection;
+		String minMessage = "Click to select, click again to unselect";
 		if (selected.size() < 2) {
 			
 			update = "You must keep at least " + (-(selected.size()-2)) +" more";
@@ -309,6 +313,10 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		g.setColor(Color.YELLOW);
 		g.setFont(new Font("TimesRoman", Font.BOLD, 75)); 
 		g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
+		
+		
+		g.drawImage(gameImage, (int)(getWidth()*300/1920), (int)(getHeight()*875/1920), getWidth()/2, getHeight()/2, null);
+		
 		g.drawString(message, (int)(getWidth()*0.00525), (int)(getHeight()*0.09606));
 		g.drawString(minMessage, (int)(getWidth()*0.00525), (int)(getHeight()*0.16811));
 		if (selected.size() < 2) {
@@ -326,7 +334,7 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		if (drawnRoutes.size() == 3) {
 			int xcoords = (int)(getWidth()*0.05252);
 			for(int i = 0; i < 3; i++) {
-				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, (int)(getHeight()*0.48031), getWidth()/6, getHeight()/6, null);
+				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, (int)(getHeight()*0.28031), getWidth()/6, getHeight()/6, null);
 				xcoords = xcoords + (int)(getWidth()*0.18382); 
 			}
 
@@ -335,7 +343,7 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		} else {
 			int xcoords = (int)(getWidth()*0.05252);
 			for(int i = 0; i < 5; i++) {
-				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, (int)(getHeight()*0.48031), getWidth()/6, getHeight()/6, null);
+				g.drawImage(drawnRoutes.get(i).getImage(), xcoords, (int)(getHeight()*0.28031), getWidth()/6, getHeight()/6, null);
 				xcoords = xcoords + (int)(getWidth()*0.18382); 
 			}
 		}
@@ -343,31 +351,31 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		if(c0click) {
 			g2.setColor(Color.RED);
 			g2.setStroke(new BasicStroke(10));
-			g2.drawRect((int)(getWidth() * 0.05208333333), (int)(getHeight() * 0.48),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
+			g2.drawRect((int)(getWidth() * 0.05208333333), (int)(getHeight() * 0.28),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
 			g2.setColor(Color.YELLOW);
 		}
 		if(c1click) {
 			g2.setColor(Color.RED);
 			g2.setStroke(new BasicStroke(10));
-			g2.drawRect((int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382), (int)(getHeight() * 0.48),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
+			g2.drawRect((int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382), (int)(getHeight() * 0.28),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
 			g2.setColor(Color.YELLOW);
 		}
 		if(c2click) {
 			g2.setColor(Color.RED);
 			g2.setStroke(new BasicStroke(10));
-			g2.drawRect((int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382), (int)(getHeight() * 0.48),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
+			g2.drawRect((int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382), (int)(getHeight() * 0.28),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
 			g2.setColor(Color.YELLOW);
 		}
 		if(c3click) {
 			g2.setColor(Color.RED);
 			g2.setStroke(new BasicStroke(10));
-			g2.drawRect((int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382), (int)(getHeight() * 0.48),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
+			g2.drawRect((int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382), (int)(getHeight() * 0.28),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
 			g2.setColor(Color.YELLOW);
 		}
 		if(c4click) {
 			g2.setColor(Color.RED);
 			g2.setStroke(new BasicStroke(10));
-			g2.drawRect((int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382), (int)(getHeight() * 0.48),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
+			g2.drawRect((int)(getWidth() * 0.05208333333)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382)+(int)(getWidth()*0.18382), (int)(getHeight() * 0.28),(int)(getWidth() * 0.17),(int)(getHeight() * 0.172));
 			g2.setColor(Color.YELLOW);
 		}
 		
