@@ -82,6 +82,9 @@ public class GameController {
 			turn = 0;
 		}
 	}
+	public int getTurn() {
+		return turn; 
+	}
 
 	public void chooseDestinations() {
 		if(turn < 0) {
