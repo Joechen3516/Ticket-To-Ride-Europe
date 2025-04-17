@@ -12,6 +12,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -32,6 +33,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	private ButtonListener listener;
 
 	public TTREGUI(GameController game) {
+		
 		this.game = game;
 		f = new Font("Centaur", 0, 90);
 		done = false;
@@ -69,6 +71,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 					cityButtons.get(str).setBounds(cityCoords[index][0], cityCoords[index][1], citySide, citySide);
 					index++;
 				}
+				
 			}
 		});
 		for(String str : names) {
@@ -83,6 +86,14 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		g.drawImage(gamebg, 0, 0, getWidth(), getHeight(), null);
 		g.drawImage(gameboard, 0, 0, (int)(getWidth()*0.75557), (int)(getHeight()*0.86306), null);
 		g.setFont(f);
+		Player s = game.getCurrentPlayer();
+		ArrayList<RouteCard> rout = s.getRoutes();
+		int y = 850;
+		for(int i = 0; i < rout.size(); i++) {
+			g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
+			y = y-40;
+		}
+		
 		int turn = game.getCurrentPlayerNumber();
 		if(turn == 1)
 			g.setColor(new Color(255,49,49));
