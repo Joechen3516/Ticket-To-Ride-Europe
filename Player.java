@@ -103,7 +103,9 @@ public class Player {
 				return true;
 			}
 			if (!objectIsInCityList(n.getOtherNode(a), visited)) {
-				return isRouteCompleted(n.getOtherNode(a), b, visited);
+				if (isRouteCompleted(n.getOtherNode(a), b, visited)) {
+					return true;
+				}
 			}
 
 		}
@@ -120,4 +122,6 @@ public class Player {
 		}
 		return false;
 	}
+
+
 }
