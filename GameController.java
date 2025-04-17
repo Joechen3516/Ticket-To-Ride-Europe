@@ -65,7 +65,7 @@ public class GameController {
 		if(turn<0) {
 			return players.get(turn+4);
 		}
-		return players.get(turn);
+		return players.get(turn-1);
 	}
 
 	public int getCurrentPlayerNumber() {
