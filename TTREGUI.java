@@ -31,10 +31,13 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	private int[][] cityCoords;
 	private GameController game;
 	private ButtonListener listener;
+	private Mouse m;
 
 	public TTREGUI(GameController game) {
-		
 		this.game = game;
+
+		m = new Mouse();
+		this.addMouseListener(m);
 		f = new Font("Centaur", 0, 90);
 		done = false;
 		listener = new ButtonListener();
@@ -56,8 +59,8 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			but.setName(names[i]);
 			add(but);
 			//but.setOpaque(false);
-	        //but.setContentAreaFilled(false);
-	       // but.setBorderPainted(false);
+			//but.setContentAreaFilled(false);
+			// but.setBorderPainted(false);
 			cityButtons.put(names[i], but);
 			done = true;
 		}
@@ -71,7 +74,6 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 					cityButtons.get(str).setBounds(cityCoords[index][0], cityCoords[index][1], citySide, citySide);
 					index++;
 				}
-				
 			}
 		});
 		for(String str : names) {
@@ -80,20 +82,11 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		}
 	}
 	public void paintComponent(Graphics g) {
-		System.out.println(getWidth() + " " + getHeight());
 		Graphics2D g2 = (Graphics2D)g.create();
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.drawImage(gamebg, 0, 0, getWidth(), getHeight(), null);
 		g.drawImage(gameboard, 0, 0, (int)(getWidth()*0.75557), (int)(getHeight()*0.86306), null);
 		g.setFont(f);
-		Player s = game.getCurrentPlayer();
-		ArrayList<RouteCard> rout = s.getRoutes();
-		int y = 850;
-		for(int i = 0; i < rout.size(); i++) {
-			g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
-			y = y-40;
-		}
-		
 		int turn = game.getCurrentPlayerNumber();
 		if(turn == 1)
 			g.setColor(new Color(255,49,49));
@@ -108,7 +101,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		double angle = Math.toRadians(270);
 		rot.rotate(angle);
 		g2.drawImage(traincardback, rot, null);
-		
+
 	}
 	@Override
 	public void OnSwitchedTo() {
@@ -121,14 +114,84 @@ class ButtonListener implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		JButton button = (JButton) e.getSource();
 		String source = button.getName();
+
+
+
+
+	}
+
+
+}
+
+
+class Mouse implements MouseListener{
+	ArrayList<Double> xs = new ArrayList<Double>();
+	ArrayList<Double> ys = new ArrayList<Double>();
+	ArrayList<Double> a = new ArrayList<Double>();
+	@Override
+	public void mouseClicked(MouseEvent e) {
 		
-		System.out.print(source);
 		
+		if(e.getButton() == 1) {
+			
+			xs.add(e.getX()/1904.0);
+			ys.add(e.getY()/1041.0);
+			
 		
+		}
+
+		if(e.getButton() == 3) {
+			a.add(Math.atan2(xs.getLast() - e.getX(), ys.getLast() - e.getY()));
+		}
+
 		
 	}
-	
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if(e.getButton()==2) {
+			
+			
+			System.out.print("X");
+			for(int i = 0; i < xs.size();i++) {
+				System.out.print(xs.get(i) + ",");
+			}
+			System.out.print("\n");
+			
+			System.out.print("Y");
+			for(int i = 0; i < xs.size();i++) {
+				System.out.print(ys.get(i) + ",");
+			}
+
+			System.out.print("\n");
+			System.out.print("A");
+			for(int j = 0; j < a.size();j++) {
+				System.out.print(a.get(j) + ",");
+			}
+			
+		}
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

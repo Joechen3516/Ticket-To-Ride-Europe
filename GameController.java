@@ -65,7 +65,7 @@ public class GameController {
 		if(turn<0) {
 			return players.get(turn+4);
 		}
-		return players.get(turn-1);
+		return players.get(turn);
 	}
 
 	public int getCurrentPlayerNumber() {
@@ -81,9 +81,6 @@ public class GameController {
 		}else {
 			turn = 0;
 		}
-	}
-	public int getTurn() {
-		return turn; 
 	}
 
 	public void chooseDestinations() {
@@ -104,7 +101,7 @@ public class GameController {
 
 	public void HandleAction(ActionEvents x) {
 		if(x.equals(ActionEvents.Start)) {
-			switchScreen("Destination");
+			switchScreen("Game");
 		}
 
 		if(x.equals(ActionEvents.CardScreenConfirm)) {
@@ -113,6 +110,7 @@ public class GameController {
 				if(turn < 0) {	
 					nextTurn();
 					notifyPanel();
+					
 				}
 				if(turn == 0) {
 					switchScreen("Game");
@@ -197,9 +195,6 @@ public class GameController {
 				r.add(routes.pop());
 			}
 		}
-		System.out.print(r.size()+"::");
-		System.out.print(routes.size()+"::");
-		System.out.print(lRoutes.size()+"::");
 		return r;
 	}
 
@@ -303,10 +298,7 @@ public class GameController {
 		addRoute(new RouteCard(europe.citySearch("Zacrad"), europe.citySearch("Brindisi"), 6, false, ImageIO.read(getClass().getResource("/routes/Zacrab-Brindisi6.png"))));
 		addRoute(new RouteCard(europe.citySearch("Zurich"), europe.citySearch("Brindisi"), 6, false, ImageIO.read(getClass().getResource("/routes/Zurich-Brindisi6.png"))));
 		addRoute(new RouteCard(europe.citySearch("Zurich"), europe.citySearch("Budapest"), 6, false, ImageIO.read(getClass().getResource("/routes/Zurich-Budapest6.png"))));
-
-
-
-	}
+	}	
 
 	public boolean addRoute(RouteCard r) {
 		if (r == null) {
