@@ -83,6 +83,9 @@ public class Player {
 		return routeCards;
 	}
 
+	//returns all the roads a player owns
+	public ArrayList<Road> getRoads() {return roads;}
+
 	//returns the roads the player owns that are connected to a city a.
 	private ArrayList<Road> playerRoadsPerCity(City a) {
 		ArrayList<Road> result = new ArrayList<>();
@@ -95,6 +98,7 @@ public class Player {
 	}
 
 
+	//in theory, this works. it might not.
 	//helper function for the getCompletedRoutes method. this method uses a recursive DFS algorithm.
 	private Boolean isRouteCompleted(City a, City b, ArrayList<City> visited) {
 		visited.add(a);
@@ -121,6 +125,30 @@ public class Player {
 			}
 		}
 		return false;
+	}
+
+	public int getLongestLength() {
+		int result = 0;
+		for (Road r: roads) {
+			for(City n: r) {
+				if ()
+			}
+		}
+	}
+
+	//in theory, this works. it might not.
+	private int getLongestLengthCity(City a, ArrayList<City> visited, int counter) {
+		int longest = 0;
+		visited.add(a);
+		for (Road n: playerRoadsPerCity(a)) {
+			if (!objectIsInCityList(n.getOtherNode(a), visited)) {
+				int temp = getLongestLengthCity(n.getOtherNode(a), visited, counter + n.getLength()[0]);
+				if (temp > longest) {
+					longest = temp;
+				}
+			}
+		}
+		return longest;
 	}
 
 
