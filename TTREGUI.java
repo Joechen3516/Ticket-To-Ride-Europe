@@ -32,13 +32,18 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	private ButtonListener listener;
 	JButton showroutes = new JButton();
 	private boolean routeClicked = false;
-	
+	JButton wholescreen = new JButton();
 
 	public TTREGUI(GameController game) {
 		add(showroutes);
+		add(wholescreen);
 		showroutes.setOpaque(false);
 		showroutes.setContentAreaFilled(false);
 		showroutes.setBorderPainted(true);
+		
+		wholescreen.setOpaque(false);
+		wholescreen.setContentAreaFilled(false);
+		wholescreen.setBorderPainted(false);
 		
 		this.game = game;
 		f = new Font("Centaur", 0, 90);
@@ -77,7 +82,12 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 					cityButtons.get(str).setBounds(cityCoords[index][0], cityCoords[index][1], citySide, citySide);
 					index++;
 				}
+				
 				showroutes.setBounds(getWidth()*1500/1920, getHeight()*820/1080, getWidth()/7, 11*getHeight()/55);
+				wholescreen.setBounds(0, 0, getWidth(), getHeight());
+					
+				
+				
 				
 			}
 		});
@@ -92,6 +102,21 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				} else if (e.getSource() == showroutes && routeClicked == true) {
 					routeClicked = false; 
 				}
+				
+				
+				
+				repaint();
+			}
+		});
+		wholescreen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+
+				if (e.getSource() == wholescreen && routeClicked == true) {
+					System.out.println("clicked whole screen");
+					routeClicked = false; 
+				} 
 				
 				
 				
@@ -148,6 +173,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
 				y = y-getHeight()*300/1920;
 			}
+			
 		}
 		
 		
