@@ -1,4 +1,3 @@
-
 import java.awt.Event;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -32,9 +31,14 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	private GameController game;
 	private ButtonListener listener;
 	JButton showroutes = new JButton();
+	private boolean routeClicked = false;
 	
 
 	public TTREGUI(GameController game) {
+		add(showroutes);
+		showroutes.setOpaque(false);
+		showroutes.setContentAreaFilled(false);
+		showroutes.setBorderPainted(true);
 		
 		this.game = game;
 		f = new Font("Centaur", 0, 90);
@@ -73,8 +77,25 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 					cityButtons.get(str).setBounds(cityCoords[index][0], cityCoords[index][1], citySide, citySide);
 					index++;
 				}
-				showroutes.setBounds(getWidth()*1500/1920, getHeight()*840/1080, getWidth()/7, 10*getHeight()/55);
+				showroutes.setBounds(getWidth()*1500/1920, getHeight()*820/1080, getWidth()/7, 11*getHeight()/55);
 				
+			}
+		});
+		showroutes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+
+				if (e.getSource() == showroutes && routeClicked == false) {
+					System.out.println("1129");
+					routeClicked = true; 
+				} else if (e.getSource() == showroutes && routeClicked == true) {
+					routeClicked = false; 
+				}
+				
+				
+				
+				repaint();
 			}
 		});
 		for(String str : names) {
@@ -83,7 +104,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		}
 	}
 	public void paintComponent(Graphics g) {
-		System.out.println(getWidth() + " " + getHeight());
+		
 		Graphics2D g2 = (Graphics2D)g.create();
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.drawImage(gamebg, 0, 0, getWidth(), getHeight(), null);
@@ -91,20 +112,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		g.setFont(f);
 		Player s = game.getCurrentPlayer();
 		ArrayList<RouteCard> rout = s.getRoutes();
-		int y = getHeight()*878/1080;
-		if(rout.size()<4) {
-			for(int i = 0; i < rout.size(); i++) {
-				g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
-				y = y-getHeight()*40/1920;
-			}
-			
-		} else {
-			for(int i = 0; i < 3; i++) {
-				g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
-				y = y-getHeight()*40/1920;
-			}
-		}
-		
+		int y = getHeight()*885/1080;
 		int turn = game.getCurrentPlayerNumber();
 		if(turn == 1)
 			g.setColor(new Color(255,49,49));
@@ -114,11 +122,38 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			g.setColor(new Color(0,191,99));
 		else 
 			g.setColor(new Color(193,255,114));
-		g.drawString("Player " + turn, (int)(getWidth()*0.7976), (int)(getHeight()*0.72157));
 		AffineTransform rot = new AffineTransform(0.75503,0,0,0.75541,(int)(getWidth()*0.89063),(int)(getHeight()*0.63914));
 		double angle = Math.toRadians(270);
 		rot.rotate(angle);
-		g2.drawImage(traincardback, rot, null);
+		if(!routeClicked) {
+			
+			if(rout.size()<4) {
+				for(int i = 0; i < rout.size(); i++) {
+					g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
+					y = y-getHeight()*70/1920;
+				}
+				
+			} else {
+				for(int i = 0; i < 3; i++) {
+					g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
+					y = y-getHeight()*70/1920;
+				}
+				
+			}
+			g.drawString("Player " + turn, (int)(getWidth()*0.7976), (int)(getHeight()*0.72157));
+			g2.drawImage(traincardback, rot, null);
+			
+		} else {
+			for(int i = 0; i < rout.size(); i++) {
+				g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
+				y = y-getHeight()*300/1920;
+			}
+		}
+		
+		
+		
+		
+		
 		
 	}
 	@Override
