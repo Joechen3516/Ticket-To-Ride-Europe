@@ -32,10 +32,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	private GameController game;
 	private ButtonListener listener;
 	JButton showroutes = new JButton();
-	add(showroutes);
-	showroutes.setOpaque(false);
-	showroutes.setContentAreaFilled(false);
-	showroutes.setBorderPainted(true);
+	
 
 	public TTREGUI(GameController game) {
 		
