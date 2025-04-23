@@ -122,6 +122,10 @@ public class Player {
 		}
 		return false;
 	}
+	public HashMap<TrainColor,ArrayList<TrainCard>> getHand(){
+		return hand;
+	}
 
 
 }
+
