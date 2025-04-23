@@ -47,6 +47,10 @@ public class Road {
 		}
 		return null;
 	}
+
+	public City[] getNodeArray() {
+		return new City[] {a, b};
+	}
 	
 	public void bulit(PlayerColor c){
 		taken = true;
