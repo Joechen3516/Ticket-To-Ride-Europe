@@ -82,9 +82,6 @@ public class GameController {
 			turn = 0;
 		}
 	}
-	public int getTurn() {
-		return turn; 
-	}
 
 	public void chooseDestinations() {
 		if(turn < 0) {
@@ -184,6 +181,9 @@ public class GameController {
 			show5.add(deckDraw());
 		}
 	}
+	public ArrayList<TrainCard> getShow5(){
+		return show5;
+	}
 
 	public ArrayList<RouteCard> getDrawnRoutes(){
 		ArrayList<RouteCard> r = new ArrayList<>();
@@ -252,7 +252,7 @@ public class GameController {
 		shuffledeck(routes);
 		shuffledeck(lRoutes);
 
-
+		makeFive();
 
 	}
 	public void createDefaultRoutes() throws IOException {
@@ -303,10 +303,7 @@ public class GameController {
 		addRoute(new RouteCard(europe.citySearch("Zacrad"), europe.citySearch("Brindisi"), 6, false, ImageIO.read(getClass().getResource("/routes/Zacrab-Brindisi6.png"))));
 		addRoute(new RouteCard(europe.citySearch("Zurich"), europe.citySearch("Brindisi"), 6, false, ImageIO.read(getClass().getResource("/routes/Zurich-Brindisi6.png"))));
 		addRoute(new RouteCard(europe.citySearch("Zurich"), europe.citySearch("Budapest"), 6, false, ImageIO.read(getClass().getResource("/routes/Zurich-Budapest6.png"))));
-
-
-
-	}
+	}	
 
 	public boolean addRoute(RouteCard r) {
 		if (r == null) {
