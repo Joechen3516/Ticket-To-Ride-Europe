@@ -10,23 +10,33 @@ public class Road {
 	private boolean taken = false;
 	private PlayerColor owner;
 	private boolean mountainous;
-
-	public Road(City a, City b, int length, int ferry, TrainColor color, boolean hasMountains) { //length means total length: ferry + normal cards = total
+	private double[] xs;
+	private double[] ys;
+	private double[] as;
+	public Road(City a, City b, int length, int ferry, TrainColor color, boolean hasMountains, double[] xs,double[] ys,double[] as) { //length means total length: ferry + normal cards = total
 		this.a = a;
 		this.b = b;
 		this.ferry = ferry;
 		this.length = length;
 		this.roadColor = color;
 		this.mountainous = hasMountains;
+		this.xs = xs;
+		this.ys = ys;
+		this.as = as;
 	}
-	public Road(City a, City b, int length, int ferry, TrainColor color) { //length means total length: ferry + normal cards = total
+	public Road(City a, City b, int length, int ferry, TrainColor color,double[] xs,double[] ys,double[] as) { //length means total length: ferry + normal cards = total
 		this.a = a;
 		this.b = b;
 		this.ferry = ferry;
 		this.length = length;
 		this.roadColor = color;
 		this.mountainous = false;
+		this.xs = xs;
+		this.ys = ys;
+		this.as = as;
 	}
+	
+
 
 	public boolean hasMountains() {return mountainous;}
 	
@@ -47,14 +57,14 @@ public class Road {
 		}
 		return null;
 	}
-
-	public City[] getNodeArray() {
-		return new City[] {a, b};
-	}
 	
 	public void bulit(PlayerColor c){
 		taken = true;
 		owner = c;
+	}
+	
+	public City[] getNodeArray() {
+		return new City[] {a, b};
 	}
 
 	@Override
@@ -64,5 +74,16 @@ public class Road {
 			ownersubstitute = owner.name();
 		}
 		return a.getName() + " to " + b.getName() + " of color " + roadColor.name() + " of length " + getLength()[0] + " including " + getLength()[1] + " ferries and owned by " + ownersubstitute;
+	}
+	
+	public double[] getxs() {
+		return xs;
+	}
+	
+	public double[] getys() {
+		return ys;
+	}
+	public double[] getas() {
+		return as;
 	}
 }

@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,6 +11,7 @@ public class Player {
 	private ArrayList<Road> roads = new ArrayList<>();
 	private ArrayList<City> stationLocations = new ArrayList<>();
 	private int trainPieces = 45; //double check value later.
+	private Color col = Color.RED;
 
 
 
@@ -20,6 +22,9 @@ public class Player {
 		this.color = color;
 	}
 
+	public Color getColor(){
+		return col;
+	}
 
 
 	@Override
@@ -137,6 +142,7 @@ public class Player {
 				}
 			}
 		}
+		return result;
 	}
 
 	//in theory, this works. it might not.

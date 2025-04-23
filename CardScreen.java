@@ -96,22 +96,19 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == next && selected.size() > 1) {
-					for(RouteCard r: selected) {
-						System.out.print(r.toString() + "::");
-					}
 					game.addPlayerRoutes(selected);
-					while(selected.size() > 0) {
-						selected.remove(0);
-					}
+					selected.clear();
 					game.HandleAction(ActionEvents.CardScreenConfirm);	
 					c0click = false;
 					c1click = false;
 					c2click = false; 
 					c3click = false; 
 					c4click = false; 
+					
 					repaint();
 				}
 			}
+			
 		});
 
 		c0.addActionListener(new ActionListener() {

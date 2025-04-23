@@ -10,14 +10,17 @@ public class Europe {
 		createDefaultCities();
 	}
 
-	public void addEdge(City a, City b, int length, int ferry, TrainColor c) {
-		a.getRoads().add(new Road(b, a, length, ferry,c));
-		b.getRoads().add(new Road(a, b, length, ferry,c));
+	
+	public void addEdge(City a, City b, int length, int ferry, TrainColor c,double[] xs,double[] ys,double[] as) {
+		a.getRoads().add(new Road(b, a, length, ferry,c, xs,ys,as));
+		b.getRoads().add(new Road(a, b, length, ferry,c, xs,ys,as));
 	}
-	public void addEdge(City a, City b, int length, int ferry, TrainColor c, Boolean m) {
-		a.getRoads().add(new Road(b, a, length, ferry,c, m));
-		b.getRoads().add(new Road(a, b, length, ferry,c, m));
+	public void addEdge(City a, City b, int length, int ferry, TrainColor c, Boolean m, double[] xs,double[] ys,double[] as) {
+		a.getRoads().add(new Road(b, a, length, ferry,c, m, xs,ys,as));
+		b.getRoads().add(new Road(a, b, length, ferry,c, m, xs,ys,as));
 	}
+	
+	
 
 	public boolean addCity(City c) {
 		return cities.add(c);
@@ -90,7 +93,9 @@ public class Europe {
 
 		cities.sort(null);
 
-		addEdge(citySearch("Edinburgh"), citySearch("London"), 4, 0, TrainColor.Black);
+		
+		addEdge(citySearch("Edinburgh"), citySearch("London"), 4, 0, TrainColor.Black,new double[]{0.1013655462184874,0.11292016806722689,0.12394957983193278,0.13445378151260504},new double[]{0.06051873198847262,0.10758885686839577,0.15369836695485112,0.19980787704130643},new double[]{-0.4350345062237482,-0.42323950932954935,-0.4120965596890702,-0.42323950932954935});
+		/*
 		addEdge(citySearch("Edinburgh"), citySearch("London"), 4, 0, TrainColor.Orange);
 		addEdge(citySearch("London"), citySearch("Amsterdam"), 2, 2, TrainColor.Wild);
 		addEdge(citySearch("London"), citySearch("Dieppe"), 2, 1, TrainColor.Wild);
@@ -192,7 +197,7 @@ public class Europe {
 		addEdge(citySearch("Lisboa"), citySearch("Cadiz"), 2, 0, TrainColor.Blue);
 		addEdge(citySearch("Cadiz"), citySearch("Madrid"), 3, 0, TrainColor.Orange);
 
-
+*/
 
 	}
 
