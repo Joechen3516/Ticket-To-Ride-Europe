@@ -244,12 +244,22 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 						g.drawImage(temp, trX, trY, trW, trH, null);
 						trY = trY + (int)(getHeight()*0.10086);
 				}
-					
-			} else {
-				for(int i = 0; i < rout.size(); i++) {
-				g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
-				y = y-getHeight()*300/1920;
-			}
+			
+		
+				
+			} else  {
+				if (rout.size() < 7) {
+					for(int i = 0; i < rout.size(); i++) {
+						g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
+						y = y-getHeight()*300/1920;
+					}
+				} else {
+					for(int i = 0; i < rout.size(); i++) {
+						g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/10, getHeight()/10, null);
+						y = y-getHeight()*200/1920;
+					}
+				}
+				
 					
 		}
 		//Drawing player trains
