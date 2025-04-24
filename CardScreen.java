@@ -20,11 +20,11 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 	private BufferedImage background; 
 
 
-	private int turn = 0;
+	private int turn;
 	private JButton next;
 	private GameController game;
 	private ArrayList<RouteCard> drawnRoutes;
-	private int minSelection = 2;
+	
 	private BufferedImage gameImage; 
 
 
@@ -95,7 +95,7 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		}
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == next && selected.size() > 1) {
+				if (e.getSource() == next && selected.size() > 1 && drawnRoutes.size() == 5) {
 					for(RouteCard r: selected) {
 						System.out.print(r.toString() + "::");
 					}
@@ -109,6 +109,23 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 					c2click = false; 
 					c3click = false; 
 					c4click = false; 
+					repaint();
+				}
+				if (e.getSource() == next && selected.size() > 0 && drawnRoutes.size() == 3) {
+					for(RouteCard r: selected) {
+						System.out.print(r.toString() + "::");
+					}
+					game.addPlayerRoutes(selected);
+					while(selected.size() > 0) {
+						selected.remove(0);
+					}
+					game.HandleAction(ActionEvents.CardScreenConfirm);	
+					c0click = false;
+					c1click = false;
+					c2click = false; 
+					c3click = false; 
+					c4click = false;
+					game.nextTurn();
 					repaint();
 				}
 			}
@@ -297,18 +314,38 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 			e.printStackTrace();
 		}
 		String update; 
-		String message = "Player " + (turn+1) + ", choose which routes you want to keep";
-		String minMessage = "Click to select, click again to unselect";
-		if (selected.size() < 2) {
-			
-			update = "You must keep at least " + (-(selected.size()-2)) +" more";
-			
+		String message; 
+		int minselection;
+		if( drawnRoutes.size() == 3) {
+			message = "Player " + (turn) + ", choose which routes you want to keep";
+			if (selected.size() < 1) {
+				
+				update = "You must keep at least " + (-(selected.size()-1)) +" more";
+				
+			} else {
+				
+				
+				update = "You have selected the mininum amount of routes";
+				
+			}
+			minselection = 1; 
 		} else {
-			
-			
-			update = "You have selected the mininum amount of routes";
+			message = "Player " + (turn+1) + ", choose which routes you want to keep";
+			if (selected.size() < 2) {
+				
+				update = "You must keep at least " + (-(selected.size()-2)) +" more";
+				
+			} else {
+				
+				
+				update = "You have selected the mininum amount of routes";
+				
+			}
+			minselection = 2; 
 			
 		}
+		String minMessage = "Click to select, click again to unselect";
+		
 		
 		g.setColor(Color.YELLOW);
 		g.setFont(new Font("TimesRoman", Font.BOLD, 75)); 
@@ -319,7 +356,8 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		
 		g.drawString(message, (int)(getWidth()*0.00525), (int)(getHeight()*0.09606));
 		g.drawString(minMessage, (int)(getWidth()*0.00525), (int)(getHeight()*0.16811));
-		if (selected.size() < 2) {
+		
+		if (selected.size() < minselection ) {
 			g.setColor(Color.RED);
 			
 		} else {
@@ -397,7 +435,7 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 	public void OnSwitchedTo() {
 		this.drawnRoutes = game.getDrawnRoutes();
 		this.turn = game.getCurrentPlayerNumber();
-		this.minSelection = game.getMinSelection();
+		
 
 
 	}
