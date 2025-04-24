@@ -95,7 +95,7 @@ public class CardScreen extends JPanel implements SwitchablePanel{
 		}
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == next && selected.size() > 1) {
+				if (e.getSource() == next && selected.size() > 1 && drawnRoutes.size() == 5) {
 					for(RouteCard r: selected) {
 						System.out.print(r.toString() + "::");
 					}
