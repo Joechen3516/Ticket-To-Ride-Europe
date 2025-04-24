@@ -10,13 +10,13 @@ public class Europe {
 		createDefaultCities();
 	}
 
-	public void addEdge(City a, City b, int length, int ferry, TrainColor c) {
-		a.getRoads().add(new Road(b, a, length, ferry,c));
-		b.getRoads().add(new Road(a, b, length, ferry,c));
+		public void addEdge(City a, City b, int length, int ferry, TrainColor c,double[] xs,double[] ys,double[] as) {
+		a.getRoads().add(new Road(b, a, length, ferry,c, xs,ys,as));
+		b.getRoads().add(new Road(a, b, length, ferry,c, xs,ys,as));
 	}
-	public void addEdge(City a, City b, int length, int ferry, TrainColor c, Boolean m) {
-		a.getRoads().add(new Road(b, a, length, ferry,c, m));
-		b.getRoads().add(new Road(a, b, length, ferry,c, m));
+	public void addEdge(City a, City b, int length, int ferry, TrainColor c, Boolean m, double[] xs,double[] ys,double[] as) {
+		a.getRoads().add(new Road(b, a, length, ferry,c, m, xs,ys,as));
+		b.getRoads().add(new Road(a, b, length, ferry,c, m, xs,ys,as));
 	}
 
 	public boolean addCity(City c) {
@@ -140,12 +140,12 @@ public class Europe {
 		addEdge(citySearch("Sevastopol"), citySearch("Erzurum"), 4, 2, TrainColor.Wild);
 		addEdge(citySearch("Sevastopol"), citySearch("Sochi"), 2, 1, TrainColor.Wild);
 		addEdge(citySearch("Sochi"), citySearch("Erzurum"), 3, 0, TrainColor.Red, true);
-		addEdge(citySearch("Erzurum"), citySearch("Ancora"), 3, 0, TrainColor.Black);
-		addEdge(citySearch("Ancora"), citySearch("Smyrna"), 3, 0, TrainColor.Orange, true);
-		addEdge(citySearch("Ancora"), citySearch("Constantinople"), 2, 0, TrainColor.Wild, true);
-		addEdge(citySearch("Smyrna"), citySearch("Palermo"), 6, 2, TrainColor.Wild);
-		addEdge(citySearch("Smyrna"), citySearch("Athina"), 2, 1, TrainColor.Wild);
-		addEdge(citySearch("Smyrna"), citySearch("Constantinople"), 2, 0, TrainColor.Wild, true);
+		addEdge(citySearch("Erzurum"), citySearch("Ancora"), 3, 0, TrainColor.Black, new double[]{0.7226890756302521,0.6980042016806722,0.6701680672268907},new double[]{0.7953890489913544,0.8328530259365994,0.8232468780019212},new double[]{-0.20016969073049395,-1.7140161714440425,-1.0857566716379043});
+		addEdge(citySearch("Ancora"), citySearch("Smyrna"), 3, 0, TrainColor.Orange, true, new double[]{0.5793067226890757,0.6102941176470589,0.6559873949579832},new double[]{0.8424591738712777,0.8453410182516811,0.8203650336215178},new double[]{-1.4824653345291183,-1.6967132314203417,-5.105587446494658});
+		addEdge(citySearch("Ancora"), citySearch("Constantinople"), 2, 0, TrainColor.Wild, true, 0.6113445378151261,0.6360294117647058},new double[]{0.7560038424591738,0.7829010566762729},new double[]{-1.0206542707545752,-0.9364548382029203});
+		addEdge(citySearch("Smyrna"), citySearch("Palermo"), 6, 2, TrainColor.Wild, new double[]{0.5635504201680672,0.5351890756302521,0.5057773109243697,0.47846638655462187,0.4495798319327731,0.4227941176470588},new double[]{0.8414985590778098,0.840537944284342,0.840537944284342,0.8395773294908742,0.8395773294908742,0.840537944284342},new double[]{-4.691190995937692,-4.730401657652101,-4.710796326794897,-4.688577761468178,-4.650868171673689,-4.650868171673689});
+		addEdge(citySearch("Smyrna"), citySearch("Athina"), 2, 1, TrainColor.Wild, new double[]{0.5378151260504201,0.5414915966386554},new double[]{0.8021133525456292,0.8184438040345822},new double[]{-4.7316266468311134,-1.161054569450014});
+		addEdge(citySearch("Smyrna"), citySearch("Constantinople"), 2, 0, TrainColor.Wild, true, new double[]{0.5955882352941176,0.5814075630252101},new double[]{0.7463976945244957,0.7944284341978867},new double[]{-5.745157195985062,-5.759189221873264});
 		addEdge(citySearch("Palermo"), citySearch("Brindisi"), 3, 1, TrainColor.Wild);
 		addEdge(citySearch("Palermo"), citySearch("Roma"), 4, 1, TrainColor.Wild);
 		addEdge(citySearch("Constantinople"), citySearch("Bucuresti"), 3, 0, TrainColor.Yellow);
@@ -185,12 +185,12 @@ public class Europe {
 		addEdge(citySearch("Marseille"), citySearch("Pamplona"), 4, 0, TrainColor.Red);
 		addEdge(citySearch("Marseille"), citySearch("Barcelona"), 4, 0, TrainColor.Wild);
 		addEdge(citySearch("Barcelona"), citySearch("Madrid"), 2, 0, TrainColor.Yellow);
-		addEdge(citySearch("Pamplona"), citySearch("Madrid"), 3, 0, TrainColor.Black, true);
-		addEdge(citySearch("Pamplona"), citySearch("Madrid"), 3, 0, TrainColor.White, true);
-		addEdge(citySearch("Pamplona"), citySearch("Barcelona"), 2, 0, TrainColor.Wild, true);
-		addEdge(citySearch("Madrid"), citySearch("Lisboa"), 3, 0, TrainColor.Pink);
-		addEdge(citySearch("Lisboa"), citySearch("Cadiz"), 2, 0, TrainColor.Blue);
-		addEdge(citySearch("Cadiz"), citySearch("Madrid"), 3, 0, TrainColor.Orange);
+		addEdge(citySearch("Pamplona"), citySearch("Madrid"), 3, 0, TrainColor.Black, true, new double[]{0.12342436974789917,0.09873949579831932,0.07720588235294118},new double[]{0.6311239193083573,0.6570605187319885,0.6954851104707013},new double[]{-5.112666974235354,-5.4273380008913,-5.6183896608837});
+		addEdge(citySearch("Pamplona"), citySearch("Madrid"), 3, 0, TrainColor.White, true, new double[]{0.13130252100840337,0.10451680672268908,0.08665966386554622},new double[]{0.6426512968299711,0.6724303554274735,0.7089337175792507},new double[]{-5.211809713598486,-5.529515486070592,-5.560621329617899});
+		addEdge(citySearch("Pamplona"), citySearch("Barcelona"), 2, 0, TrainColor.Wild, true, new double[]{0.13760504201680673,0.1402310924369748},new double[]{0.6589817483189241,0.7060518731988472},new double[]{-0.09807599890136887,-0.0714479117133262});
+		addEdge(citySearch("Madrid"), citySearch("Lisboa"), 3, 0, TrainColor.Pink, new double[]{0.005777310924369748,0.0063025210084033615,0.03413865546218487},new double[]{0.7223823246878002,0.7166186359269933,0.7185398655139289},new double[]{-6.281592653589794,-1.5692036732051036,-0.9514479476388709});
+		addEdge(citySearch("Lisboa"), citySearch("Cadiz"), 2, 0, TrainColor.Blue, new double[]{0.01050420168067227,0.028361344537815126},new double[]{0.7944284341978867,0.8453410182516811},new double[]{-0.4120965596890702,-1.3932640477525755});
+		addEdge(citySearch("Cadiz"), citySearch("Madrid"), 3, 0, TrainColor.Orange, new double[]{0.09191176470588236,0.08876050420168068,0.06775210084033613},new double[]{0.8270893371757925,0.7982708933717579,0.7646493756003843},new double[]{-5.059567330378804,-0.312639245494545,-0.8772822909662445});
 
 
 
