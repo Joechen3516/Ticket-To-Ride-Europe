@@ -36,6 +36,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	private GameController game;
 	private ButtonListener listener;
 	JButton showroutes = new JButton();
+	JButton getnewroutes = new JButton();
 	private boolean routeClicked = false;
 	JButton wholescreen = new JButton();
 
@@ -84,6 +85,10 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			cityButtons.put(names[i], but);
 			done = true;
 		}
+		add(getnewroutes);
+		getnewroutes.setOpaque(false);
+		getnewroutes.setContentAreaFilled(false);
+		getnewroutes.setBorderPainted(true);
 		add(wholescreen);
 		wholescreen.setOpaque(false);
 		wholescreen.setContentAreaFilled(false);
@@ -99,6 +104,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 					index++;
 				}
 				showroutes.setBounds(getWidth()*1500/1920, getHeight()*820/1080, getWidth()/7, 11*getHeight()/55);
+				getnewroutes.setBounds(getWidth()*1480/1920, getHeight()*50/1080 , getWidth()/12, getHeight()/5);
 				wholescreen.setBounds(0, 0, getWidth(), getHeight());
 			}
 		});
@@ -113,6 +119,21 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				} else if (e.getSource() == showroutes && routeClicked == true) {
 					routeClicked = false; 
 				}
+				
+				
+				
+				repaint();
+			}
+		});
+		getnewroutes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+
+				if (e.getSource() == getnewroutes && routeClicked == false) {
+					game.HandleAction(ActionEvents.RouteButton);
+					 
+				} 
 				
 				
 				
@@ -184,6 +205,10 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 					int trY = (int)(getHeight()*0.01825);
 					int trW = (int)(getWidth()*0.08981);
 					int trH = (int)(getHeight()*0.09798);
+					
+				    g.drawImage(routecardback, getWidth()*1480/1920, getHeight()*50/1080 , getWidth()/12, getHeight()/5, null);
+				    
+					
 					for(TrainCard tr : currCards) {
 						System.out.println(tr.getColor());
 						BufferedImage temp = null;
