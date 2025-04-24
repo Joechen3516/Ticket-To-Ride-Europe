@@ -1,4 +1,4 @@
 
 public enum ActionEvents {
-	Start, CardScreenConfirm, RouteButton
+	Start, CardScreenConfirm, RouteButton, purchaseRoad, placeStation
 }
