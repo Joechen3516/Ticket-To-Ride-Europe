@@ -39,7 +39,8 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	JButton getnewroutes = new JButton();
 	private boolean routeClicked = false;
 	JButton wholescreen = new JButton();
-	
+	private String selectedCity;
+	JButton roadButton = new JButton("road");
 	
 	JButton traincard1 = new JButton();
 	JButton traincard2 = new JButton();
@@ -51,14 +52,23 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		this.game = game;
 		f = new Font("Centaur", 0, 90);
 		done = false;
-		listener = new ButtonListener();
+		listener = new ButtonListener(this);
 		cityButtons = new HashMap<String, JButton>();
 		add(showroutes);
 		
 		showroutes.setOpaque(false);
 		showroutes.setContentAreaFilled(false);
 		showroutes.setBorderPainted(true);
-
+		add(roadButton);
+		roadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedCity.length() > 0) {
+					System.out.println("ROAD");
+				}
+				repaint();
+			}
+		});
+		selectedCity = "";
 		
 		add(traincard1);
 		traincard1.setOpaque(false);
@@ -462,26 +472,61 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				}
 			}
 		}
+		if(selectedCity.length() > 0) {
+			g.setColor(Color.yellow);
+			JButton tempButton = cityButtons.get(selectedCity);
+			int[] tempCoords = {tempButton.getX(), tempButton.getY(), tempButton.getWidth(), tempButton.getHeight()};
+			int[] tempX = {tempButton.getX() + tempButton.getWidth(), tempButton.getX() + tempButton.getWidth() + 40, tempButton.getX() + tempButton.getWidth() + 40};
+			int[] tempY = {tempButton.getY() + tempButton.getHeight()/2, tempButton.getY() + tempButton.getHeight()/2 - 80, tempButton.getY() + tempButton.getHeight()/2 + 80};
+			g.fillPolygon(tempX, tempY, 3);
+			g.setColor(Color.white);
+			g.fillRect(tempButton.getX() + tempButton.getWidth() + 40, tempButton.getY() + tempButton.getHeight()/2 - 80, (int)(getWidth()*0.09606), (int)(getHeight()*0.15607));
+			g.setColor(Color.black);
+			g.setFont(new Font("Fira Code", Font.PLAIN, 20));
+			roadButton.setBounds(tempButton.getX() + tempButton.getWidth() + 60, tempButton.getY() + tempButton.getHeight()/2 - 40, 130, 30);
+		}
 	}
+	
 	@Override
 	public void OnSwitchedTo() {
 		// TODO Auto-generated method stub
 		repaint();
 	}
+	public GameController getGame() {
+		return game;
+	}
+	public HashMap<String, JButton> getCityButtons(){
+		return cityButtons;
+	}
+	public void setPhase(PlayerState state) {
+
+	}
+	public void setSelectedCity(String city) {
+		selectedCity = city;
+	}
+
 }
 
 class ButtonListener implements ActionListener{
+	private TTREGUI gui;
+	public ButtonListener(TTREGUI gui) {
+		super();
+		this.gui = gui;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		GameController tempGame = gui.getGame();
 		JButton button = (JButton) e.getSource();
 		String source = button.getName();
-		
-		System.out.print(source);
-		
-		
-		
+		HashMap<String, JButton> tempCityButtons = gui.getCityButtons();
+		if(tempCityButtons.get(source) != null) {
+			gui.setPhase(PlayerState.DrawOrBuild);
+			gui.setSelectedCity(source);
+		}
+
+
+		gui.repaint();
 	}
 	
 }
