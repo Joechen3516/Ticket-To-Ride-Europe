@@ -142,6 +142,7 @@ public class Player {
 				}
 			}
 		}
+		return result;
 	}
 
 	//in theory, this works. it might not.
