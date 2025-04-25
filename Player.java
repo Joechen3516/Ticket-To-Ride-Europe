@@ -20,6 +20,11 @@ public class Player {
 		this.color = color;
 	}
 
+		public HashMap<TrainColor,ArrayList<TrainCard>> getHand(){
+		return hand;
+	}
+
+
 
 
 	@Override
