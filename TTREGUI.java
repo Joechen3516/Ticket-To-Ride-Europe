@@ -47,6 +47,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	JButton traincard3 = new JButton();
 	JButton traincard4 = new JButton();
 	JButton traincard5 = new JButton();
+	int cardturn = 0;
 
 	public TTREGUI(GameController game) {
 		this.game = game;
@@ -205,9 +206,29 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				
 
 				if (e.getSource() == traincard1 && routeClicked == false) {
+					
 					TrainCard x = game.getShow5().get(0);
-					game.getCurrentPlayer().addTrainCard(x);
-					game.deleteOne(0);
+					if (x.getColor() == TrainColor.Wild && cardturn != 1) {
+						cardturn = cardturn+2;
+						game.getCurrentPlayer().addTrainCard(x);
+						game.deleteOne(0);
+					}
+					if (x.getColor() != TrainColor.Wild) {
+						cardturn = cardturn+1;
+						System.out.println("added 1");
+						game.getCurrentPlayer().addTrainCard(x);
+						game.deleteOne(0);
+					}
+						
+						
+						
+					
+					if (cardturn == 2) {
+						cardturn = 0; 
+						game.nextTurn();
+					}
+					
+					
 				} 
 				
 				
@@ -222,8 +243,25 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 
 				if (e.getSource() == traincard2 && routeClicked == false) {
 					TrainCard x = game.getShow5().get(1);
-					game.getCurrentPlayer().addTrainCard(x);
-					game.deleteOne(1);
+					if (x.getColor() == TrainColor.Wild && cardturn != 1) {
+						cardturn = cardturn+2;
+						game.getCurrentPlayer().addTrainCard(x);
+						game.deleteOne(1);
+					}
+					if (x.getColor() != TrainColor.Wild) {
+						cardturn = cardturn+1;
+						System.out.println("added 1");
+						game.getCurrentPlayer().addTrainCard(x);
+						game.deleteOne(1);
+					}
+						
+						
+						
+					
+					if (cardturn == 2) {
+						cardturn = 0; 
+						game.nextTurn();
+					}
 				} 
 				
 				
@@ -238,8 +276,25 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 
 				if (e.getSource() == traincard3 && routeClicked == false) {
 					TrainCard x = game.getShow5().get(2);
-					game.getCurrentPlayer().addTrainCard(x);
-					game.deleteOne(2);
+					if (x.getColor() == TrainColor.Wild && cardturn != 1) {
+						cardturn = cardturn+2;
+						game.getCurrentPlayer().addTrainCard(x);
+						game.deleteOne(2);
+					}
+					if (x.getColor() != TrainColor.Wild) {
+						cardturn = cardturn+1;
+						System.out.println("added 1");
+						game.getCurrentPlayer().addTrainCard(x);
+						game.deleteOne(2);
+					}
+						
+						
+						
+					
+					if (cardturn == 2) {
+						cardturn = 0; 
+						game.nextTurn();
+					}
 				} 
 				
 				
@@ -254,8 +309,25 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 
 				if (e.getSource() == traincard4 && routeClicked == false) {
 					TrainCard x = game.getShow5().get(3);
-					game.getCurrentPlayer().addTrainCard(x);
-					game.deleteOne(3);
+					if (x.getColor() == TrainColor.Wild && cardturn != 1) {
+						cardturn = cardturn+2;
+						game.getCurrentPlayer().addTrainCard(x);
+						game.deleteOne(3);
+					}
+					if (x.getColor() != TrainColor.Wild) {
+						cardturn = cardturn+1;
+						System.out.println("added 1");
+						game.getCurrentPlayer().addTrainCard(x);
+						game.deleteOne(3);
+					}
+						
+						
+						
+					
+					if (cardturn == 2) {
+						cardturn = 0; 
+						game.nextTurn();
+					}
 				} 
 				
 				
@@ -270,8 +342,25 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 
 				if (e.getSource() == traincard5 && routeClicked == false) {
 					TrainCard x = game.getShow5().get(4);
-					game.getCurrentPlayer().addTrainCard(x);
-					game.deleteOne(4);
+					if (x.getColor() == TrainColor.Wild && cardturn != 1) {
+						cardturn = cardturn+2;
+						game.getCurrentPlayer().addTrainCard(x);
+						game.deleteOne(4);
+					}
+					if (x.getColor() != TrainColor.Wild) {
+						cardturn = cardturn+1;
+						System.out.println("added 1");
+						game.getCurrentPlayer().addTrainCard(x);
+						game.deleteOne(4);
+					}
+						
+						
+						
+					
+					if (cardturn == 2) {
+						cardturn = 0; 
+						game.nextTurn();
+					}
 				} 
 				
 				
