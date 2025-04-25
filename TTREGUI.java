@@ -41,13 +41,13 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	JButton wholescreen = new JButton();
 	private String selectedCity;
 	JButton roadButton = new JButton("road");
+	private ArrayList<Player> players = new ArrayList<>();
 	
 	JButton traincard1 = new JButton();
 	JButton traincard2 = new JButton();
 	JButton traincard3 = new JButton();
 	JButton traincard4 = new JButton();
 	JButton traincard5 = new JButton();
-	int cardturn = 0;
 
 	public TTREGUI(GameController game) {
 		this.game = game;
@@ -206,29 +206,9 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				
 
 				if (e.getSource() == traincard1 && routeClicked == false) {
-					
 					TrainCard x = game.getShow5().get(0);
-					if (x.getColor() == TrainColor.Wild && cardturn != 1) {
-						cardturn = cardturn+2;
-						game.getCurrentPlayer().addTrainCard(x);
-						game.deleteOne(0);
-					}
-					if (x.getColor() != TrainColor.Wild) {
-						cardturn = cardturn+1;
-						System.out.println("added 1");
-						game.getCurrentPlayer().addTrainCard(x);
-						game.deleteOne(0);
-					}
-						
-						
-						
-					
-					if (cardturn == 2) {
-						cardturn = 0; 
-						game.nextTurn();
-					}
-					
-					
+					game.getCurrentPlayer().addTrainCard(x);
+					game.deleteOne(0);
 				} 
 				
 				
@@ -243,25 +223,8 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 
 				if (e.getSource() == traincard2 && routeClicked == false) {
 					TrainCard x = game.getShow5().get(1);
-					if (x.getColor() == TrainColor.Wild && cardturn != 1) {
-						cardturn = cardturn+2;
-						game.getCurrentPlayer().addTrainCard(x);
-						game.deleteOne(1);
-					}
-					if (x.getColor() != TrainColor.Wild) {
-						cardturn = cardturn+1;
-						System.out.println("added 1");
-						game.getCurrentPlayer().addTrainCard(x);
-						game.deleteOne(1);
-					}
-						
-						
-						
-					
-					if (cardturn == 2) {
-						cardturn = 0; 
-						game.nextTurn();
-					}
+					game.getCurrentPlayer().addTrainCard(x);
+					game.deleteOne(1);
 				} 
 				
 				
@@ -276,25 +239,8 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 
 				if (e.getSource() == traincard3 && routeClicked == false) {
 					TrainCard x = game.getShow5().get(2);
-					if (x.getColor() == TrainColor.Wild && cardturn != 1) {
-						cardturn = cardturn+2;
-						game.getCurrentPlayer().addTrainCard(x);
-						game.deleteOne(2);
-					}
-					if (x.getColor() != TrainColor.Wild) {
-						cardturn = cardturn+1;
-						System.out.println("added 1");
-						game.getCurrentPlayer().addTrainCard(x);
-						game.deleteOne(2);
-					}
-						
-						
-						
-					
-					if (cardturn == 2) {
-						cardturn = 0; 
-						game.nextTurn();
-					}
+					game.getCurrentPlayer().addTrainCard(x);
+					game.deleteOne(2);
 				} 
 				
 				
@@ -309,25 +255,8 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 
 				if (e.getSource() == traincard4 && routeClicked == false) {
 					TrainCard x = game.getShow5().get(3);
-					if (x.getColor() == TrainColor.Wild && cardturn != 1) {
-						cardturn = cardturn+2;
-						game.getCurrentPlayer().addTrainCard(x);
-						game.deleteOne(3);
-					}
-					if (x.getColor() != TrainColor.Wild) {
-						cardturn = cardturn+1;
-						System.out.println("added 1");
-						game.getCurrentPlayer().addTrainCard(x);
-						game.deleteOne(3);
-					}
-						
-						
-						
-					
-					if (cardturn == 2) {
-						cardturn = 0; 
-						game.nextTurn();
-					}
+					game.getCurrentPlayer().addTrainCard(x);
+					game.deleteOne(3);
 				} 
 				
 				
@@ -342,25 +271,8 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 
 				if (e.getSource() == traincard5 && routeClicked == false) {
 					TrainCard x = game.getShow5().get(4);
-					if (x.getColor() == TrainColor.Wild && cardturn != 1) {
-						cardturn = cardturn+2;
-						game.getCurrentPlayer().addTrainCard(x);
-						game.deleteOne(4);
-					}
-					if (x.getColor() != TrainColor.Wild) {
-						cardturn = cardturn+1;
-						System.out.println("added 1");
-						game.getCurrentPlayer().addTrainCard(x);
-						game.deleteOne(4);
-					}
-						
-						
-						
-					
-					if (cardturn == 2) {
-						cardturn = 0; 
-						game.nextTurn();
-					}
+					game.getCurrentPlayer().addTrainCard(x);
+					game.deleteOne(4);
 				} 
 				
 				
@@ -579,9 +491,9 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			roadButton.setBounds(tempButton.getX() + tempButton.getWidth() + 60, tempButton.getY() + tempButton.getHeight()/2 - 40, 130, 30);
 		}
 
-		for(Player p : players) {
-			Color c = p.getColor();
-			ArrayList<Road> roads = p.getRoads();
+		for(Player player : players) {
+			Color c = player.getColor();
+			ArrayList<Road> roads = player.getRoads();
 			for(Road r : roads) {
 				double[] xs = r.getxs();
 				double[] ys = r.getys();
@@ -592,16 +504,16 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 					g2.setColor(c);
 
 					int x = (int) (xs[i]*getWidth());
-					int y= (int) (ys[i]*getHeight());
+					int yx = (int) (ys[i]*getHeight());
 					double a = as[i];
-					g2.rotate(a,x,y);
-					g2.fill3DRect(x, y, 12, 50, true);
-					g2.draw3DRect(x,y,12,50,true);
-					g2.draw3DRect(x+1,y+1,12,43,true);
-					g2.draw3DRect(x+2,y+2,12,43,true);
-					g2.draw3DRect(x+3,y+3,12,43,true);
-					g2.draw3DRect(x+4,y+4,12,43,true);
-					g2.draw3DRect(x+5,y+5,12,43,true);
+					g2.rotate(a,x,yx);
+					g2.fill3DRect(x, yx, 12, 50, true);
+					g2.draw3DRect(x,yx,12,50,true);
+					g2.draw3DRect(x+1,yx+1,12,43,true);
+					g2.draw3DRect(x+2,yx+2,12,43,true);
+					g2.draw3DRect(x+3,yx+3,12,43,true);
+					g2.draw3DRect(x+4,yx+4,12,43,true);
+					g2.draw3DRect(x+5,yx+5,12,43,true);
 					g2.setTransform(old);
 				}
 
