@@ -288,6 +288,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	public void paintComponent(Graphics g) {
 		System.out.println(getWidth() + " " + getHeight());
 		Graphics2D g2 = (Graphics2D)g.create();
+		AffineTransform initial = g2.getTransform();
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.drawImage(gamebg, 0, 0, getWidth(), getHeight(), null);
 		g.drawImage(gameboard, 0, 0, (int)(getWidth()*0.75557), (int)(getHeight()*0.86306), null);
@@ -332,7 +333,9 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 					int trH = (int)(getHeight()*0.09798);
 					
 				    g.drawImage(routecardback, getWidth()*1480/1920, getHeight()*50/1080 , getWidth()/12, getHeight()/5, null);
-				    
+
+			
+
 					
 					for(TrainCard tr : currCards) {
 						System.out.println(tr.getColor());
@@ -387,6 +390,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				
 					
 		}
+			 g2.setTransform(initial);
 		//Drawing player trains
 		int blackX = (int)(getWidth()*0.00630);
 		int blueX = blackX + (int)(getWidth()*0.08403);
@@ -484,6 +488,36 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			g.setColor(Color.black);
 			g.setFont(new Font("Fira Code", Font.PLAIN, 20));
 			roadButton.setBounds(tempButton.getX() + tempButton.getWidth() + 60, tempButton.getY() + tempButton.getHeight()/2 - 40, 130, 30);
+		}
+
+		for(Player p : players) {
+			Color c = p.getColor();
+			ArrayList<Road> roads = p.getRoads();
+			for(Road r : roads) {
+				double[] xs = r.getxs();
+				double[] ys = r.getys();
+				double[] as = r.getas();
+				
+				for(int i = 0; i < 4; i++) {
+					AffineTransform old = g2.getTransform();
+					g2.setColor(c);
+
+					int x = (int) (xs[i]*getWidth());
+					int y= (int) (ys[i]*getHeight());
+					double a = as[i];
+					g2.rotate(a,x,y);
+					g2.fill3DRect(x, y, 12, 50, true);
+					g2.draw3DRect(x,y,12,50,true);
+					g2.draw3DRect(x+1,y+1,12,43,true);
+					g2.draw3DRect(x+2,y+2,12,43,true);
+					g2.draw3DRect(x+3,y+3,12,43,true);
+					g2.draw3DRect(x+4,y+4,12,43,true);
+					g2.draw3DRect(x+5,y+5,12,43,true);
+					g2.setTransform(old);
+				}
+
+			}
+
 		}
 	}
 	
