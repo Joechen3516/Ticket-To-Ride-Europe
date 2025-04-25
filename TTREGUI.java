@@ -36,11 +36,17 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	private GameController game;
 	private ButtonListener listener;
 	JButton showroutes = new JButton();
+	JButton getnewroutes = new JButton();
 	private boolean routeClicked = false;
 	JButton wholescreen = new JButton();
 	private String selectedCity;
 	JButton roadButton = new JButton("road");
-	JButton getnewroutes = new JButton();
+	
+	JButton traincard1 = new JButton();
+	JButton traincard2 = new JButton();
+	JButton traincard3 = new JButton();
+	JButton traincard4 = new JButton();
+	JButton traincard5 = new JButton();
 
 	public TTREGUI(GameController game) {
 		this.game = game;
@@ -48,6 +54,11 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		done = false;
 		listener = new ButtonListener(this);
 		cityButtons = new HashMap<String, JButton>();
+		add(showroutes);
+		
+		showroutes.setOpaque(false);
+		showroutes.setContentAreaFilled(false);
+		showroutes.setBorderPainted(true);
 		add(roadButton);
 		roadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -57,11 +68,28 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				repaint();
 			}
 		});
-		add(showroutes);
-		showroutes.setOpaque(false);
-		showroutes.setContentAreaFilled(false);
-		showroutes.setBorderPainted(true);
 		selectedCity = "";
+		
+		add(traincard1);
+		traincard1.setOpaque(false);
+		traincard1.setContentAreaFilled(false);
+		traincard1.setBorderPainted(true);
+		add(traincard2);
+		traincard2.setOpaque(false);
+		traincard2.setContentAreaFilled(false);
+		traincard2.setBorderPainted(true);
+		add(traincard3);
+		traincard3.setOpaque(false);
+		traincard3.setContentAreaFilled(false);
+		traincard3.setBorderPainted(true);
+		add(traincard4);
+		traincard4.setOpaque(false);
+		traincard4.setContentAreaFilled(false);
+		traincard4.setBorderPainted(true);
+		add(traincard5);
+		traincard5.setOpaque(false);
+		traincard5.setContentAreaFilled(false);
+		traincard5.setBorderPainted(true);
 		
 		String[] names = {"Edinburgh", "Brest", "Lisbon", "Madrid", "London", "Dieppe", "Bruxelles", "Pamplona", "Amsterdam", "Paris", "Essen", "Berlin", "Cadiz", "Barcelona", "Marseille", "Zurich", "Roma", "Munchen", "Frankfurt", "Kobenhavn", "Stockholm", "Riga", "Danzig", "Venezia", "Palermo", "Brindisi", "Zagrab", "Wien", "Budapest", "Sarajevo", "Sofia", "Athina", "Smyrna", "Constantinople", "Angora", "Erzurum", "Kyiv", "Moskva", "Petrograd", "Warszawa", "Bucuresti", "Wilno", "Smolensk", "Kharkov", "Rostov", "Sevastopol", "Sochi"};
 		this.setLayout(null);
@@ -95,9 +123,9 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			done = true;
 		}
 		add(getnewroutes);
-        getnewroutes.setOpaque(false);
-        getnewroutes.setContentAreaFilled(false);
-        getnewroutes.setBorderPainted(true);
+		getnewroutes.setOpaque(false);
+		getnewroutes.setContentAreaFilled(false);
+		getnewroutes.setBorderPainted(true);
 		add(wholescreen);
 		wholescreen.setOpaque(false);
 		wholescreen.setContentAreaFilled(false);
@@ -115,6 +143,13 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				showroutes.setBounds(getWidth()*1500/1920, getHeight()*820/1080, getWidth()/7, 11*getHeight()/55);
 				getnewroutes.setBounds(getWidth()*1480/1920, getHeight()*50/1080 , getWidth()/12, getHeight()/5);
 				wholescreen.setBounds(0, 0, getWidth(), getHeight());
+				traincard1.setBounds((int)(getWidth()*0.88971),(int)(getHeight()*0.01825) , (int)(getWidth()*0.08981),(int)(getHeight()*0.09798));
+				traincard2.setBounds((int)(getWidth()*0.88971),(int)(getHeight()*0.01825)+ (int)(getHeight()*0.10086) , (int)(getWidth()*0.08981),(int)(getHeight()*0.09798));
+				traincard3.setBounds((int)(getWidth()*0.88971),(int)(getHeight()*0.01825)+ (int)(getHeight()*0.10086)+ (int)(getHeight()*0.10086) , (int)(getWidth()*0.08981),(int)(getHeight()*0.09798));
+				traincard4.setBounds((int)(getWidth()*0.88971),(int)(getHeight()*0.01825)+ (int)(getHeight()*0.10086)+ (int)(getHeight()*0.10086) + (int)(getHeight()*0.10086), (int)(getWidth()*0.08981),(int)(getHeight()*0.09798));
+				traincard5.setBounds((int)(getWidth()*0.88971),(int)(getHeight()*0.01825)+ (int)(getHeight()*0.10086)+ (int)(getHeight()*0.10086) + (int)(getHeight()*0.10086) + (int)(getHeight()*0.10086), (int)(getWidth()*0.08981),(int)(getHeight()*0.09798));
+				
+				
 			}
 		});
 		showroutes.addActionListener(new ActionListener() {
@@ -135,15 +170,19 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			}
 		});
 		getnewroutes.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                    
-                    
-                    if (e.getSource() == getnewroutes && routeClicked == false) {
-                            game.HandleAction(ActionEvents.RouteButton);
-                            
-                    }
-                    repaint();
-            }
+			public void actionPerformed(ActionEvent e) {
+				
+				
+
+				if (e.getSource() == getnewroutes && routeClicked == false) {
+					game.HandleAction(ActionEvents.RouteButton);
+					 
+				} 
+				
+				
+				
+				repaint();
+			}
 		});
 		wholescreen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -160,6 +199,87 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				repaint();
 			}
 		});
+		traincard1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+
+				if (e.getSource() == traincard1 && routeClicked == false) {
+					TrainCard x = game.getShow5().get(0);
+					game.getCurrentPlayer().addTrainCard(x);
+					game.deleteOne(0);
+				} 
+				
+				
+				
+				repaint();
+			}
+		});
+		traincard2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+
+				if (e.getSource() == traincard2 && routeClicked == false) {
+					TrainCard x = game.getShow5().get(1);
+					game.getCurrentPlayer().addTrainCard(x);
+					game.deleteOne(1);
+				} 
+				
+				
+				
+				repaint();
+			}
+		});
+		traincard3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+
+				if (e.getSource() == traincard3 && routeClicked == false) {
+					TrainCard x = game.getShow5().get(2);
+					game.getCurrentPlayer().addTrainCard(x);
+					game.deleteOne(2);
+				} 
+				
+				
+				
+				repaint();
+			}
+		});
+		traincard4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+
+				if (e.getSource() == traincard4 && routeClicked == false) {
+					TrainCard x = game.getShow5().get(3);
+					game.getCurrentPlayer().addTrainCard(x);
+					game.deleteOne(3);
+				} 
+				
+				
+				
+				repaint();
+			}
+		});
+		traincard5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+
+				if (e.getSource() == traincard5 && routeClicked == false) {
+					TrainCard x = game.getShow5().get(4);
+					game.getCurrentPlayer().addTrainCard(x);
+					game.deleteOne(4);
+				} 
+				
+				
+				
+				repaint();
+			}
+		});
+		
 		for(String str : names) {
 			JButton temp = cityButtons.get(str);
 			temp.addActionListener(listener);
@@ -182,7 +302,6 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			g.setColor(new Color(0,191,99));
 		else 
 			g.setColor(new Color(193,255,114));
-		g.drawImage(routecardback, getWidth()*1480/1920, getHeight()*50/1080 , getWidth()/12, getHeight()/5, null);
 		//Drawing routes
 		ArrayList<RouteCard> rout = p.getRoutes();
 		int y = getHeight()*885/1080;
@@ -190,84 +309,84 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		double angle = Math.toRadians(270);
 		rot.rotate(angle);
 		if(!routeClicked) {
+					
+					if(rout.size()<4) {
+						for(int i = 0; i < rout.size(); i++) {
+							g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
+							y = y-getHeight()*70/1920;
+						}
+						
+					} else {
+						for(int i = 0; i < 3; i++) {
+							g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
+							y = y-getHeight()*70/1920;
+						}
+						
+					}
+					g.drawString("Player " + turn, (int)(getWidth()*0.7976), (int)(getHeight()*0.72157));
+					g2.drawImage(traincardback, rot, null);
+					ArrayList<TrainCard> currCards = game.getShow5();
+					int trX = (int)(getWidth()*0.88971);
+					int trY = (int)(getHeight()*0.01825);
+					int trW = (int)(getWidth()*0.08981);
+					int trH = (int)(getHeight()*0.09798);
+					
+				    g.drawImage(routecardback, getWidth()*1480/1920, getHeight()*50/1080 , getWidth()/12, getHeight()/5, null);
+				    
+					
+					for(TrainCard tr : currCards) {
+						System.out.println(tr.getColor());
+						BufferedImage temp = null;
+						switch(tr.getColor()) {
+							case TrainColor.Black:
+								temp = black;
+								break;
+							case TrainColor.Orange:
+								temp = orange;
+								break;
+							case TrainColor.Red:
+								temp = red;
+								break;
+							case TrainColor.Blue:
+								temp = blue;
+								break;
+							case TrainColor.Green:
+								temp = green;
+								break;
+							case TrainColor.White:
+								temp = white;
+								break;
+							case TrainColor.Yellow:
+								temp = yellow;
+								break;
+							case TrainColor.Pink:
+								temp = pink;
+								break;
+							case TrainColor.Wild:
+								temp = wild;
+								break;
+						}
+						g.drawImage(temp, trX, trY, trW, trH, null);
+						trY = trY + (int)(getHeight()*0.10086);
+				}
 			
-			if(rout.size()<4) {
-				for(int i = 0; i < rout.size(); i++) {
-					g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
-					y = y-getHeight()*70/1920;
+		
+				
+			} else  {
+				if (rout.size() < 7) {
+					for(int i = 0; i < rout.size(); i++) {
+						g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
+						y = y-getHeight()*300/1920;
+					}
+				} else {
+					for(int i = 0; i < rout.size(); i++) {
+						g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/10, getHeight()/10, null);
+						y = y-getHeight()*200/1920;
+					}
 				}
 				
-			} else {
-				for(int i = 0; i < 3; i++) {
-					g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
-					y = y-getHeight()*70/1920;
-				}
-				
-			}
-			g.drawString("Player " + turn, (int)(getWidth()*0.7976), (int)(getHeight()*0.72157));
-			g2.drawImage(traincardback, rot, null);
-			ArrayList<TrainCard> currCards = game.getShow5();
-			int trX = (int)(getWidth()*0.88971);
-			int trY = (int)(getHeight()*0.01825);
-			int trW = (int)(getWidth()*0.08981);
-			int trH = (int)(getHeight()*0.09798);
-			
-		    g.drawImage(routecardback, getWidth()*1480/1920, getHeight()*50/1080 , getWidth()/12, getHeight()/5, null);
-		    
-			
-			for(TrainCard tr : currCards) {
-				System.out.println(tr.getColor());
-				BufferedImage temp = null;
-				switch(tr.getColor()) {
-					case TrainColor.Black:
-						temp = black;
-						break;
-					case TrainColor.Orange:
-						temp = orange;
-						break;
-					case TrainColor.Red:
-						temp = red;
-						break;
-					case TrainColor.Blue:
-						temp = blue;
-						break;
-					case TrainColor.Green:
-						temp = green;
-						break;
-					case TrainColor.White:
-						temp = white;
-						break;
-					case TrainColor.Yellow:
-						temp = yellow;
-						break;
-					case TrainColor.Pink:
-						temp = pink;
-						break;
-					case TrainColor.Wild:
-						temp = wild;
-						break;
-				}
-				g.drawImage(temp, trX, trY, trW, trH, null);
-				trY = trY + (int)(getHeight()*0.10086);
+					
 		}
-	
-
-		
-	} else  {
-		if (rout.size() < 7) {
-			for(int i = 0; i < rout.size(); i++) {
-				g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/7, getHeight()/7, null);
-				y = y-getHeight()*300/1920;
-			}
-		} else {
-			for(int i = 0; i < rout.size(); i++) {
-				g.drawImage(rout.get(i).getImage(), getWidth()*1500/1920, y, getWidth()/10, getHeight()/10, null);
-				y = y-getHeight()*200/1920;
-			}
-		}
-		
-			
-}
 		//Drawing player trains
 		int blackX = (int)(getWidth()*0.00630);
 		int blueX = blackX + (int)(getWidth()*0.08403);
@@ -367,6 +486,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			roadButton.setBounds(tempButton.getX() + tempButton.getWidth() + 60, tempButton.getY() + tempButton.getHeight()/2 - 40, 130, 30);
 		}
 	}
+	
 	@Override
 	public void OnSwitchedTo() {
 		// TODO Auto-generated method stub
@@ -379,12 +499,12 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		return cityButtons;
 	}
 	public void setPhase(PlayerState state) {
-		
+
 	}
 	public void setSelectedCity(String city) {
 		selectedCity = city;
 	}
-	
+
 }
 
 class ButtonListener implements ActionListener{
@@ -393,6 +513,7 @@ class ButtonListener implements ActionListener{
 		super();
 		this.gui = gui;
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		GameController tempGame = gui.getGame();
@@ -403,8 +524,8 @@ class ButtonListener implements ActionListener{
 			gui.setPhase(PlayerState.DrawOrBuild);
 			gui.setSelectedCity(source);
 		}
-		
-		
+
+
 		gui.repaint();
 	}
 	
