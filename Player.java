@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -41,6 +42,14 @@ public class Player {
 	}
 
 
+	public Color getColor() {
+		try {
+			return (Color) Class.forName("java.awt.Color").getField(color.name()).get(null);
+		}
+		catch(Exception e) {
+			return null;
+		}
+	}
 
 	public void giveRoute(RouteCard rc) {
 		routeCards.add(rc);
