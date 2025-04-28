@@ -200,7 +200,7 @@ public class Europe {
 		int tracker = 0;
 
 
-		while (name.compareTo(cities.get(tracker).getName()) != 0) {
+		while (name.toLowerCase().compareTo(cities.get(tracker).getName().toLowerCase()) != 0) {
 			tracker++;
 		}
 		return cities.get(tracker);
