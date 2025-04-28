@@ -205,10 +205,9 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				
 				
 
-				if (e.getSource() == traincard1 && routeClicked == false) {
-					TrainCard x = game.getShow5().get(0);
-					game.getCurrentPlayer().addTrainCard(x);
-					game.deleteOne(0);
+				if (e.getSource() == traincard1) {
+					game.which5(0);
+					game.HandleAction(ActionEvents.TrainCard);
 				} 
 				
 				
@@ -222,9 +221,8 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				
 
 				if (e.getSource() == traincard2 && routeClicked == false) {
-					TrainCard x = game.getShow5().get(1);
-					game.getCurrentPlayer().addTrainCard(x);
-					game.deleteOne(1);
+					game.which5(1);
+					game.HandleAction(ActionEvents.TrainCard);;
 				} 
 				
 				
@@ -238,9 +236,8 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				
 
 				if (e.getSource() == traincard3 && routeClicked == false) {
-					TrainCard x = game.getShow5().get(2);
-					game.getCurrentPlayer().addTrainCard(x);
-					game.deleteOne(2);
+					game.which5(2);
+					game.HandleAction(ActionEvents.TrainCard);
 				} 
 				
 				
@@ -254,9 +251,8 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				
 
 				if (e.getSource() == traincard4 && routeClicked == false) {
-					TrainCard x = game.getShow5().get(3);
-					game.getCurrentPlayer().addTrainCard(x);
-					game.deleteOne(3);
+					game.which5(3);
+					game.HandleAction(ActionEvents.TrainCard);
 				} 
 				
 				
@@ -270,9 +266,8 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				
 
 				if (e.getSource() == traincard5 && routeClicked == false) {
-					TrainCard x = game.getShow5().get(4);
-					game.getCurrentPlayer().addTrainCard(x);
-					game.deleteOne(4);
+					game.which5(4);
+					game.HandleAction(ActionEvents.TrainCard);
 				} 
 				
 				
