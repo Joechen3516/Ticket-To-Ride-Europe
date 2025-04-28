@@ -74,4 +74,8 @@ public class Road {
 		}
 		return a.getName() + " to " + b.getName() + " of color " + roadColor.name() + " of length " + getLength()[0] + " including " + getLength()[1] + " ferries and owned by " + ownersubstitute;
 	}
+
+	public boolean isTaken() {
+		return taken;
+	}
 }

@@ -217,6 +217,16 @@ public class Europe {
 		return result;
 	}
 
+	public ArrayList<City> getAvailableAdjacentCities(City a) {
+		ArrayList<City> result = new ArrayList<>();
+		for (Road n: a.getRoads()) {
+			if (!n.isTaken()) {
+				result.add(n.getOtherNode(a));
+			}
+		}
+		return result;
+	}
+
 
 
 }
