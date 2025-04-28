@@ -20,6 +20,7 @@ public class GameController {
 	private Stack<RouteCard> routes = new Stack<>();
 	private Stack<RouteCard> lRoutes = new Stack<>();
 	private Stack<TrainCard> deck = new Stack<>();
+	private Stack<TrainCard> discardDeck = new Stack<>();
 	private ArrayList<TrainCard> show5 = new ArrayList<>();
 	private PlayerState state = PlayerState.DestinationChoosing;
 	private ArrayList<Player> players = new ArrayList<>();
@@ -28,7 +29,8 @@ public class GameController {
 	private Europe europe = new Europe();
 	private Map<String,SwitchablePanel> panels = new HashMap<>();
 	private boolean initalChooseFlag = true;
-
+	private int cardTurn = 0;
+	private int currentDrawnTrain = 0;
 
 
 
@@ -131,11 +133,40 @@ public class GameController {
 		if(x.equals(ActionEvents.RouteButton)) {
 			switchScreen("Destination");
 		}
-
+		
+		if(x.equals(ActionEvents.TrainCard)) {
+			if(currentDrawnTrain != -1) {
+				if(show5.get(currentDrawnTrain).getColor() == TrainColor.Wild && cardTurn == 0) {
+					getCurrentPlayer().addTrainCard(show5.get(currentDrawnTrain));
+					deleteOne(currentDrawnTrain);
+					currentDrawnTrain = -1;
+					cardTurn += 2;
+				}else if(show5.get(currentDrawnTrain).getColor() != TrainColor.Wild){
+					getCurrentPlayer().addTrainCard(show5.get(currentDrawnTrain));
+					deleteOne(currentDrawnTrain);
+					currentDrawnTrain = -1;
+					cardTurn++;
+				}
+			
+			}	
+			if(cardTurn == 2) {
+				cardTurn = 0;
+				currentDrawnTrain = -1;
+				nextTurn();
+			}
+			
+		}
+		
+	
 
 
 
 	}
+	
+	public void which5 (int tc) {
+		currentDrawnTrain = tc; 
+	}
+
 
 	public TrainCard deckDraw() {
 		return deck.pop();
@@ -187,7 +218,6 @@ public class GameController {
 	}
 	public void deleteOne(int x) {
 		show5.set(x, deck.pop());
-		
 		
 		
 	}
