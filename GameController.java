@@ -388,5 +388,9 @@ public class GameController {
 	public <E> void  shuffledeck(List<?> deck) {
 		Collections.shuffle(deck);
 	}
+	
+	public Europe getEurope() {
+		return europe;
+	}
 
 }
