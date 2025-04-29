@@ -163,12 +163,12 @@ public class GameController {
 		
 			
 			if(x.equals(ActionEvents.placeStation)) {
-				guiState = GuiState.stationPurchasePanel;
+				this.guiState = GuiState.stationPurchasePanel;
 			}
 			
 			if(x.equals(ActionEvents.purchaseRoad)) {
 				if(currentCities.size() == 2) {
-					guiState = GuiState.roadPurchasePanel;
+					this.guiState = GuiState.roadPurchasePanel;
 				}
 			}
 			
@@ -182,11 +182,7 @@ public class GameController {
 	}
 	
 	public void giveCity(String c) {
-		if(currentCities.get(0) == null) {
-			currentCities.set(0,c);
-		}else {
-			currentCities.set(1, c);
-		}
+		currentCities.add(c);
 	}
 	
 	public GuiState getGuiState() {
