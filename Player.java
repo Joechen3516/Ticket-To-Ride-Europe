@@ -76,6 +76,7 @@ public class Player {
 		if (numStations == 0) {
 			return false;
 		}
+		c.addStation(this);
 		stationLocations.add(c);
 		numStations --;
 		return true;
