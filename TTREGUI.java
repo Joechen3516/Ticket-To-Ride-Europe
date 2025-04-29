@@ -52,11 +52,13 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	private ArrayList<Player> players = new ArrayList<>();
 	private ArrayList<City> adjacentCities = new ArrayList<City>();
 	private ActionEvents currentAction;
+	private String latestCityClicked;
 	public TTREGUI(GameController game) {
 		this.game = game;
 		f = new Font("Centaur", 0, 90);
 		done = false;
 		clickedOnCity = false;
+		latestCityClicked = "";
 		listener = new ButtonListener(this);
 		cityButtons = new HashMap<String, JButton>();
 		roadButton.setName("road");
@@ -296,7 +298,18 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		Graphics2D g2 = (Graphics2D)g.create();
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.drawImage(gamebg, 0, 0, getWidth(), getHeight(), null);
-		g.drawImage(gameboard, 0, 0, (int)(getWidth()*0.75557), (int)(getHeight()*0.86306), null);
+		if(game.getGuiState() == GuiState.nothing)
+			g.drawImage(gameboard, 0, 0, (int)(getWidth()*0.75557), (int)(getHeight()*0.86306), null);
+		else if(game.getGuiState() == GuiState.roadPurchasePanel) {
+			g.setColor(Color.black);
+			g.drawString("Buying road from " + /*currentCities.get(0)*/"hi" + " to " + "hi"/*currentCities.get(1)*/, 400, 20);
+			g.setColor(Color.gray);
+			g.fillRect(0, 0, (int)(getWidth()*0.75557), (int)(getHeight()*0.86306));
+		}
+		else if(game.getGuiState() == GuiState.stationPurchasePanel) {
+			g.setColor(Color.gray);
+			g.fillRect(0, 0, (int)(getWidth()*0.75557), (int)(getHeight()*0.86306));
+		}
 		g.setFont(f);
 		int turn = game.getCurrentPlayerNumber();
 		Player p = game.getCurrentPlayer();
@@ -487,7 +500,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		}
 		stationButton.setBounds(-100, -100, 0, 0);
 		roadButton.setBounds(-100, 100, 0, 0);
-		if(selectedCity.length() > 0 && cityButtons.get(selectedCity).getY() > 100) {
+		if(selectedCity.length() > 0 && cityButtons.get(selectedCity).getY() > 100 && game.getGuiState() == GuiState.nothing) {
 			g.setColor(Color.yellow);
 			JButton tempButton = cityButtons.get(selectedCity);
 			int[] tempX = {tempButton.getX() + tempButton.getWidth(), tempButton.getX() + tempButton.getWidth() + 40, tempButton.getX() + tempButton.getWidth() + 40};
@@ -500,7 +513,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			stationButton.setBounds(tempButton.getX() + tempButton.getWidth() + 60, tempButton.getY() + tempButton.getHeight()/2 + 10, 140,30);
 			roadButton.setBounds(tempButton.getX() + tempButton.getWidth() + 60, tempButton.getY() + tempButton.getHeight()/2 - 50, 140, 30);
 		}
-		else if(selectedCity.length() > 0 && cityButtons.get(selectedCity).getY() < 100) {
+		else if(selectedCity.length() > 0 && cityButtons.get(selectedCity).getY() < 100  && game.getGuiState() == GuiState.nothing) {
 			g.setColor(Color.yellow);
 			JButton tempButton = cityButtons.get(selectedCity);
 			int[] tempX = {tempButton.getX() + tempButton.getWidth()/2, tempButton.getX() + tempButton.getWidth()/2 - 80, tempButton.getX() + tempButton.getWidth()/2 + 80};
@@ -575,6 +588,12 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	public void setAdjacentCities(ArrayList<City> arr) {
 		adjacentCities = arr;
 	}
+	public void setLatestCityClicked(String city) {
+		latestCityClicked = city;
+	}
+	public String getLatestCityClicked() {
+		return latestCityClicked;
+	}
 }
 
 class ButtonListener implements ActionListener{
@@ -591,6 +610,7 @@ class ButtonListener implements ActionListener{
 		System.out.println("Source: " + source);
 		HashMap<String, JButton> tempCityButtons = gui.getCityButtons();
 		if(tempCityButtons.get(source) != null && gui.clickedOnCity() == false) {
+			gui.setLatestCityClicked(source);
 			gui.setSelectedCity(source);
 			gui.changeClickedOnCity();
 		}
@@ -599,6 +619,7 @@ class ButtonListener implements ActionListener{
 			gui.changeClickedOnCity();
 		}
 		else if(gui.clickedOnCity() == true && source.equals("road")) {
+			tempGame.giveCity(gui.getLatestCityClicked());
 			tempGame.HandleAction(ActionEvents.purchaseRoad);
 			gui.setAdjacentCities(tempGame.getEurope().getAvailableAdjacentCities(tempGame.getEurope().citySearch(gui.getSelectedCity())));
 		}
