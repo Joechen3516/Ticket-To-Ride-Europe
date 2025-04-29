@@ -22,7 +22,6 @@ public class GameController {
 	private Stack<TrainCard> deck = new Stack<>();
 	private Stack<TrainCard> discardDeck = new Stack<>();
 	private ArrayList<TrainCard> show5 = new ArrayList<>();
-	private PlayerState state = PlayerState.DestinationChoosing;
 	private ArrayList<Player> players = new ArrayList<>();
 	private List<GameListener> listeners = new ArrayList<>();
 	private String currentScreen = "dest";
@@ -31,6 +30,8 @@ public class GameController {
 	private boolean initalChooseFlag = true;
 	private int cardTurn = 0;
 	private int currentDrawnTrain = 0;
+	private GuiState guiState = GuiState.nothing;
+	
 
 
 
@@ -157,10 +158,21 @@ public class GameController {
 			
 		}
 		
+		if(x.equals(ActionEvents.CityButton)) {
+			if(x.equals(ActionEvents.placeStation)) {
+				//STATION LOGIC
+				nextTurn();
+			}
+		}
+		
 	
 
 
 
+	}
+	
+	public GuiState getGuiState() {
+		return guiState;
 	}
 	
 	public void which5 (int tc) {
