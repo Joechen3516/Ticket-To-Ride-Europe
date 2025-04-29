@@ -50,6 +50,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	JButton traincard5 = new JButton();
 	int cardturn = 0;
 	private ArrayList<Player> players = new ArrayList<>();
+	private ArrayList<City> adjacentCities = new ArrayList<City>();
 	private ActionEvents currentAction;
 	public TTREGUI(GameController game) {
 		this.game = game;
@@ -108,7 +109,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		traincard5.setOpaque(false);
 		traincard5.setContentAreaFilled(false);
 		traincard5.setBorderPainted(true);
-		String[] names = {"Edinburgh", "Brest", "Lisbon", "Madrid", "London", "Dieppe", "Bruxelles", "Pamplona", "Amsterdam", "Paris", "Essen", "Berlin", "Cadiz", "Barcelona", "Marseille", "Zurich", "Roma", "Munchen", "Frankfurt", "Kobenhavn", "Stockholm", "Riga", "Danzig", "Venezia", "Palermo", "Brindisi", "Zagrab", "Wien", "Budapest", "Sarajevo", "Sofia", "Athina", "Smyrna", "Constantinople", "Angora", "Erzurum", "Kyiv", "Moskva", "Petrograd", "Warszawa", "Bucuresti", "Wilno", "Smolensk", "Kharkov", "Rostov", "Sevastopol", "Sochi"};
+		String[] names = {"Edinburgh", "Brest", "Lisboa", "Madrid", "London", "Dieppe", "Bruxelles", "Pamplona", "Amsterdam", "Paris", "Essen", "Berlin", "Cadiz", "Barcelona", "Marseille", "Zurich", "Roma", "Monchen", "Frankfurt", "Kobenhavn", "Stockholm", "Rica", "Danzic", "Venezia", "Palermo", "Brindisi", "Zacrad", "Wien", "Budapest", "Sarajevo", "Sofia", "Athina", "Smyrna", "Constantinople", "Ancora", "Erzurum", "Kyiv", "Moskova", "Petrograd", "Warszawa", "Bucuresti", "Wilno", "Smolensk", "Kharkov", "Rostov", "Sevastopol", "Sochi"};
 		this.setLayout(null);
 		try {
 			gamebg = ImageIO.read(TTREGUI.class.getResource("/images/gamebg.jfif"));
@@ -296,7 +297,6 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.drawImage(gamebg, 0, 0, getWidth(), getHeight(), null);
 		g.drawImage(gameboard, 0, 0, (int)(getWidth()*0.75557), (int)(getHeight()*0.86306), null);
-
 		g.setFont(f);
 		int turn = game.getCurrentPlayerNumber();
 		Player p = game.getCurrentPlayer();
@@ -308,7 +308,14 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			g.setColor(new Color(0,191,99));
 		else 
 			g.setColor(new Color(193,255,114));
+		g.drawString("Player " + turn, (int)(getWidth()*0.7976), (int)(getHeight()*0.72157));
 		g.drawImage(routecardback, getWidth()*1480/1920, getHeight()*50/1080 , getWidth()/12, getHeight()/5, null);
+		//Drawing adjacent cities
+		for(City city : adjacentCities) {
+			g.setColor(Color.yellow);
+			JButton adjCity = cityButtons.get(city.getName());
+			g.fillRect(adjCity.getX() - 2, adjCity.getY() - 2, citySide + 5, citySide + 5);
+		}
 		//Drawing routes
 		ArrayList<RouteCard> rout = p.getRoutes();
 		int y = getHeight()*885/1080;
@@ -330,7 +337,6 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				}
 				
 			}
-			g.drawString("Player " + turn, (int)(getWidth()*0.7976), (int)(getHeight()*0.72157));
 			g2.drawImage(traincardback, rot, null);
 			ArrayList<TrainCard> currCards = game.getShow5();
 			int trX = (int)(getWidth()*0.88971);
@@ -566,6 +572,9 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	public void setCurrentAction(ActionEvents p) {
 		currentAction = p;
 	}
+	public void setAdjacentCities(ArrayList<City> arr) {
+		adjacentCities = arr;
+	}
 }
 
 class ButtonListener implements ActionListener{
@@ -590,10 +599,11 @@ class ButtonListener implements ActionListener{
 			gui.changeClickedOnCity();
 		}
 		else if(gui.clickedOnCity() == true && source.equals("road")) {
-			gui.setCurrentAction(ActionEvents.purchaseRoad);
+			tempGame.HandleAction(ActionEvents.purchaseRoad);
+			gui.setAdjacentCities(tempGame.getEurope().getAvailableAdjacentCities(tempGame.getEurope().citySearch(gui.getSelectedCity())));
 		}
 		else if(gui.clickedOnCity() == true && source.equals("station")) {
-			gui.setCurrentAction(ActionEvents.placeStation);
+			tempGame.HandleAction(ActionEvents.placeStation);
 		}
 		gui.repaint();
 	}
