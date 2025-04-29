@@ -32,7 +32,7 @@ public class GameController {
 	private int currentDrawnTrain = 0;
 	private GuiState guiState = GuiState.nothing;
 	private ArrayList<String> currentCities = new ArrayList<>();
-	
+
 
 
 
@@ -70,7 +70,7 @@ public class GameController {
 		if(turn<0) {
 			return players.get(turn+4);
 		}
-		
+
 		return players.get(turn-1);
 	}
 
@@ -131,11 +131,11 @@ public class GameController {
 
 
 		}
-		
+
 		if(x.equals(ActionEvents.RouteButton)) {
 			switchScreen("Destination");
 		}
-		
+
 		if(x.equals(ActionEvents.TrainCard)) {
 			if(currentDrawnTrain != -1) {
 				if(show5.get(currentDrawnTrain).getColor() == TrainColor.Wild && cardTurn == 0) {
@@ -149,46 +149,45 @@ public class GameController {
 					currentDrawnTrain = -1;
 					cardTurn++;
 				}
-			
+
 			}	
 			if(cardTurn == 2) {
 				cardTurn = 0;
 				currentDrawnTrain = -1;
 				nextTurn();
 			}
-			
+
 		}
-		
-		if(x.equals(ActionEvents.CityButton)) {
-		
-			
-			if(x.equals(ActionEvents.placeStation)) {
-				this.guiState = GuiState.stationPurchasePanel;
-			}
-			
-			if(x.equals(ActionEvents.purchaseRoad)) {
-				if(currentCities.size() == 2) {
-					this.guiState = GuiState.roadPurchasePanel;
-				}
-			}
-			
-			
+
+
+
+
+		if(x.equals(ActionEvents.placeStation)) {
+			this.guiState = GuiState.stationPurchasePanel;
 		}
-		
-	
+
+		if(x.equals(ActionEvents.purchaseRoad)) {
+			if(currentCities.size() == 2) {
+				this.guiState = GuiState.roadPurchasePanel;
+			}
+		}
+
+
+
+
 
 
 
 	}
-	
+
 	public void giveCity(String c) {
 		currentCities.add(c);
 	}
-	
+
 	public GuiState getGuiState() {
 		return guiState;
 	}
-	
+
 	public void which5 (int tc) {
 		currentDrawnTrain = tc; 
 	}
@@ -244,10 +243,10 @@ public class GameController {
 	}
 	public void deleteOne(int x) {
 		show5.set(x, deck.pop());
-		
-		
+
+
 	}
-	
+
 	public ArrayList<TrainCard> getShow5(){
 		return show5;
 	}
