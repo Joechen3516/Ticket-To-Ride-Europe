@@ -25,7 +25,9 @@ public class Player {
 		return hand;
 	}
 
-
+	public PlayerColor getPlayerColor() {
+		return color;
+	}
 
 
 	@Override
