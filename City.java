@@ -16,10 +16,13 @@ public class City implements Comparable{
 		this.isDouble = d;
 	}
 	
-	public void built(PlayerColor c) {
-		owner = c;
+
+
+	public void addStation(Player p) {
 		station = true;
+		owner = p.getPlayerColor();
 	}
+
 
 
 	
