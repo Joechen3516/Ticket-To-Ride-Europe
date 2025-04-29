@@ -31,6 +31,7 @@ public class GameController {
 	private int cardTurn = 0;
 	private int currentDrawnTrain = 0;
 	private GuiState guiState = GuiState.nothing;
+	private ArrayList<String> currentCities = new ArrayList<>();
 	
 
 
@@ -159,16 +160,33 @@ public class GameController {
 		}
 		
 		if(x.equals(ActionEvents.CityButton)) {
+		
+			
 			if(x.equals(ActionEvents.placeStation)) {
-				//STATION LOGIC
-				nextTurn();
+				guiState = GuiState.stationPurchasePanel;
 			}
+			
+			if(x.equals(ActionEvents.purchaseRoad)) {
+				if(currentCities.size() == 2) {
+					guiState = GuiState.roadPurchasePanel;
+				}
+			}
+			
+			
 		}
 		
 	
 
 
 
+	}
+	
+	public void giveCity(String c) {
+		if(currentCities.get(0) == null) {
+			currentCities.set(0,c);
+		}else {
+			currentCities.set(1, c);
+		}
 	}
 	
 	public GuiState getGuiState() {
