@@ -181,7 +181,15 @@ public class GameController {
 	}
 
 	public void giveCity(String c) {
+		if(!currentCities.isEmpty()){
+			if(c.equals(currentCities.get(0))) {
+				
+			}else {
+				currentCities.add(c);
+			}
+		}else {
 		currentCities.add(c);
+		}
 	}
 
 	public GuiState getGuiState() {
