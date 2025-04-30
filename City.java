@@ -18,12 +18,6 @@ public class City implements Comparable{
 	
 
 
-	public void addStation(Player p) {
-		station = true;
-		owner = p.getPlayerColor();
-	}
-
-
 
 	
 	public String getName() {
@@ -36,6 +30,10 @@ public class City implements Comparable{
 
 	public String toString() {
 		return name;
+	}
+	public void addStation(Player p) {
+		station = true;
+		owner = p.getPlayerColor();
 	}
 
 	@Override
