@@ -300,6 +300,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	public void paintComponent(Graphics g) {
 		//System.out.println(getWidth() + " " + getHeight());
 		Graphics2D g2 = (Graphics2D)g.create();
+		AffineTransform initial = g2.getTransform();
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.drawImage(gamebg, 0, 0, getWidth(), getHeight(), null);
 		if(game.getGuiState() == GuiState.nothing) {
@@ -570,7 +571,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				double[] ys = r.getys();
 				double[] as = r.getas();
 				
-				for(int i = 0; i < 4; i++) {
+				for(int i = 0; i < xs.length; i++) {
 					AffineTransform old = g2.getTransform();
 					g2.setColor(c);
 
