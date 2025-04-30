@@ -296,6 +296,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	public void paintComponent(Graphics g) {
 		//System.out.println(getWidth() + " " + getHeight());
 		Graphics2D g2 = (Graphics2D)g.create();
+		AffineTransform initial = g2.getTransform();
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.drawImage(gamebg, 0, 0, getWidth(), getHeight(), null);
 		if(game.getGuiState() == GuiState.nothing)
@@ -526,6 +527,9 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			stationButton.setBounds(tempButton.getX() + tempButton.getWidth()/2 - 60, tempButton.getY() + tempButton.getHeight() + 110, 125,30);
 			roadButton.setBounds(tempButton.getX() + tempButton.getWidth()/2 - 60, tempButton.getY() + tempButton.getHeight() + 50, 125, 30);
 		}
+		
+		g2.setTransform(initial);
+		ArrayList<Player> players = game.getPlayers();
 		for(Player player : players) {
 			Color c = player.getColor();
 			ArrayList<Road> roads = player.getRoads();
@@ -534,7 +538,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				double[] ys = r.getys();
 				double[] as = r.getas();
 				
-				for(int i = 0; i < 4; i++) {
+				for(int i = 0; i < xs.length; i++) {
 					AffineTransform old = g2.getTransform();
 					g2.setColor(c);
 
@@ -607,7 +611,6 @@ class ButtonListener implements ActionListener{
 		GameController tempGame = gui.getGame();
 		JButton button = (JButton) e.getSource();
 		String source = button.getName();
-		System.out.println("Source: " + source);
 		HashMap<String, JButton> tempCityButtons = gui.getCityButtons();
 		if(tempCityButtons.get(source) != null && gui.clickedOnCity() == false) {
 			gui.setLatestCityClicked(source);
@@ -617,6 +620,7 @@ class ButtonListener implements ActionListener{
 		else if(gui.clickedOnCity() == true && source.equals(gui.getSelectedCity())) {
 			gui.setSelectedCity("");
 			gui.changeClickedOnCity();
+			
 		}
 		else if(gui.clickedOnCity() == true && source.equals("road")) {
 			tempGame.giveCity(gui.getLatestCityClicked());

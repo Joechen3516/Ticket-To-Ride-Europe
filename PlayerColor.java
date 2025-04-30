@@ -1,8 +1,8 @@
 
 public enum PlayerColor {
-	Yellow,
-	Green,
-	Blue,
-	Red
+	YELLOW,
+	GREEN,
+	BLUE,
+	RED
 	
 }
