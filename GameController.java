@@ -75,12 +75,16 @@ public class GameController {
 
 		return players.get(turn-1);
 	}
+	public ArrayList<Player> getPlayers(){
+		return players;
+	}
 
 	public int getCurrentPlayerNumber() {
 		if(turn<0) {
 			return turn+4;
 		}
 		return turn;
+		
 	}
 
 	public void nextTurn() {
@@ -89,6 +93,7 @@ public class GameController {
 		}else {
 			turn = 1;
 		}
+		currentCities.clear();
 	}
 
 	public void chooseDestinations() {
@@ -189,7 +194,12 @@ public class GameController {
 
 		if(x.equals(ActionEvents.purchaseRoad)) {
 			if(currentCities.size() == 2) {
-				this.guiState = GuiState.roadPurchasePanel;
+				//this.guiState = GuiState.roadPurchasePanel;
+				getCurrentPlayer().addRoad(europe.roadSearch(europe.citySearch(currentCities.get(0)),europe.citySearch(currentCities.get(1))).get(0));
+				for(Road r : getCurrentPlayer().getRoads()) {
+					System.out.print(r);
+				}
+				nextTurn();
 			}
 		}
 
@@ -237,13 +247,11 @@ public class GameController {
 
 	public void giveCity(String c) {
 		if(!currentCities.isEmpty()){
-			if(c.equals(currentCities.get(0))) {
-				
-			}else {
+			if(!c.equals(currentCities.get(0))) {
 				currentCities.add(c);
 			}
 		}else {
-		currentCities.add(c);
+			currentCities.add(c);
 		}
 	}
 
