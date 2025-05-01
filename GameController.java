@@ -27,13 +27,20 @@ public class GameController {
 	private String currentScreen = "dest";
 	private Europe europe = new Europe();
 	private Map<String,SwitchablePanel> panels = new HashMap<>();
+		
+	
+	
+	
+	//FLAGS
+	//DONT RESET THESE
 	private boolean initalChooseFlag = true;
-	private int cardTurn = 0;
-	private int currentDrawnTrain = 0;
+
+	
+	//RESET THESE
 	private GuiState guiState = GuiState.nothing;
 	private ArrayList<String> currentCities = new ArrayList<>();
-
-
+	private int currentDrawnTrain = 0;
+	private int cardTurn = 0;
 
 
 	// Inital Setup
@@ -93,6 +100,17 @@ public class GameController {
 		}
 		
 		currentCities.clear();
+		guiState = GuiState.nothing;
+		cardTurn = 0;
+		currentDrawnTrain = 0;
+	}
+	
+	public ArrayList<String> getCurrentCities(){
+		return currentCities;
+	}
+	
+	public int getCurrentCitiesSize() {
+		return currentCities.size();
 	}
 
 	public void chooseDestinations() {
@@ -252,12 +270,6 @@ public class GameController {
 		return null;
 
 	}
-
-
-
-
-
-
 
 	public void makeFive() {
 		for(int i =0; i<5;i++) {
