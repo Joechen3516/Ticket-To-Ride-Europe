@@ -11,6 +11,7 @@ public class Player {
 	private ArrayList<Road> roads = new ArrayList<>();
 	private ArrayList<City> stationLocations = new ArrayList<>();
 	private int trainPieces = 45; //double check value later.
+	private int roadScore = 0;
 
 
 
@@ -70,6 +71,17 @@ public class Player {
 		}
 		roads.add(r);
 		trainPieces -= r.getLength()[0];
+		if (r.getLength()[0] < 3 && r.getLength()[0] > 0) {
+			roadScore += r.getLength()[0];
+		} else if (r.getLength()[0] == 3) {
+			roadScore += 4;
+		} else if (r.getLength()[0] == 4) {
+			roadScore += 7;
+		} else if (r.getLength()[0] == 6) {
+			roadScore += 15;
+		} else if (r.getLength()[0] == 8) {
+			roadScore += 21;
+		}
 		return true;
 
 	}
