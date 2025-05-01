@@ -27,20 +27,15 @@ public class GameController {
 	private String currentScreen = "dest";
 	private Europe europe = new Europe();
 	private Map<String,SwitchablePanel> panels = new HashMap<>();
-		
-	
-	
-	
-	//FLAGS
-	//DONT RESET THESE
 	private boolean initalChooseFlag = true;
-
-	
-	//RESET THESE
+	private int cardTurn = 0;
+	private int currentDrawnTrain = 0;
 	private GuiState guiState = GuiState.nothing;
 	private ArrayList<String> currentCities = new ArrayList<>();
-	private int currentDrawnTrain = 0;
-	private int cardTurn = 0;
+	private TrainCard j; 
+	
+	private boolean wait; 
+
 
 
 	// Inital Setup
@@ -80,7 +75,6 @@ public class GameController {
 
 		return players.get(turn-1);
 	}
-	
 	public ArrayList<Player> getPlayers(){
 		return players;
 	}
@@ -90,6 +84,7 @@ public class GameController {
 			return turn+4;
 		}
 		return turn;
+		
 	}
 
 	public void nextTurn() {
@@ -98,19 +93,7 @@ public class GameController {
 		}else {
 			turn = 1;
 		}
-		
 		currentCities.clear();
-		guiState = GuiState.nothing;
-		cardTurn = 0;
-		currentDrawnTrain = 0;
-	}
-	
-	public ArrayList<String> getCurrentCities(){
-		return currentCities;
-	}
-	
-	public int getCurrentCitiesSize() {
-		return currentCities.size();
 	}
 
 	public void chooseDestinations() {
@@ -182,6 +165,25 @@ public class GameController {
 			}
 
 		}
+		if(x.equals(ActionEvents.TrainDeck)) {
+			j = deckDraw();
+			
+			wait = true; 
+			
+			
+
+		}
+		if(x.equals(ActionEvents.LimboCard)) {
+			if(!wait) {
+				getCurrentPlayer().addTrainCard(j);
+				cardTurn += 1;
+				if(cardTurn == 2) {
+					cardTurn = 0;
+					
+					nextTurn();
+				}
+			}
+		}
 
 
 
@@ -191,19 +193,13 @@ public class GameController {
 		}
 
 		if(x.equals(ActionEvents.purchaseRoad)) {
-			
-			ArrayList<City> adj = europe.getAvailableAdjacentCities(europe.citySearch(currentCities.get(0)));
-			
-			
-			if(currentCities.size() == 2 && adj.contains(europe.citySearch(currentCities.get(1)))) {
+			if(currentCities.size() == 2) {
 				//this.guiState = GuiState.roadPurchasePanel;
 				getCurrentPlayer().addRoad(europe.roadSearch(europe.citySearch(currentCities.get(0)),europe.citySearch(currentCities.get(1))).get(0));
 				for(Road r : getCurrentPlayer().getRoads()) {
 					System.out.print(r);
 				}
 				nextTurn();
-			}else if(currentCities.size() == 2) {
-				currentCities.clear();
 			}
 		}
 
@@ -213,6 +209,40 @@ public class GameController {
 
 
 
+	}
+	public boolean getWait() {
+		return wait; 
+	}
+	public void waitToFalse() {
+		wait = false; 
+	}
+	public void waitToTrue() {
+		wait = true; 
+	}
+	
+	public int getCardTurn() {
+		return cardTurn; 
+	}
+	public TrainCard getj() {
+		return j;
+	}
+	public boolean checkThree() {
+		int x = 0; 
+		for(int i = 0; i < show5.size(); i++) {
+			if (show5.get(i).getColor() == TrainColor.Wild) {
+				x++;
+			}
+		}
+		if (x>2) {
+			discardDeck.addAll(show5);
+			return true;
+		}
+		return false; 
+	}
+	public void replaceFive() {
+		for(int i = 0; i < show5.size(); i++) {
+			show5.set(i, deck.pop());
+		}
 	}
 
 	public void giveCity(String c) {
@@ -270,6 +300,12 @@ public class GameController {
 		return null;
 
 	}
+
+
+
+
+
+
 
 	public void makeFive() {
 		for(int i =0; i<5;i++) {
@@ -423,7 +459,7 @@ public class GameController {
 	public <E> void  shuffledeck(List<?> deck) {
 		Collections.shuffle(deck);
 	}
-
+	
 	public Europe getEurope() {
 		return europe;
 	}
