@@ -49,9 +49,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	JButton traincard4 = new JButton();
 	JButton traincard5 = new JButton();
 	int cardturn = 0;
-	private ArrayList<Player> players = new ArrayList<>();
 	private ArrayList<City> adjacentCities = new ArrayList<City>();
-	private ActionEvents currentAction;
 	private String latestCityClicked;
 	private boolean clickedRoadOrStation;
 	private String[] cityNames;
@@ -358,14 +356,18 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			g.setColor(new Color(193,255,114));
 		g.drawString("Player " + turn, (int)(getWidth()*0.7976), (int)(getHeight()*0.72157));
 		g.drawImage(routecardback, getWidth()*1480/1920, getHeight()*50/1080 , getWidth()/12, getHeight()/5, null);
+		
 		//Drawing adjacent cities
+		
 		for(City city : adjacentCities) {
-			if(game.getCurrentCitiesSize() != 2) {
+			if(game.getCurrentCitiesSize() != 2 && game.getCurrentCitiesSize() != 0) {
 				g.setColor(Color.yellow);
 				JButton adjCity = cityButtons.get(city.getName());
 				g.fillRect(adjCity.getX() - 2, adjCity.getY() - 2, citySide + 5, citySide + 5);
 			}
 		}
+		
+		
 		//Drawing routes
 		ArrayList<RouteCard> rout = p.getRoutes();
 		int y = getHeight()*885/1080;
@@ -621,9 +623,6 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	public String getSelectedCity() {
 		return selectedCity;
 	}
-	public void setCurrentAction(ActionEvents p) {
-		currentAction = p;
-	}
 	public void setAdjacentCities(ArrayList<City> arr) {
 		adjacentCities = arr;
 	}
@@ -668,20 +667,33 @@ class ButtonListener implements ActionListener{
 			}
 		}
 		else if(gui.clickedOnCity() == true && source.equals(gui.getSelectedCity())) {
+			
+			
 			gui.setSelectedCity("");
 			gui.changeClickedOnCity();
+			
+			
 		}
 		else if(gui.clickedOnCity() == true && source.equals("road")) {
+			
+			
+			
 			gui.changeClickedRoadOrStation();
 			tempGame.giveCity(gui.getLatestCityClicked());
 			tempGame.HandleAction(ActionEvents.purchaseRoad);
 			gui.setAdjacentCities(tempGame.getEurope().getAvailableAdjacentCities(tempGame.getEurope().citySearch(gui.getSelectedCity())));
 			gui.changeClickedOnCity();
+			
+			
 		}
 		else if(gui.clickedOnCity() == true && source.equals("station")) {
+			
 			gui.changeClickedRoadOrStation();
 			tempGame.HandleAction(ActionEvents.placeStation);
 			gui.changeClickedOnCity();
+			
+			
+			
 		}
 		gui.repaint();
 	}
