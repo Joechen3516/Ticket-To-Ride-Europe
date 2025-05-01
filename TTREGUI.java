@@ -563,6 +563,8 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			stationButton.setBounds(tempButton.getX() + tempButton.getWidth()/2 - 60, tempButton.getY() + tempButton.getHeight() + 110, (int)(getWidth()*0.06565), (int)(getHeight()*0.02882));
 			roadButton.setBounds(tempButton.getX() + tempButton.getWidth()/2 - 60, tempButton.getY() + tempButton.getHeight() + 50, (int)(getWidth()*0.06565), (int)(getHeight()*0.02882));
 		}
+		g2.setTransform(initial);
+		ArrayList<Player> players = game.getPlayers();
 		for(Player player : players) {
 			Color c = player.getColor();
 			ArrayList<Road> roads = player.getRoads();
