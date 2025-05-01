@@ -173,13 +173,19 @@ public class GameController {
 		}
 
 		if(x.equals(ActionEvents.purchaseRoad)) {
-			if(currentCities.size() == 2) {
+			
+			ArrayList<City> adj = europe.getAvailableAdjacentCities(europe.citySearch(currentCities.get(0)));
+			
+			
+			if(currentCities.size() == 2 && adj.contains(europe.citySearch(currentCities.get(1)))) {
 				//this.guiState = GuiState.roadPurchasePanel;
 				getCurrentPlayer().addRoad(europe.roadSearch(europe.citySearch(currentCities.get(0)),europe.citySearch(currentCities.get(1))).get(0));
 				for(Road r : getCurrentPlayer().getRoads()) {
 					System.out.print(r);
 				}
 				nextTurn();
+			}else if(currentCities.size() == 2) {
+				currentCities.clear();
 			}
 		}
 
