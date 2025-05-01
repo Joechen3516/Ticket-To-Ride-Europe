@@ -27,15 +27,15 @@ public class GameController {
 	private String currentScreen = "dest";
 	private Europe europe = new Europe();
 	private Map<String,SwitchablePanel> panels = new HashMap<>();
-		
-	
-	
-	
+
+
+
+
 	//FLAGS
 	//DONT RESET THESE
 	private boolean initalChooseFlag = true;
 
-	
+
 	//RESET THESE
 	private GuiState guiState = GuiState.nothing;
 	private ArrayList<String> currentCities = new ArrayList<>();
@@ -80,7 +80,7 @@ public class GameController {
 
 		return players.get(turn-1);
 	}
-	
+
 	public ArrayList<Player> getPlayers(){
 		return players;
 	}
@@ -98,17 +98,17 @@ public class GameController {
 		}else {
 			turn = 1;
 		}
-		
+
 		currentCities.clear();
 		guiState = GuiState.nothing;
 		cardTurn = 0;
 		currentDrawnTrain = 0;
 	}
-	
+
 	public ArrayList<String> getCurrentCities(){
 		return currentCities;
 	}
-	
+
 	public int getCurrentCitiesSize() {
 		return currentCities.size();
 	}
@@ -161,26 +161,28 @@ public class GameController {
 		}
 
 		if(x.equals(ActionEvents.TrainCard)) {
-			if(currentDrawnTrain != -1) {
-				if(show5.get(currentDrawnTrain).getColor() == TrainColor.Wild && cardTurn == 0) {
-					getCurrentPlayer().addTrainCard(show5.get(currentDrawnTrain));
-					deleteOne(currentDrawnTrain);
+			if(currentCities.size() < 2) {
+				if(currentDrawnTrain != -1) {
+					if(show5.get(currentDrawnTrain).getColor() == TrainColor.Wild && cardTurn == 0) {
+						getCurrentPlayer().addTrainCard(show5.get(currentDrawnTrain));
+						deleteOne(currentDrawnTrain);
+						currentDrawnTrain = -1;
+						cardTurn += 2;
+					}else if(show5.get(currentDrawnTrain).getColor() != TrainColor.Wild){
+						getCurrentPlayer().addTrainCard(show5.get(currentDrawnTrain));
+						deleteOne(currentDrawnTrain);
+						currentDrawnTrain = -1;
+						cardTurn++;
+					}
+
+				}	
+				if(cardTurn == 2) {
+					cardTurn = 0;
 					currentDrawnTrain = -1;
-					cardTurn += 2;
-				}else if(show5.get(currentDrawnTrain).getColor() != TrainColor.Wild){
-					getCurrentPlayer().addTrainCard(show5.get(currentDrawnTrain));
-					deleteOne(currentDrawnTrain);
-					currentDrawnTrain = -1;
-					cardTurn++;
+					nextTurn();
 				}
 
-			}	
-			if(cardTurn == 2) {
-				cardTurn = 0;
-				currentDrawnTrain = -1;
-				nextTurn();
 			}
-
 		}
 
 
@@ -191,19 +193,20 @@ public class GameController {
 		}
 
 		if(x.equals(ActionEvents.purchaseRoad)) {
-			
-			ArrayList<City> adj = europe.getAvailableAdjacentCities(europe.citySearch(currentCities.get(0)));
-			
-			
-			if(currentCities.size() == 2 && adj.contains(europe.citySearch(currentCities.get(1)))) {
-				//this.guiState = GuiState.roadPurchasePanel;
-				getCurrentPlayer().addRoad(europe.roadSearch(europe.citySearch(currentCities.get(0)),europe.citySearch(currentCities.get(1))).get(0));
-				for(Road r : getCurrentPlayer().getRoads()) {
-					System.out.print(r);
+			if(cardTurn == 0) {
+				ArrayList<City> adj = europe.getAvailableAdjacentCities(europe.citySearch(currentCities.get(0)));
+
+
+				if(currentCities.size() == 2 && adj.contains(europe.citySearch(currentCities.get(1)))) {
+					//this.guiState = GuiState.roadPurchasePanel;
+					getCurrentPlayer().addRoad(europe.roadSearch(europe.citySearch(currentCities.get(0)),europe.citySearch(currentCities.get(1))).get(0));
+					for(Road r : getCurrentPlayer().getRoads()) {
+						System.out.print(r);
+					}
+					nextTurn();
+				}else if(currentCities.size() == 2) {
+					currentCities.clear();
 				}
-				nextTurn();
-			}else if(currentCities.size() == 2) {
-				currentCities.clear();
 			}
 		}
 
