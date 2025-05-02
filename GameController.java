@@ -236,15 +236,28 @@ public class GameController {
 				}
 			}
 		}
+
+		if(x.equals(ActionEvents.Cancel)) {
+			if(guiState == GuiState.roadPurchasePanel) {
+				for(TrainCard tc: selectedTrainCards) {
+					getCurrentPlayer().addTrainCard(tc);
+				}
+			}
+		}
+		
+		if(x.equals(ActionEvents.Confirm)) {
+			
+		}
 	}
 
 	public void HandleAction(ActionEvents x, TrainColor trainColor) {
 		Road road = europe.roadSearch(europe.citySearch(currentCities.get(0)), europe.citySearch(currentCities.get(1))).get(0);
+
 		if(road.hasMountains()) {
 
 		}
 		else if(road.getLength()[1] > 0) {
-
+			int ferrylength = road.getLength()[1];
 		}
 		else {
 			if(x.equals(ActionEvents.addedTrainCard)) {
@@ -261,6 +274,7 @@ public class GameController {
 			}
 		}
 	}
+	
 	public void deleteDontReplace(int x) {
 		show5.set(x, null);
 	}
