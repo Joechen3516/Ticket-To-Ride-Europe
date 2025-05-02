@@ -27,7 +27,9 @@ public class GameController {
 	private String currentScreen = "dest";
 	private Europe europe = new Europe();
 	private Map<String,SwitchablePanel> panels = new HashMap<>();
-
+	private ArrayList<TrainCard> selectedTrainCards = new ArrayList<TrainCard>();
+	private boolean wait;
+	private TrainCard j;
 
 
 
@@ -128,7 +130,7 @@ public class GameController {
 
 
 	}
-
+	
 	public void HandleAction(ActionEvents x) {
 		if(x.equals(ActionEvents.Start)) {
 			switchScreen("Destination");
@@ -195,29 +197,99 @@ public class GameController {
 		if(x.equals(ActionEvents.purchaseRoad)) {
 			if(cardTurn == 0) {
 				ArrayList<City> adj = europe.getAvailableAdjacentCities(europe.citySearch(currentCities.get(0)));
-
-
 				if(currentCities.size() == 2 && adj.contains(europe.citySearch(currentCities.get(1)))) {
-					//this.guiState = GuiState.roadPurchasePanel;
-					getCurrentPlayer().addRoad(europe.roadSearch(europe.citySearch(currentCities.get(0)),europe.citySearch(currentCities.get(1))).get(0));
+					this.guiState = GuiState.roadPurchasePanel;
 					for(Road r : getCurrentPlayer().getRoads()) {
 						System.out.print(r);
 					}
-					nextTurn();
 				}else if(currentCities.size() == 2) {
 					currentCities.clear();
 				}
 			}
 		}
+		if(x.equals(ActionEvents.TrainDeck)) {
+			j = deckDraw();
+			
+			wait = true; 
+			
+			
 
-
-
-
-
-
-
+		}
+		if(x.equals(ActionEvents.LimboCard)) {
+			if(!wait) {
+				getCurrentPlayer().addTrainCard(j);
+				cardTurn += 1;
+				if(cardTurn == 2) {
+					cardTurn = 0;
+					
+					nextTurn();
+				}
+			}
+		}
 	}
-
+	
+	public void HandleAction(ActionEvents x, TrainColor trainColor) {
+		Road road = europe.roadSearch(europe.citySearch(currentCities.get(0)), europe.citySearch(currentCities.get(1))).get(0);
+		if(road.hasMountains()) {
+			
+		}
+		else if(road.getLength()[1] > 0) {
+			
+		}
+		else {
+			if(x.equals(ActionEvents.addedTrainCard)) {
+				if(road.getColor() == trainColor) {
+					if(road.getLength()[0] != selectedTrainCards.size()){
+						selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+					}
+				}
+				else if(trainColor == TrainColor.Wild) {
+					if(road.getLength()[0] != selectedTrainCards.size()){
+						selectedTrainCards.add(getCurrentPlayer().getHand().get(TrainColor.Wild).removeLast());
+					}
+				}
+			}
+		}
+	}
+	
+	public ArrayList<TrainCard> getSelectedTrainCards(){
+		return selectedTrainCards;
+	}
+	public boolean getWait() {
+		return wait; 
+	}
+	public void waitToFalse() {
+		wait = false; 
+	}
+	public void waitToTrue() {
+		wait = true; 
+	}
+	
+	public int getCardTurn() {
+		return cardTurn; 
+	}
+	public TrainCard getj() {
+		return j;
+	}
+	public boolean checkThree() {
+		int x = 0; 
+		for(int i = 0; i < show5.size(); i++) {
+			if (show5.get(i).getColor() == TrainColor.Wild) {
+				x++;
+			}
+		}
+		if (x>2) {
+			discardDeck.addAll(show5);
+			return true;
+		}
+		return false; 
+	}
+	public void replaceFive() {
+		for(int i = 0; i < show5.size(); i++) {
+			show5.set(i, deck.pop());
+		}
+	}
+	
 	public void giveCity(String c) {
 		if(!currentCities.isEmpty()){
 			if(!c.equals(currentCities.get(0))) {
