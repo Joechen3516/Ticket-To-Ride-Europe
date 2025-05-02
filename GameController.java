@@ -203,7 +203,7 @@ public class GameController {
 		}
 
 		if(x.equals(ActionEvents.purchaseRoad)) {
-			if(cardTurn == 0) {
+			if(cardTurn < 1) {
 				ArrayList<City> adj = europe.getAvailableAdjacentCities(europe.citySearch(currentCities.get(0)));
 				if(currentCities.size() == 2 && adj.contains(europe.citySearch(currentCities.get(1)))) {
 					this.guiState = GuiState.roadPurchasePanel;
@@ -213,6 +213,8 @@ public class GameController {
 				}else if(currentCities.size() == 2) {
 					currentCities.clear();
 				}
+			}else {
+				currentCities.clear();
 			}
 		}
 		if(x.equals(ActionEvents.TrainDeck)) {
