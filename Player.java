@@ -168,13 +168,14 @@ public class Player {
 		return false;
 	}
 
-	//unfinished
+	//finished?
 	public int getLongestLength() {
 		int result = 0;
 		for (Road r: roads) {
 			for(City n: r.getNodeArray()) {
-				if (getLongestLengthCity(n, new ArrayList<City>(), 0) > result) {
-//filler filler finish later
+				int currentLength = getLongestLengthCity(n, new ArrayList<City>(), 0);
+				if (currentLength > result) {
+					result = currentLength;
 				}
 			}
 		}
