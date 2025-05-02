@@ -595,7 +595,8 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			for(TrainCard tr : currCards) {
 				//System.out.println(tr.getColor());
 				BufferedImage temp = null;
-				switch(tr.getColor()) {
+				if(tr != null) {
+					switch(tr.getColor()) {
 					case TrainColor.Black:
 						temp = black;
 						break;
@@ -623,6 +624,9 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 					case TrainColor.Wild:
 						temp = wild;
 						break;
+					}
+				}else {
+					temp = null;
 				}
 				g.drawImage(temp, trX, trY, trW, trH, null);
 				trY = trY + (int)(getHeight()*0.10086);
