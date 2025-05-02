@@ -63,6 +63,8 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	JButton playerYellow = new JButton();
 	JButton playerPink = new JButton();
 	JButton playerWild = new JButton();
+	JButton confirm = new JButton();
+	JButton cancel = new JButton();
 	public TTREGUI(GameController game) {
 		this.game = game;
 		clickedRoadOrStation = false;
@@ -85,6 +87,18 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				repaint();
 			}
 		});*/
+		cancel.setName("cancel");
+		add(cancel);
+		cancel.setOpaque(false);
+		cancel.setContentAreaFilled(false);
+		cancel.setBorderPainted(false);
+		cancel.addActionListener(listener);
+		confirm.setName("confirm");
+		add(confirm);
+		confirm.setOpaque(false);
+		confirm.setContentAreaFilled(false);
+		confirm.setBorderPainted(false);
+		confirm.addActionListener(listener);
 		stationButton.setName("station");
 		add(stationButton);
 		stationButton.addActionListener(listener);
@@ -417,15 +431,25 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				cityButtons.get(str).setBounds(cityCoords[index][0], cityCoords[index][1], citySide, citySide);
 				index++;
 			}
+			confirm.setBounds(-100,-100,0,0);
+			cancel.setBounds(-100, -100, 0, 0);
 		}
 		else if(game.getGuiState() == GuiState.roadPurchasePanel) {
-			int index = 0;
-			for(String str : cityNames) {
-				cityButtons.get(str).setBounds(-100, -100, 0, 0);
-				index++;
-			}
 			g.setColor(Color.gray);
 			g.fillRect(0, 0, (int)(getWidth()*0.75557), (int)(getHeight()*0.86306));
+			confirm.setBounds((int)(getWidth()*0.12080), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+			g.setColor(Color.yellow);
+			g.drawRect((int)(getWidth()*0.12080), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+			g.fillRect((int)(getWidth()*0.12080), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+			cancel.setBounds((int)(getWidth()*0.33088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+			g.drawRect((int)(getWidth()*0.33088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+			g.fillRect((int)(getWidth()*0.33088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+			g.setColor(Color.black);
+			g.drawString("Confirm", 330, 710);
+			g.drawString("Cancel", 630, 710);
+			for(String str : cityNames) {
+				cityButtons.get(str).setBounds(-100, -100, 0, 0);
+			}
 			g.setColor(Color.yellow);
 			g.setFont(f);
 			g.drawString("Buying road from " + game.getCurrentCities().get(0) + " to " + game.getCurrentCities().get(1), 5, 100);
@@ -442,7 +466,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				else {
 					g.setFont(tempF);
 					g.drawString("Cost: " + roads.get(0).getLength()[0] + " " + roads.get(0).getColor(), (int)(getWidth()*0.23634), (int)(getHeight()*0.19212));
-					int addedTrainX = 100;
+					int addedTrainX = 10;
 					for(TrainCard t : game.getSelectedTrainCards()) {
 						BufferedImage temp = null;
 						switch(t.getColor()) {
@@ -474,7 +498,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 								temp = wild;
 								break;
 						}
-						g.drawImage(temp, addedTrainX, 300, 130, 80, null);
+						g.drawImage(temp, addedTrainX, 250, 130, 80, null);
 						addedTrainX = addedTrainX + 140;
 					}
 				}
@@ -597,39 +621,39 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				BufferedImage temp = null;
 				if(tr != null) {
 					switch(tr.getColor()) {
-					case TrainColor.Black:
-						temp = black;
-						break;
-					case TrainColor.Orange:
-						temp = orange;
-						break;
-					case TrainColor.Red:
-						temp = red;
-						break;
-					case TrainColor.Blue:
-						temp = blue;
-						break;
-					case TrainColor.Green:
-						temp = green;
-						break;
-					case TrainColor.White:
-						temp = white;
-						break;
-					case TrainColor.Yellow:
-						temp = yellow;
-						break;
-					case TrainColor.Pink:
-						temp = pink;
-						break;
-					case TrainColor.Wild:
-						temp = wild;
-						break;
+						case TrainColor.Black:
+							temp = black;
+							break;
+						case TrainColor.Orange:
+							temp = orange;
+							break;
+						case TrainColor.Red:
+							temp = red;
+							break;
+						case TrainColor.Blue:
+							temp = blue;
+							break;
+						case TrainColor.Green:
+							temp = green;
+							break;
+						case TrainColor.White:
+							temp = white;
+							break;
+						case TrainColor.Yellow:
+							temp = yellow;
+							break;
+						case TrainColor.Pink:
+							temp = pink;
+							break;
+						case TrainColor.Wild:
+							temp = wild;
+							break;
 					}
-				}else {
-					temp = null;
-				}
-				g.drawImage(temp, trX, trY, trW, trH, null);
-				trY = trY + (int)(getHeight()*0.10086);
+					g.drawImage(temp, trX, trY, trW, trH, null);
+					trY = trY + (int)(getHeight()*0.10086);
+			}else {
+				temp = null;
+			}
 		}
 	
 
@@ -872,9 +896,6 @@ class ButtonListener implements ActionListener{
 			
 		}
 		else if(gui.clickedOnCity() == true && source.equals("road")) {
-			
-			
-			
 			gui.changeClickedRoadOrStation();
 			tempGame.giveCity(gui.getLatestCityClicked());
 			tempGame.HandleAction(ActionEvents.purchaseRoad);
