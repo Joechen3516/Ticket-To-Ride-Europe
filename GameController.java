@@ -130,7 +130,7 @@ public class GameController {
 
 
 	}
-	
+
 	public void HandleAction(ActionEvents x) {
 		if(x.equals(ActionEvents.Start)) {
 			switchScreen("Destination");
@@ -163,16 +163,24 @@ public class GameController {
 		}
 
 		if(x.equals(ActionEvents.TrainCard)) {
-			if(currentCities.size() < 2) {
+			if(currentCities.size() < 2 && show5.get(currentDrawnTrain) != null) {
 				if(currentDrawnTrain != -1) {
 					if(show5.get(currentDrawnTrain).getColor() == TrainColor.Wild && cardTurn == 0) {
 						getCurrentPlayer().addTrainCard(show5.get(currentDrawnTrain));
-						deleteOne(currentDrawnTrain);
+						if(deck.size() > 0) {
+							deleteOne(currentDrawnTrain);
+						}else {
+							deleteDontReplace(currentDrawnTrain);
+						}
 						currentDrawnTrain = -1;
 						cardTurn += 2;
 					}else if(show5.get(currentDrawnTrain).getColor() != TrainColor.Wild){
 						getCurrentPlayer().addTrainCard(show5.get(currentDrawnTrain));
-						deleteOne(currentDrawnTrain);
+						if(deck.size() > 0) {
+							deleteOne(currentDrawnTrain);
+						}else {
+							deleteDontReplace(currentDrawnTrain);
+						}
 						currentDrawnTrain = -1;
 						cardTurn++;
 					}
@@ -209,10 +217,10 @@ public class GameController {
 		}
 		if(x.equals(ActionEvents.TrainDeck)) {
 			j = deckDraw();
-			
+
 			wait = true; 
-			
-			
+
+
 
 		}
 		if(x.equals(ActionEvents.LimboCard)) {
@@ -221,20 +229,20 @@ public class GameController {
 				cardTurn += 1;
 				if(cardTurn == 2) {
 					cardTurn = 0;
-					
+
 					nextTurn();
 				}
 			}
 		}
 	}
-	
+
 	public void HandleAction(ActionEvents x, TrainColor trainColor) {
 		Road road = europe.roadSearch(europe.citySearch(currentCities.get(0)), europe.citySearch(currentCities.get(1))).get(0);
 		if(road.hasMountains()) {
-			
+
 		}
 		else if(road.getLength()[1] > 0) {
-			
+
 		}
 		else {
 			if(x.equals(ActionEvents.addedTrainCard)) {
@@ -251,7 +259,10 @@ public class GameController {
 			}
 		}
 	}
-	
+	public void deleteDontReplace(int x) {
+		show5.set(x, null);
+	}
+
 	public ArrayList<TrainCard> getSelectedTrainCards(){
 		return selectedTrainCards;
 	}
@@ -264,7 +275,7 @@ public class GameController {
 	public void waitToTrue() {
 		wait = true; 
 	}
-	
+
 	public int getCardTurn() {
 		return cardTurn; 
 	}
@@ -274,8 +285,10 @@ public class GameController {
 	public boolean checkThree() {
 		int x = 0; 
 		for(int i = 0; i < show5.size(); i++) {
-			if (show5.get(i).getColor() == TrainColor.Wild) {
-				x++;
+			if(show5.get(i) != null) {
+				if (show5.get(i).getColor() == TrainColor.Wild) {
+					x++;
+				}
 			}
 		}
 		if (x>2) {
@@ -285,11 +298,29 @@ public class GameController {
 		return false; 
 	}
 	public void replaceFive() {
-		for(int i = 0; i < show5.size(); i++) {
-			show5.set(i, deck.pop());
+
+
+		if(deck.size() > 5) {
+			for(TrainCard tc : show5) {
+				discardDeck.add(tc);
+			}
+
+			for(int i = 0; i < show5.size(); i++) {
+				show5.set(i, deck.pop());
+			}
+		}else {
+
+			for(TrainCard tc : discardDeck) {
+				deck.add(tc);
+			}
+			discardDeck.clear();
+
+			for(int i = 0; i < show5.size(); i++) {
+				show5.set(i, deck.pop());
+			}
 		}
 	}
-	
+
 	public void giveCity(String c) {
 		if(!currentCities.isEmpty()){
 			if(!c.equals(currentCities.get(0))) {
