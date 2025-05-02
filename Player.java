@@ -5,7 +5,6 @@ import java.util.HashMap;
 public class Player {
 	private HashMap<TrainColor,ArrayList<TrainCard>> hand;
 	private PlayerColor color;
-	//private int score = 0; //score should be calculated by controller i think? not sure.
 	private ArrayList<RouteCard> routeCards = new ArrayList<>();
 	private int numStations = 3;
 	private ArrayList<Road> roads = new ArrayList<>();
@@ -84,6 +83,19 @@ public class Player {
 		}
 		return true;
 
+	}
+
+	public int calculateTotalScore() {
+		int result = 0;
+		for (RouteCard n: getCompletedRoutes()) {
+			result += n.getPoints();
+		}
+		result += roadScore;
+		return result;
+	}
+
+	public int getRoadScore() {
+		return roadScore;
 	}
 
 	public boolean addStation(City c) {
