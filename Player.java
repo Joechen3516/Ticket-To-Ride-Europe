@@ -68,6 +68,7 @@ public class Player {
 		if (trainPieces - r.getLength()[0] < 0) {
 			return false;
 		}
+		r.bulit(this.color);
 		roads.add(r);
 		trainPieces -= r.getLength()[0];
 		if (r.getLength()[0] < 3 && r.getLength()[0] > 0) {
