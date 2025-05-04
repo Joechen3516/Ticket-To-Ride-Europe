@@ -1,5 +1,7 @@
 public enum GuiState {
 	roadPurchasePanel,
 	stationPurchasePanel,
-	nothing
+	nothing,
+	Leaderboard,
+	Tips
 }

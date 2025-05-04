@@ -28,7 +28,10 @@ public class Player {
 	public PlayerColor getPlayerColor() {
 		return color;
 	}
-
+	
+	public ArrayList<City> getStationLocations(){
+		return stationLocations;
+	}
 
 	@Override
 	public String toString() {
@@ -68,6 +71,7 @@ public class Player {
 		if (trainPieces - r.getLength()[0] < 0) {
 			return false;
 		}
+		r.bulit(this.color);
 		roads.add(r);
 		trainPieces -= r.getLength()[0];
 		if (r.getLength()[0] < 3 && r.getLength()[0] > 0) {
@@ -84,7 +88,10 @@ public class Player {
 		return true;
 
 	}
-
+	
+	public int getTrainPieces() {
+		return trainPieces;
+	}
 	public int calculateTotalScore() {
 		int result = 0;
 		for (RouteCard n: getCompletedRoutes()) {
@@ -97,6 +104,7 @@ public class Player {
 	public int getRoadScore() {
 		return roadScore;
 	}
+	
 
 	public boolean addStation(City c) {
 		if (numStations == 0) {

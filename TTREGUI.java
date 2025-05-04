@@ -27,7 +27,7 @@ import java.awt.event.MouseEvent;
 import java.awt.BasicStroke;
 import java.awt.Color;
 public class TTREGUI extends JPanel implements SwitchablePanel{
-	private BufferedImage gamebg,gameboard,routecardback,traincardback,black,orange,red,blue,green,white,yellow,pink,wild;
+	private BufferedImage gamebg,gameboard,routecardback,traincardback,black,orange,red,blue,green,white,yellow,pink,wild,tips,information;
 	private Font f;
 	private int citySide;
 	private HashMap<String, JButton> cityButtons;
@@ -65,6 +65,12 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	JButton playerWild = new JButton();
 	JButton confirm = new JButton();
 	JButton cancel = new JButton();
+	JButton colorOne = new JButton();
+	JButton colorTwo = new JButton();
+	JButton lb = new JButton();
+	JButton help = new JButton();
+	private TrainColor selectedRoadColor = null;
+	private int whichRoad = -1;
 	public TTREGUI(GameController game) {
 		this.game = game;
 		clickedRoadOrStation = false;
@@ -87,6 +93,30 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				repaint();
 			}
 		});*/
+		lb.setName("leaderboard");
+		add(lb);
+		lb.setOpaque(false);
+		lb.setContentAreaFilled(false);
+		lb.setBorderPainted(false);
+		lb.addActionListener(listener);
+		help.setName("help");
+		add(help);
+		help.setOpaque(false);
+		help.setContentAreaFilled(false);
+		help.setBorderPainted(false);
+		help.addActionListener(listener);
+		colorOne.setName("colorOne");
+		add(colorOne);
+		colorOne.setOpaque(false);
+		colorOne.setContentAreaFilled(false);
+		colorOne.setBorderPainted(false);
+		colorOne.addActionListener(listener);
+		colorTwo.setName("colorTwo");
+		add(colorTwo);
+		colorTwo.setOpaque(false);
+		colorTwo.setContentAreaFilled(false);
+		colorTwo.setBorderPainted(false);
+		colorTwo.addActionListener(listener);
 		cancel.setName("cancel");
 		add(cancel);
 		cancel.setOpaque(false);
@@ -211,6 +241,8 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			yellow = ImageIO.read(TTREGUI.class.getResource("/trains/yellow.jpg"));
 			pink = ImageIO.read(TTREGUI.class.getResource("/trains/pink.jpg"));
 			wild = ImageIO.read(TTREGUI.class.getResource("/trains/wild.jpg"));
+			tips = ImageIO.read(TTREGUI.class.getResource("/images/tips.png"));
+			information = ImageIO.read(TTREGUI.class.getResource("/images/information.png"));
 		}
 		catch(Exception e) {
 			System.out.println("TTRE GUI image issue");
@@ -253,6 +285,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				traincard4.setBounds((int)(getWidth()*0.88971),(int)(getHeight()*0.01825)+ (int)(getHeight()*0.10086)+ (int)(getHeight()*0.10086) + (int)(getHeight()*0.10086), (int)(getWidth()*0.08981),(int)(getHeight()*0.09798));
 				traincard5.setBounds((int)(getWidth()*0.88971),(int)(getHeight()*0.01825)+ (int)(getHeight()*0.10086)+ (int)(getHeight()*0.10086) + (int)(getHeight()*0.10086) + (int)(getHeight()*0.10086), (int)(getWidth()*0.08981),(int)(getHeight()*0.09798));
 				traincard6.setBounds((int)(getWidth()*0.88971),(int)(getHeight()*580/1080), (int)(getWidth()*0.08981),(int)(getHeight()*0.09998));
+				lb.setBounds((int)(getWidth()*0.75779), (int)(getHeight()*0.53846), (int)(getWidth()*0.12662), (int)(getHeight()*0.08467));
 				int blackX = (int)(getWidth()*0.00630);
 				int blueX = blackX + (int)(getWidth()*0.08403);
 				int greenX = blueX + (int)(getWidth()*0.08403);
@@ -329,7 +362,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				
 				
 
-				if (e.getSource() == traincard1 && routeClicked == false && !game.checkThree()&& !game.getWait()) {
+				if (e.getSource() == traincard1 && routeClicked == false && !game.checkThree()&& !game.getWait() && !(game.getGuiState() == GuiState.roadPurchasePanel || game.getGuiState() == GuiState.stationPurchasePanel || game.getGuiState() == GuiState.Leaderboard)) {
 					game.which5(0);
 					game.HandleAction(ActionEvents.TrainCard);
 				} 
@@ -344,7 +377,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				
 				
 
-				if (e.getSource() == traincard2 && routeClicked == false && !game.checkThree()&& !game.getWait()) {
+				if (e.getSource() == traincard2 && routeClicked == false && !game.checkThree()&& !game.getWait() && !(game.getGuiState() == GuiState.roadPurchasePanel || game.getGuiState() == GuiState.stationPurchasePanel || game.getGuiState() == GuiState.Leaderboard)) {
 					game.which5(1);
 					game.HandleAction(ActionEvents.TrainCard);
 				} 
@@ -359,7 +392,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				
 				
 
-				if (e.getSource() == traincard3 && routeClicked == false && !game.checkThree()&& !game.getWait()) {
+				if (e.getSource() == traincard3 && routeClicked == false && !game.checkThree()&& !game.getWait() && !(game.getGuiState() == GuiState.roadPurchasePanel || game.getGuiState() == GuiState.stationPurchasePanel || game.getGuiState() == GuiState.Leaderboard)) {
 					game.which5(2);
 					game.HandleAction(ActionEvents.TrainCard);
 				} 
@@ -374,7 +407,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				
 				
 
-				if (e.getSource() == traincard4 && routeClicked == false && !game.checkThree()&& !game.getWait()) {
+				if (e.getSource() == traincard4 && routeClicked == false && !game.checkThree()&& !game.getWait() && !(game.getGuiState() == GuiState.roadPurchasePanel || game.getGuiState() == GuiState.stationPurchasePanel || game.getGuiState() == GuiState.Leaderboard)) {
 					game.which5(3);
 					game.HandleAction(ActionEvents.TrainCard);
 				} 
@@ -389,7 +422,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				
 				
 
-				if (e.getSource() == traincard5 && routeClicked == false && !game.checkThree()&& !game.getWait()) {
+				if (e.getSource() == traincard5 && routeClicked == false && !game.checkThree()&& !game.getWait() && !(game.getGuiState() == GuiState.roadPurchasePanel || game.getGuiState() == GuiState.stationPurchasePanel || game.getGuiState() == GuiState.Leaderboard)) {
 					game.which5(4);
 					game.HandleAction(ActionEvents.TrainCard);
 				} 
@@ -403,7 +436,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
             public void actionPerformed(ActionEvent e) {
                     
                     
-                    if (e.getSource() == traincard6 && routeClicked == false && !game.checkThree() && !game.getWait()) {
+                    if (e.getSource() == traincard6 && routeClicked == false && !game.checkThree() && !game.getWait() && !(game.getGuiState() == GuiState.roadPurchasePanel || game.getGuiState() == GuiState.stationPurchasePanel || game.getGuiState() == GuiState.Leaderboard)) {
                             game.waitToTrue();
                             game.HandleAction(ActionEvents.TrainDeck);
                     }
@@ -419,54 +452,65 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 		}
 	}
 	public void paintComponent(Graphics g) {
-		//System.out.println(getWidth() + " " + getHeight());
 		Graphics2D g2 = (Graphics2D)g.create();
 		AffineTransform initial = g2.getTransform();
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.drawImage(gamebg, 0, 0, getWidth(), getHeight(), null);
+		help.setBounds(-100, -100, 0, 0);
 		if(game.getGuiState() == GuiState.nothing) {
 			g.drawImage(gameboard, 0, 0, (int)(getWidth()*0.75557), (int)(getHeight()*0.86306), null);
+			g.drawImage(tips, 0, 0, (int)(getWidth()*0.04221), (int)(getHeight()*0.07692), null);
 			int index = 0;
 			for(String str : cityNames) {
 				cityButtons.get(str).setBounds(cityCoords[index][0], cityCoords[index][1], citySide, citySide);
 				index++;
 			}
+			help.setBounds(0, 0, (int)(getWidth()*0.04221), (int)(getHeight()*0.07692));
 			confirm.setBounds(-100,-100,0,0);
 			cancel.setBounds(-100, -100, 0, 0);
+			colorOne.setBounds(-100, -100, 0, 0);
+			colorTwo.setBounds(-100, -100, 0, 0);
 		}
 		else if(game.getGuiState() == GuiState.roadPurchasePanel) {
+			Font tempF = new Font("Centaur", 0, 65);
 			g.setColor(Color.gray);
 			g.fillRect(0, 0, (int)(getWidth()*0.75557), (int)(getHeight()*0.86306));
-			confirm.setBounds((int)(getWidth()*0.12080), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
-			g.setColor(Color.yellow);
-			g.drawRect((int)(getWidth()*0.12080), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
-			g.fillRect((int)(getWidth()*0.12080), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
-			cancel.setBounds((int)(getWidth()*0.33088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
-			g.drawRect((int)(getWidth()*0.33088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
-			g.fillRect((int)(getWidth()*0.33088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
-			g.setColor(Color.black);
-			g.drawString("Confirm", 330, 710);
-			g.drawString("Cancel", 630, 710);
 			for(String str : cityNames) {
 				cityButtons.get(str).setBounds(-100, -100, 0, 0);
 			}
 			g.setColor(Color.yellow);
-			g.setFont(f);
-			g.drawString("Buying road from " + game.getCurrentCities().get(0) + " to " + game.getCurrentCities().get(1), 5, 100);
+			tempF = new Font("Centaur", 0, 66);
+			g.setFont(tempF);
+			g.drawString("Buying road from " + game.getCurrentCities().get(0) + " to " + game.getCurrentCities().get(1), (int)(getWidth()*0.00263), (int)(getHeight()*0.09606));
 			Europe europe = game.getEurope();
 			ArrayList<Road> roads = europe.roadSearch(europe.citySearch(game.getCurrentCities().get(0)),europe.citySearch(game.getCurrentCities().get(1)));
-			Font tempF = new Font("Centaur", 0, 50);
-			if(roads.size() == 1) {
-				if(roads.get(0).hasMountains()) {
-					
-				}
-				else if(roads.get(0).getLength()[1] > 0) {
-					
+			if(roads.size() == 1 || whichRoad > -1) {
+				tempF = new Font("Centaur", 0, 65);
+				g.setFont(tempF);
+				confirm.setBounds((int)(getWidth()*0.12080), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+				g.setColor(Color.yellow);
+				g.drawRect((int)(getWidth()*0.12080), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+				g.fillRect((int)(getWidth()*0.12080), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+				cancel.setBounds((int)(getWidth()*0.33088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+				g.drawRect((int)(getWidth()*0.33088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+				g.fillRect((int)(getWidth()*0.33088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+				g.setColor(Color.black);
+				g.drawString("Confirm", (int)(getWidth()*0.13312), (int)(getHeight()*0.76923));
+				g.drawString("Cancel", (int)(getWidth()*0.34416), (int)(getHeight()*0.76923));
+				int cnt = 0;
+				if(roads.size() == 1) {
+					selectedRoadColor = roads.get(0).getColor();
+					cnt = 0;
 				}
 				else {
+					selectedRoadColor = roads.get(whichRoad).getColor();
+					cnt = whichRoad;
+				}
+				whichRoad = cnt;
+				if(roads.get(cnt).hasMountains() && !game.paidInitialMountain()) {
 					g.setFont(tempF);
-					g.drawString("Cost: " + roads.get(0).getLength()[0] + " " + roads.get(0).getColor(), (int)(getWidth()*0.23634), (int)(getHeight()*0.19212));
-					int addedTrainX = 10;
+					g.drawString("Cost: " + roads.get(cnt).getLength()[cnt] + " " + roads.get(cnt).getColor(), (int)(getWidth()*0.10634), (int)(getHeight()*0.19212));
+					int addedTrainX = (int)(getWidth()*0.00525);
 					for(TrainCard t : game.getSelectedTrainCards()) {
 						BufferedImage temp = null;
 						switch(t.getColor()) {
@@ -498,19 +542,396 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 								temp = wild;
 								break;
 						}
-						g.drawImage(temp, addedTrainX, 250, 130, 80, null);
-						addedTrainX = addedTrainX + 140;
+						g.drawImage(temp, addedTrainX, (int)(getHeight()*0.24015), (int)(getWidth()*0.06828), (int)(getHeight()*0.07685), null);
+						addedTrainX = addedTrainX + (int)(getWidth()*0.07353);
+					}
+				}
+				else if(roads.get(cnt).hasMountains() && game.paidInitialMountain()){
+					g.setFont(tempF);
+					g.drawString("Additional Cost: " + game.getNumToPay(), (int)(getWidth()*0.10634), (int)(getHeight()*0.19212));
+					int addedTrainX = (int)(getWidth()*0.05525);
+					for(TrainCard t : game.getMountainCards()) {
+						BufferedImage temp = null;
+						switch(t.getColor()) {
+							case TrainColor.Black:
+								temp = black;
+								break;
+							case TrainColor.Orange:
+								temp = orange;
+								break;
+							case TrainColor.Red:
+								temp = red;
+								break;
+							case TrainColor.Blue:
+								temp = blue;
+								break;
+							case TrainColor.Green:
+								temp = green;
+								break;
+							case TrainColor.White:
+								temp = white;
+								break;
+							case TrainColor.Yellow:
+								temp = yellow;
+								break;
+							case TrainColor.Pink:
+								temp = pink;
+								break;
+							case TrainColor.Wild:
+								temp = wild;
+								break;
+						}
+						g.drawImage(temp, addedTrainX, (int)(getHeight()*0.24015), (int)(getWidth()*0.06828), (int)(getHeight()*0.07685), null);
+						addedTrainX = addedTrainX + (int)(getWidth()*0.07353);
+					}
+					addedTrainX = (int)(getWidth()*0.00525);
+					for(TrainCard t : game.getSelectedTrainCards()) {
+						BufferedImage temp = null;
+						switch(t.getColor()) {
+							case TrainColor.Black:
+								temp = black;
+								break;
+							case TrainColor.Orange:
+								temp = orange;
+								break;
+							case TrainColor.Red:
+								temp = red;
+								break;
+							case TrainColor.Blue:
+								temp = blue;
+								break;
+							case TrainColor.Green:
+								temp = green;
+								break;
+							case TrainColor.White:
+								temp = white;
+								break;
+							case TrainColor.Yellow:
+								temp = yellow;
+								break;
+							case TrainColor.Pink:
+								temp = pink;
+								break;
+							case TrainColor.Wild:
+								temp = wild;
+								break;
+						}
+						g.drawImage(temp, addedTrainX, (int)(getHeight()*0.34015), (int)(getWidth()*0.06828), (int)(getHeight()*0.07685), null);
+						addedTrainX = addedTrainX + (int)(getWidth()*0.07353);
+					}
+					addedTrainX = (int)(getWidth()*0.00525);
+					for(TrainCard t : game.getCardsForMountain()) {
+						BufferedImage temp = null;
+						switch(t.getColor()) {
+							case TrainColor.Black:
+								temp = black;
+								break;
+							case TrainColor.Orange:
+								temp = orange;
+								break;
+							case TrainColor.Red:
+								temp = red;
+								break;
+							case TrainColor.Blue:
+								temp = blue;
+								break;
+							case TrainColor.Green:
+								temp = green;
+								break;
+							case TrainColor.White:
+								temp = white;
+								break;
+							case TrainColor.Yellow:
+								temp = yellow;
+								break;
+							case TrainColor.Pink:
+								temp = pink;
+								break;
+							case TrainColor.Wild:
+								temp = wild;
+								break;
+						}
+						g.drawImage(temp, addedTrainX, (int)(getHeight()*0.44015), (int)(getWidth()*0.06828), (int)(getHeight()*0.07685), null);
+						addedTrainX = addedTrainX + (int)(getWidth()*0.07353);
+					}
+				}
+				else if(roads.get(cnt).getLength()[1] > 0) {
+					g.setFont(tempF);
+					g.drawString("Cost: " + (roads.get(cnt).getLength()[cnt] - roads.get(cnt).getLength()[1]) + " wild first then " + roads.get(0).getLength()[1] + " of any color", (int)(getWidth()*0.03634), (int)(getHeight()*0.19212));
+					int addedTrainX = (int)(getWidth()*0.00525);
+					for(TrainCard t : game.getSelectedTrainCards()) {
+						BufferedImage temp = null;
+						switch(t.getColor()) {
+							case TrainColor.Black:
+								temp = black;
+								break;
+							case TrainColor.Orange:
+								temp = orange;
+								break;
+							case TrainColor.Red:
+								temp = red;
+								break;
+							case TrainColor.Blue:
+								temp = blue;
+								break;
+							case TrainColor.Green:
+								temp = green;
+								break;
+							case TrainColor.White:
+								temp = white;
+								break;
+							case TrainColor.Yellow:
+								temp = yellow;
+								break;
+							case TrainColor.Pink:
+								temp = pink;
+								break;
+							case TrainColor.Wild:
+								temp = wild;
+								break;
+						}
+						g.drawImage(temp, addedTrainX, (int)(getHeight()*0.24015), (int)(getWidth()*0.06828), (int)(getHeight()*0.07685), null);
+						addedTrainX = addedTrainX + (int)(getWidth()*0.07353);
+					}
+				}
+				else {
+					tempF = new Font("Centaur", 0, 50);
+					g.setFont(tempF);
+					g.drawString("Cost: " + roads.get(cnt).getLength()[0] + " " + roads.get(cnt).getColor(), (int)(getWidth()*0.23634), (int)(getHeight()*0.19212));
+					int addedTrainX = (int)(getWidth()*0.00525);
+					for(TrainCard t : game.getSelectedTrainCards()) {
+						BufferedImage temp = null;
+						switch(t.getColor()) {
+							case TrainColor.Black:
+								temp = black;
+								break;
+							case TrainColor.Orange:
+								temp = orange;
+								break;
+							case TrainColor.Red:
+								temp = red;
+								break;
+							case TrainColor.Blue:
+								temp = blue;
+								break;
+							case TrainColor.Green:
+								temp = green;
+								break;
+							case TrainColor.White:
+								temp = white;
+								break;
+							case TrainColor.Yellow:
+								temp = yellow;
+								break;
+							case TrainColor.Pink:
+								temp = pink;
+								break;
+							case TrainColor.Wild:
+								temp = wild;
+								break;
+						}
+						g.drawImage(temp, addedTrainX, (int)(getHeight()*0.24015), (int)(getWidth()*0.06828), (int)(getHeight()*0.07685), null);
+						addedTrainX = addedTrainX + (int)(getWidth()*0.07353);
 					}
 				}
 			}
 			else {
-				
+				g.drawString("This road has two paths, choose one color:", (int)(getWidth()*0.00263), (int)(getHeight()*0.22606));
+				tempF = new Font("Centaur", 0, 90);
+				g.setFont(tempF);
+				switch(roads.get(0).getColor()) {
+				case TrainColor.Black:
+					g.setColor(Color.black);
+					break;
+				case TrainColor.Orange:
+					g.setColor(Color.orange);
+					break;
+				case TrainColor.Red:
+					g.setColor(Color.red);
+					break;
+				case TrainColor.Blue:
+					g.setColor(Color.blue);
+					break;
+				case TrainColor.Green:
+					g.setColor(Color.green);
+					break;
+				case TrainColor.White:
+					g.setColor(Color.white);
+					break;
+				case TrainColor.Yellow:
+					g.setColor(Color.yellow);
+					break;
+				case TrainColor.Pink:
+					g.setColor(Color.pink);
+					break;
+				case TrainColor.Wild:
+					g.setColor(Color.white);
+					break;
+				}
+				g.drawRect((int)(getWidth()*0.06494), (int)(getHeight()*0.35503), (int)(getWidth()*0.19481), (int)(getHeight()*0.23669));
+				g.fillRect((int)(getWidth()*0.06494), (int)(getHeight()*0.35503), (int)(getWidth()*0.19481), (int)(getHeight()*0.23669));
+				g.setColor(Color.black);
+				if(roads.get(0).getColor() == TrainColor.Black)
+					g.setColor(Color.white);
+				g.drawString("" + roads.get(0).getColor(), (int)(getWidth()*0.09740), (int)(getHeight()*0.49704));
+				switch(roads.get(1).getColor()) {
+				case TrainColor.Black:
+					g.setColor(Color.black);
+					break;
+				case TrainColor.Orange:
+					g.setColor(Color.orange);
+					break;
+				case TrainColor.Red:
+					g.setColor(Color.red);
+					break;
+				case TrainColor.Blue:
+					g.setColor(Color.blue);
+					break;
+				case TrainColor.Green:
+					g.setColor(Color.green);
+					break;
+				case TrainColor.White:
+					g.setColor(Color.white);
+					break;
+				case TrainColor.Yellow:
+					g.setColor(Color.yellow);
+					break;
+				case TrainColor.Pink:
+					g.setColor(Color.pink);
+					break;
+				case TrainColor.Wild:
+					g.setColor(Color.white);
+					break;
+				}
+				g.drawRect((int)(getWidth()*0.38961), (int)(getHeight()*0.35503), (int)(getWidth()*0.19481), (int)(getHeight()*0.23669));
+				g.fillRect((int)(getWidth()*0.38961), (int)(getHeight()*0.35503), (int)(getWidth()*0.19481), (int)(getHeight()*0.23669));
+				g.setColor(Color.black);
+				if(roads.get(1).getColor() == TrainColor.Black)
+					g.setColor(Color.white);
+				g.drawString("" + roads.get(1).getColor(), (int)(getWidth()*0.40909), (int)(getHeight()*0.49704));
+				colorOne.setBounds((int)(getWidth()*0.06494), (int)(getHeight()*0.35503), (int)(getWidth()*0.19481), (int)(getHeight()*0.23669));
+				colorTwo.setBounds((int)(getWidth()*0.38961), (int)(getHeight()*0.35503), (int)(getWidth()*0.19481), (int)(getHeight()*0.23669));
+				cancel.setBounds((int)(getWidth()*0.28088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+				g.setColor(Color.yellow);
+				g.drawRect((int)(getWidth()*0.28088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+				g.fillRect((int)(getWidth()*0.28088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+				g.setColor(Color.black);
+				g.drawString("Cancel", (int)(getWidth()*0.28716), (int)(getHeight()*0.76923));
 			}
 		}
 		else if(game.getGuiState() == GuiState.stationPurchasePanel) {
 			g.setColor(Color.gray);
 			g.fillRect(0, 0, (int)(getWidth()*0.75557), (int)(getHeight()*0.86306));
+			g.setColor(Color.yellow);
+			Font tempF = new Font("Centaur", 0, 66);
+			g.setFont(tempF);
+			g.drawString("Buying station at " + latestCityClicked, (int)(getWidth()*0.00263), (int)(getHeight()*0.09606));
+			g.setFont(tempF);
+			g.setColor(Color.black);
+			String cost = "";
+			if(game.getCurrentPlayer().getStationLocations().size() == 0) {
+				cost = "Cost: 1 of any color";
+			}
+			else if(game.getCurrentPlayer().getStationLocations().size() == 1) {
+				cost = "Cost: 2 of any color";
+			}
+			else if(game.getCurrentPlayer().getStationLocations().size() == 2) {
+				cost = "Cost: 3 of any color";
+			}
+			else {
+				cost = "You cannot place more stations";
+			}
+			g.drawString(cost, (int)(getWidth()*0.00264), (int)(getHeight()*0.19212));
+			int addedTrainX = (int)(getWidth()*0.00525);
+			for(TrainCard t : game.getSelectedTrainCards()) {
+				BufferedImage temp = null;
+				switch(t.getColor()) {
+					case TrainColor.Black:
+						temp = black;
+						break;
+					case TrainColor.Orange:
+						temp = orange;
+						break;
+					case TrainColor.Red:
+						temp = red;
+						break;
+					case TrainColor.Blue:
+						temp = blue;
+						break;
+					case TrainColor.Green:
+						temp = green;
+						break;
+					case TrainColor.White:
+						temp = white;
+						break;
+					case TrainColor.Yellow:
+						temp = yellow;
+						break;
+					case TrainColor.Pink:
+						temp = pink;
+						break;
+					case TrainColor.Wild:
+						temp = wild;
+						break;
+				}
+				g.drawImage(temp, addedTrainX, (int)(getHeight()*0.24015), (int)(getWidth()*0.06828), (int)(getHeight()*0.07685), null);
+				addedTrainX = addedTrainX + (int)(getWidth()*0.07353);
+			}
+			tempF = new Font("Centaur", 0, 65);
+			g.setFont(tempF);
+			confirm.setBounds((int)(getWidth()*0.12080), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+			g.setColor(Color.yellow);
+			g.drawRect((int)(getWidth()*0.12080), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+			g.fillRect((int)(getWidth()*0.12080), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+			cancel.setBounds((int)(getWidth()*0.33088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+			g.drawRect((int)(getWidth()*0.33088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+			g.fillRect((int)(getWidth()*0.33088), (int)(getHeight()*0.69164), (int)(getWidth()*0.15756), (int)(getHeight()*0.09606));
+			g.setColor(Color.black);
+			g.drawString("Confirm", (int)(getWidth()*0.13312), (int)(getHeight()*0.76923));
+			g.drawString("Cancel", (int)(getWidth()*0.34416), (int)(getHeight()*0.76923));
 		}
+		else if(game.getGuiState() == GuiState.Leaderboard) {
+			g.setColor(Color.gray);
+			g.fillRect(0, 0, (int)(getWidth()*0.75557), (int)(getHeight()*0.86306));
+			g.setColor(Color.yellow);
+			Font tempF = new Font("Centaur", 0, 66);
+			g.setFont(tempF);
+			g.drawString("Leaderboard", (int)(getWidth()*0.00263), (int)(getHeight()*0.09606));
+			tempF = new Font("Centaur", 0, 44);
+			g.setFont(tempF);
+			g.drawString("Player #", (int)(getWidth()*0.00325), (int)(getHeight()*0.19606));
+			g.drawString("Score", (int)(getWidth()*0.22078), (int)(getHeight()*0.19606));
+			g.drawString("Trains", (int)(getWidth()*0.32792), (int)(getHeight()*0.19606));
+			g.drawString("Stations", (int)(getWidth()*0.43506), (int)(getHeight()*0.19606));
+			tempF = new Font("Centaur", 0, 66);
+			g.setFont(tempF);
+			int cnt = 1;
+			int playerY = (int)(getHeight()*0.29586);
+			for(Player p : game.getPlayers()) {
+				Color c = p.getColor();
+				g.setColor(c);
+				g.drawString("Player " + cnt, (int)(getWidth()*0.00325), playerY);
+				g.drawString("" + p.getRoadScore(), (int)(getWidth()*0.22078), playerY);
+				g.drawString("" + p.getTrainPieces(), (int)(getWidth()*0.32792), playerY);
+				g.drawString("" + (3 - p.getStationLocations().size()), (int)(getWidth()*0.43506), playerY);
+				playerY = playerY + (int)(getHeight()*0.11834);
+				cnt++;
+			}
+		}
+		else if(game.getGuiState() == GuiState.Tips) {
+			g.drawImage(information, 0, 0, getWidth(), getHeight(), null);
+			help.setBounds(0, 0, getWidth(), getHeight());
+			return;
+		}
+		g.setColor(Color.magenta);
+		g.fillRect((int)(getWidth()*0.75779), (int)(getHeight()*0.53846), (int)(getWidth()*0.12662), (int)(getHeight()*0.08467));
+		g.setColor(Color.black);
+		Font tempF = new Font("Centaur", 0, 54);
+		g.setFont(tempF);
+		if(game.getGuiState() == GuiState.Leaderboard) 
+			g.drawString("Hide LB", (int)(getWidth()*0.76079), (int)(getHeight()*0.60000));
+		else
+			g.drawString("Show LB", (int)(getWidth()*0.76079), (int)(getHeight()*0.60000));
 		g.setFont(f);
 		int turn = game.getCurrentPlayerNumber();
 		Player p = game.getCurrentPlayer();
@@ -573,7 +994,51 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			g.setColor(new Color(193,255,114));
 		g.drawString("Player " + turn, (int)(getWidth()*0.7976), (int)(getHeight()*0.72157));
 		g.drawImage(routecardback, getWidth()*1480/1920, getHeight()*50/1080 , getWidth()/12, getHeight()/5, null);
-		
+		if(game.getGuiState() == GuiState.nothing) {
+			g2.setTransform(initial);
+			ArrayList<Player> players = game.getPlayers();
+			for(Player player : players) {
+				Color c = player.getColor();
+				ArrayList<Road> roads = player.getRoads();
+				for(Road r : roads) {
+					double[] xs = r.getxs();
+					double[] ys = r.getys();
+					double[] as = r.getas();
+					
+					for(int i = 0; i < xs.length; i++) {
+						AffineTransform old = g2.getTransform();
+						g2.setColor(c);
+	
+						int x = (int) (xs[i]*getWidth());
+						int yx = (int) (ys[i]*getHeight());
+						double a = as[i];
+						g2.rotate(a,x,yx);
+						g2.fill3DRect(x, yx, 12, 50, true);
+						g2.draw3DRect(x,yx,12,50,true);
+						g2.draw3DRect(x+1,yx+1,12,43,true);
+						g2.draw3DRect(x+2,yx+2,12,43,true);
+						g2.draw3DRect(x+3,yx+3,12,43,true);
+						g2.draw3DRect(x+4,yx+4,12,43,true);
+						g2.draw3DRect(x+5,yx+5,12,43,true);
+						g2.setTransform(old);
+					}
+	
+				}
+				ArrayList<City> stations = player.getStationLocations();
+				for(City station : stations) {
+					int stationX = cityButtons.get(station.getName()).getX();
+					int stationY = cityButtons.get(station.getName()).getY();
+					int stationWidth = cityButtons.get(station.getName()).getWidth();
+					int stationHeight = cityButtons.get(station.getName()).getHeight();
+					g.setColor(Color.black);
+					g.drawRect(stationX, stationY, stationWidth, stationHeight);
+					g.drawRect(stationX - 1, stationY - 1, stationWidth, stationHeight);
+					g.setColor(c);
+					g.fillRect(stationX, stationY, stationWidth, stationHeight);
+				}
+	
+			}
+		}
 		//Drawing adjacent cities
 		
 		for(City city : adjacentCities) {
@@ -786,37 +1251,6 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 			stationButton.setBounds(tempButton.getX() + tempButton.getWidth()/2 - 60, tempButton.getY() + tempButton.getHeight() + 110, (int)(getWidth()*0.06565), (int)(getHeight()*0.02882));
 			roadButton.setBounds(tempButton.getX() + tempButton.getWidth()/2 - 60, tempButton.getY() + tempButton.getHeight() + 50, (int)(getWidth()*0.06565), (int)(getHeight()*0.02882));
 		}
-		g2.setTransform(initial);
-		ArrayList<Player> players = game.getPlayers();
-		for(Player player : players) {
-			Color c = player.getColor();
-			ArrayList<Road> roads = player.getRoads();
-			for(Road r : roads) {
-				double[] xs = r.getxs();
-				double[] ys = r.getys();
-				double[] as = r.getas();
-				
-				for(int i = 0; i < xs.length; i++) {
-					AffineTransform old = g2.getTransform();
-					g2.setColor(c);
-
-					int x = (int) (xs[i]*getWidth());
-					int yx = (int) (ys[i]*getHeight());
-					double a = as[i];
-					g2.rotate(a,x,yx);
-					g2.fill3DRect(x, yx, 12, 50, true);
-					g2.draw3DRect(x,yx,12,50,true);
-					g2.draw3DRect(x+1,yx+1,12,43,true);
-					g2.draw3DRect(x+2,yx+2,12,43,true);
-					g2.draw3DRect(x+3,yx+3,12,43,true);
-					g2.draw3DRect(x+4,yx+4,12,43,true);
-					g2.draw3DRect(x+5,yx+5,12,43,true);
-					g2.setTransform(old);
-				}
-
-			}
-
-		}
 	}
 	@Override
 	public void OnSwitchedTo() {
@@ -859,6 +1293,18 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 	public boolean getClickedRoadOrStation() {
 		return clickedRoadOrStation;
 	}
+	public TrainColor getSelectedRoadColor() {
+		return selectedRoadColor;
+	}
+	public void setWhichRoad(int n) {
+		whichRoad = n;
+	}
+	public int getWhichRoad() {
+		return whichRoad;
+	}
+	public void resetAdjacentCities() {
+		adjacentCities.clear();
+	}
 }
 
 class ButtonListener implements ActionListener{
@@ -882,18 +1328,17 @@ class ButtonListener implements ActionListener{
 			}
 			else {
 				gui.setLatestCityClicked(source);
-				gui.setSelectedCity(source);
 				tempGame.giveCity(gui.getLatestCityClicked());
 				tempGame.HandleAction(ActionEvents.purchaseRoad);
+				gui.setLatestCityClicked("");
+				gui.setSelectedCity("");
+				gui.resetAdjacentCities();
 			}
 		}
 		else if(gui.clickedOnCity() == true && source.equals(gui.getSelectedCity())) {
-			
-			
 			gui.setSelectedCity("");
 			gui.changeClickedOnCity();
-			
-			
+			gui.resetAdjacentCities();
 		}
 		else if(gui.clickedOnCity() == true && source.equals("road")) {
 			gui.changeClickedRoadOrStation();
@@ -901,49 +1346,86 @@ class ButtonListener implements ActionListener{
 			tempGame.HandleAction(ActionEvents.purchaseRoad);
 			gui.setAdjacentCities(tempGame.getEurope().getAvailableAdjacentCities(tempGame.getEurope().citySearch(gui.getSelectedCity())));
 			gui.changeClickedOnCity();
-			
-			
 		}
-		else if(gui.clickedOnCity() == true && source.equals("station")) {
+		else if(gui.clickedOnCity() == true && source.equals("station") && !tempGame.getEurope().citySearch(gui.getLatestCityClicked()).hasStation()) {
 			gui.changeClickedRoadOrStation();
+			tempGame.giveCity(gui.getLatestCityClicked());
 			tempGame.HandleAction(ActionEvents.placeStation);
 			gui.changeClickedOnCity();
 		}
-		else if(tempGame.getGuiState() == GuiState.roadPurchasePanel && source.equals("playerBlack")) {
-			if(tempGame.getCurrentPlayer().getHand().get(TrainColor.Black).size() > 0)
-				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Black);
+		else if((tempGame.getGuiState() == GuiState.roadPurchasePanel || tempGame.getGuiState() == GuiState.stationPurchasePanel) && source.equals("playerBlack")) {
+			if(tempGame.getCurrentPlayer().getHand().get(TrainColor.Black).size() > 0) {
+				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Black, gui.getWhichRoad());
+			}
 		}
-		else if(tempGame.getGuiState() == GuiState.roadPurchasePanel && source.equals("playerOrange")) {
+		else if((tempGame.getGuiState() == GuiState.roadPurchasePanel || tempGame.getGuiState() == GuiState.stationPurchasePanel) && source.equals("playerOrange")) {
 			if(tempGame.getCurrentPlayer().getHand().get(TrainColor.Orange).size() > 0)
-				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Orange);
+				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Orange, gui.getWhichRoad());
 		}
-		else if(tempGame.getGuiState() == GuiState.roadPurchasePanel && source.equals("playerRed")) {
+		else if((tempGame.getGuiState() == GuiState.roadPurchasePanel || tempGame.getGuiState() == GuiState.stationPurchasePanel) && source.equals("playerRed")) {
 			if(tempGame.getCurrentPlayer().getHand().get(TrainColor.Red).size() > 0)
-				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Red);
+				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Red, gui.getWhichRoad());
 		}
-		else if(tempGame.getGuiState() == GuiState.roadPurchasePanel && source.equals("playerBlue")) {
+		else if((tempGame.getGuiState() == GuiState.roadPurchasePanel || tempGame.getGuiState() == GuiState.stationPurchasePanel) && source.equals("playerBlue")) {
 			if(tempGame.getCurrentPlayer().getHand().get(TrainColor.Blue).size() > 0)
-				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Blue);
+				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Blue, gui.getWhichRoad());
 		}
-		else if(tempGame.getGuiState() == GuiState.roadPurchasePanel && source.equals("playerGreen")) {
+		else if((tempGame.getGuiState() == GuiState.roadPurchasePanel || tempGame.getGuiState() == GuiState.stationPurchasePanel) && source.equals("playerGreen")) {
 			if(tempGame.getCurrentPlayer().getHand().get(TrainColor.Green).size() > 0)
-				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Green);
+				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Green, gui.getWhichRoad());
 		}
-		else if(tempGame.getGuiState() == GuiState.roadPurchasePanel && source.equals("playerWhite")) {
+		else if((tempGame.getGuiState() == GuiState.roadPurchasePanel || tempGame.getGuiState() == GuiState.stationPurchasePanel) && source.equals("playerWhite")) {
 			if(tempGame.getCurrentPlayer().getHand().get(TrainColor.White).size() > 0)
-				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.White);
+				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.White, gui.getWhichRoad());
 		}
-		else if(tempGame.getGuiState() == GuiState.roadPurchasePanel && source.equals("playerYellow")) {
+		else if((tempGame.getGuiState() == GuiState.roadPurchasePanel || tempGame.getGuiState() == GuiState.stationPurchasePanel) && source.equals("playerYellow")) {
 			if(tempGame.getCurrentPlayer().getHand().get(TrainColor.Yellow).size() > 0)
-				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Yellow);
+				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Yellow, gui.getWhichRoad());
 		}
-		else if(tempGame.getGuiState() == GuiState.roadPurchasePanel && source.equals("playerPink")) {
+		else if((tempGame.getGuiState() == GuiState.roadPurchasePanel || tempGame.getGuiState() == GuiState.stationPurchasePanel) && source.equals("playerPink")) {
 			if(tempGame.getCurrentPlayer().getHand().get(TrainColor.Pink).size() > 0)
-				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Pink);
+				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Pink, gui.getWhichRoad());
 		}
-		else if(tempGame.getGuiState() == GuiState.roadPurchasePanel && source.equals("playerWild")) {
+		else if((tempGame.getGuiState() == GuiState.roadPurchasePanel || tempGame.getGuiState() == GuiState.stationPurchasePanel) && source.equals("playerWild")) {
 			if(tempGame.getCurrentPlayer().getHand().get(TrainColor.Wild).size() > 0)
-				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Wild);
+				tempGame.HandleAction(ActionEvents.addedTrainCard, TrainColor.Wild, gui.getWhichRoad());
+		}
+		else if(source.equals("confirm")) {
+			tempGame.HandleAction(ActionEvents.Confirm, gui.getSelectedRoadColor(), gui.getWhichRoad());
+			gui.setWhichRoad(-1);
+			gui.resetAdjacentCities();
+		}
+		else if(source.equals("cancel")) {
+			if(gui.getWhichRoad() == -1)
+				tempGame.HandleAction(ActionEvents.Cancel, null, -2);
+			else
+				tempGame.HandleAction(ActionEvents.Cancel, null, -1);
+			gui.setWhichRoad(-1);
+			gui.resetAdjacentCities();
+		}
+		else if(source.equals("colorOne")) {
+			Europe europe = tempGame.getEurope();
+			ArrayList<Road> roads = europe.roadSearch(europe.citySearch(tempGame.getCurrentCities().get(0)),europe.citySearch(tempGame.getCurrentCities().get(1)));
+			if(!roads.get(0).isTaken())
+				gui.setWhichRoad(0);
+		}
+		else if(source.equals("colorTwo")) {
+			Europe europe = tempGame.getEurope();
+			ArrayList<Road> roads = europe.roadSearch(europe.citySearch(tempGame.getCurrentCities().get(0)),europe.citySearch(tempGame.getCurrentCities().get(1)));
+			if(!roads.get(1).isTaken())
+				gui.setWhichRoad(1);
+		}
+		else if(source.equals("leaderboard") && tempGame.getSelectedTrainCards().size() == 0 && tempGame.getCurrentCitiesSize() == 0) {
+			if(tempGame.getGuiState() != GuiState.Leaderboard)
+				tempGame.setGuiState(GuiState.Leaderboard);
+			else
+				tempGame.setGuiState(GuiState.nothing);
+		}
+		else if(source.equals("help")) {
+			if(tempGame.getGuiState() != GuiState.Tips)
+				tempGame.setGuiState(GuiState.Tips);
+			else
+				tempGame.setGuiState(GuiState.nothing);
 		}
 		gui.repaint();
 	}
