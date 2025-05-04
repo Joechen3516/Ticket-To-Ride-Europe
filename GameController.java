@@ -27,10 +27,9 @@ public class GameController {
 	private String currentScreen = "dest";
 	private Europe europe = new Europe();
 	private Map<String,SwitchablePanel> panels = new HashMap<>();
-	private ArrayList<TrainCard> selectedTrainCards = new ArrayList<TrainCard>();
 	private boolean wait;
 	private TrainCard j;
-
+	boolean clear = false;
 
 
 	//FLAGS
@@ -39,11 +38,16 @@ public class GameController {
 
 
 	//RESET THESE
+	private ArrayList<TrainCard> mountainCards = new ArrayList<TrainCard>();
+	private ArrayList<TrainCard> selectedTrainCards = new ArrayList<TrainCard>();
 	private GuiState guiState = GuiState.nothing;
 	private ArrayList<String> currentCities = new ArrayList<>();
 	private int currentDrawnTrain = 0;
 	private int cardTurn = 0;
-
+	private boolean gotTrain = false;
+	private boolean paidInitialMountain = false;
+	private ArrayList<TrainCard> cardsForMountain = new ArrayList<TrainCard>();
+	int numToPay = 0;
 
 	// Inital Setup
 	public GameController() {
@@ -100,11 +104,15 @@ public class GameController {
 		}else {
 			turn = 1;
 		}
-
+		selectedTrainCards = new ArrayList<TrainCard>();
 		currentCities.clear();
 		guiState = GuiState.nothing;
 		cardTurn = 0;
 		currentDrawnTrain = 0;
+		mountainCards = new ArrayList<TrainCard>();
+		paidInitialMountain = false;
+		cardsForMountain = new ArrayList<TrainCard>();
+		numToPay = 0;
 	}
 
 	public ArrayList<String> getCurrentCities(){
@@ -130,7 +138,10 @@ public class GameController {
 
 
 	}
-
+	
+	public void setGuiState(GuiState state) {
+		guiState = state;
+	}
 	public void HandleAction(ActionEvents x) {
 		if(x.equals(ActionEvents.Start)) {
 			switchScreen("Destination");
@@ -159,12 +170,14 @@ public class GameController {
 		}
 
 		if(x.equals(ActionEvents.RouteButton)) {
-			switchScreen("Destination");
+			if(!gotTrain)
+				switchScreen("Destination");
 		}
 
 		if(x.equals(ActionEvents.TrainCard)) {
 			if(currentCities.size() < 2 && show5.get(currentDrawnTrain) != null) {
 				if(currentDrawnTrain != -1) {
+					gotTrain = true;
 					if(show5.get(currentDrawnTrain).getColor() == TrainColor.Wild && cardTurn == 0) {
 						getCurrentPlayer().addTrainCard(show5.get(currentDrawnTrain));
 						if(deck.size() > 0) {
@@ -189,6 +202,7 @@ public class GameController {
 				if(cardTurn == 2) {
 					cardTurn = 0;
 					currentDrawnTrain = -1;
+					gotTrain = false;
 					nextTurn();
 				}
 
@@ -210,16 +224,18 @@ public class GameController {
 					for(Road r : getCurrentPlayer().getRoads()) {
 						System.out.print(r);
 					}
-				}else if(currentCities.size() == 2) {
+				}else if(currentCities.size() == 2 || clear) {
 					currentCities.clear();
+					clear = false;
 				}
 			}else {
 				currentCities.clear();
 			}
 		}
 		if(x.equals(ActionEvents.TrainDeck)) {
-			j = deckDraw();
-
+			if(!deck.isEmpty())
+				j = deckDraw();
+			gotTrain = true;
 			wait = true; 
 
 
@@ -231,54 +247,309 @@ public class GameController {
 				cardTurn += 1;
 				if(cardTurn == 2) {
 					cardTurn = 0;
-
+					gotTrain = false;
 					nextTurn();
 				}
 			}
 		}
-
-		if(x.equals(ActionEvents.Cancel)) {
-			if(guiState == GuiState.roadPurchasePanel) {
-				for(TrainCard tc: selectedTrainCards) {
-					getCurrentPlayer().addTrainCard(tc);
-				}
-			}
-		}
 		
-		if(x.equals(ActionEvents.Confirm)) {
-			
-		}
+
 	}
 
-	public void HandleAction(ActionEvents x, TrainColor trainColor) {
-		Road road = europe.roadSearch(europe.citySearch(currentCities.get(0)), europe.citySearch(currentCities.get(1))).get(0);
-
-		if(road.hasMountains()) {
-
+	public void HandleAction(ActionEvents x, TrainColor trainColor, int roadNum) {
+		int cost = 0;;
+		if(getCurrentPlayer().getStationLocations().size() == 0) {
+			cost = 1;
 		}
-		else if(road.getLength()[1] > 0) {
-			int ferrylength = road.getLength()[1];
+		else if(getCurrentPlayer().getStationLocations().size() == 1) {
+			cost = 2;
+		}
+		else if(getCurrentPlayer().getStationLocations().size() == 2) {
+			cost = 3;
 		}
 		else {
-			if(x.equals(ActionEvents.addedTrainCard)) {
-				if(road.getColor() == trainColor) {
-					if(road.getLength()[0] != selectedTrainCards.size()){
+			cost = -1;
+		}
+		if(roadNum == -2 && x == ActionEvents.Cancel && guiState == GuiState.roadPurchasePanel) {
+			selectedTrainCards = new ArrayList<TrainCard>();
+			currentCities.clear();
+			guiState = GuiState.nothing;
+			cardTurn = 0;
+			currentDrawnTrain = 0;
+			mountainCards = new ArrayList<TrainCard>();
+			paidInitialMountain = false;
+			cardsForMountain = new ArrayList<TrainCard>();
+			numToPay = 0;
+			return;
+		}
+		else if(roadNum == -1)
+			roadNum = 0;
+		ArrayList<Road> roads = new ArrayList<Road>();
+		Road road = null;
+		if(guiState == GuiState.roadPurchasePanel){
+			roads = europe.roadSearch(europe.citySearch(currentCities.get(0)), europe.citySearch(currentCities.get(1)));
+			road = roads.get(roadNum);
+		}
+		if(x == ActionEvents.addedTrainCard && guiState == GuiState.roadPurchasePanel) {
+			if(road.hasMountains() && !paidInitialMountain) {
+				if(road.getLength()[0] > selectedTrainCards.size()) {
+					if(road.getColor() == trainColor || trainColor == TrainColor.Wild) {
 						selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+						return;
+					}
+					else if(road.getColor() == TrainColor.Wild) {
+						if(road.getLength()[0] != selectedTrainCards.size()) {
+							if(selectedTrainCards == null) {
+								selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+								return;
+							}
+							else  {
+								int cnt = 0;
+								TrainColor setColor = null;
+								while(cnt < selectedTrainCards.size()) {
+									if(selectedTrainCards.get(cnt).getColor() != TrainColor.Wild) {
+										setColor = selectedTrainCards.get(cnt).getColor();
+									}
+									cnt++;
+								}
+								if(setColor == null) {
+									selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+									return;
+								}
+								else {
+									if(trainColor == setColor || trainColor == TrainColor.Wild) 
+										selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+									return;
+								}
+							}
+						}
 					}
 				}
-				else if(trainColor == TrainColor.Wild) {
-					if(road.getLength()[0] != selectedTrainCards.size()){
-						selectedTrainCards.add(getCurrentPlayer().getHand().get(TrainColor.Wild).removeLast());
+			}
+			if(road.hasMountains() && paidInitialMountain) {
+				int cnt = 0;
+				TrainColor setColor = null;
+				while(cnt < selectedTrainCards.size()) {
+					if(selectedTrainCards.get(cnt).getColor() != TrainColor.Wild) {
+						setColor = selectedTrainCards.get(cnt).getColor();
+					}
+					cnt++;
+				}
+				if(cardsForMountain.size() != numToPay) {
+					if(trainColor == setColor || trainColor == TrainColor.Wild)
+						cardsForMountain.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+				}
+			}
+			else if(road.getLength()[1] > 0) {
+				int ferryLength = road.getLength()[1];
+				int totalLength = road.getLength()[0];
+
+				int wildCount = 0;
+				TrainColor setColor = null; // The chosen consistent color
+
+				// Count existing wilds and determine the consistent color
+				for (TrainCard card : selectedTrainCards) {
+				    if (card.getColor() == TrainColor.Wild) {
+				        wildCount++;
+				    } else {
+				        if (setColor == null) {
+				            setColor = card.getColor();
+				        } else if (card.getColor() != setColor) {
+				            // Invalid: more than one color selected
+				            return;
+				        }
+				    }
+				}
+
+				boolean needsMoreWilds = wildCount < ferryLength;
+				boolean selectionFull = selectedTrainCards.size() >= totalLength;
+
+				// Don't allow more cards if full
+				if (selectionFull) return;
+
+				if (trainColor == TrainColor.Wild) {
+				    selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+				} else {
+				    if (needsMoreWilds) {
+				        // Cannot play a non-Wild card until required ferry locomotives are in
+				        return;
+				    } else {
+				        // If first color, set it
+				        if (setColor == null || trainColor == setColor) {
+				            selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+				        } else {
+				            // Invalid: trying to play a second color
+				            return;
+				        }
+				    }
+				}
+			}
+			else {
+				if(road.getLength()[0] > selectedTrainCards.size()) {
+					if(road.getColor() == trainColor || trainColor == TrainColor.Wild) {
+						if(road.getLength()[0] != selectedTrainCards.size()){
+							selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+						}
+					}
+					else if(road.getColor() == TrainColor.Wild) {
+						if(road.getLength()[0] != selectedTrainCards.size()) {
+							if(selectedTrainCards == null) {
+								selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+							}
+							else  {
+								int cnt = 0;
+								TrainColor setColor = null;
+								while(cnt < selectedTrainCards.size()) {
+									if(selectedTrainCards.get(cnt).getColor() != TrainColor.Wild) {
+										setColor = selectedTrainCards.get(cnt).getColor();
+									}
+									cnt++;
+								}
+								if(setColor == null)
+									selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+								else
+									if(trainColor == setColor || trainColor == TrainColor.Wild) 
+										selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+							}
+						}
 					}
 				}
 			}
 		}
+		else if(x == ActionEvents.addedTrainCard && guiState == GuiState.stationPurchasePanel) {
+			if(selectedTrainCards.size() == 0) {
+				selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+			}
+			else if(selectedTrainCards.size() == cost) {
+				return;
+			}
+			else {
+				int cnt = 0;
+				TrainColor setColor = null;
+				while(cnt < selectedTrainCards.size()) {
+					if(selectedTrainCards.get(cnt).getColor() != TrainColor.Wild) {
+						setColor = selectedTrainCards.get(cnt).getColor();
+					}
+					cnt++;
+				}
+				if(setColor == null)
+					selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+				else
+					if(trainColor == setColor || trainColor == TrainColor.Wild) 
+						selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+			}
+		}
+		if(x.equals(ActionEvents.Confirm)) {
+			if(guiState == GuiState.roadPurchasePanel) {
+				if(road.getLength()[0] == selectedTrainCards.size() && !road.hasMountains()) {
+					discardDeck.addAll(selectedTrainCards);
+					getCurrentPlayer().addRoad(road);
+					nextTurn();
+				}
+				else if(road.getLength()[0] == selectedTrainCards.size() && road.hasMountains() && mountainCards.size() == 0) {
+					paidInitialMountain = true;
+					drawMountainCards();
+					int cnt = 0;
+					TrainColor setColor = null;
+					while(cnt < selectedTrainCards.size()) {
+						if(selectedTrainCards.get(cnt).getColor() != TrainColor.Wild) {
+							setColor = selectedTrainCards.get(cnt).getColor();
+						}
+						cnt++;
+					}
+					numToPay = 0;
+					for(TrainCard tc : mountainCards) {
+						if(tc.getColor() == setColor || tc.getColor() == TrainColor.Wild)
+							numToPay++;
+					}
+				}
+				else if(paidInitialMountain && numToPay == cardsForMountain.size() && road.hasMountains()) {
+					discardDeck.addAll(selectedTrainCards);
+					discardDeck.addAll(mountainCards);
+					getCurrentPlayer().addRoad(road);
+					nextTurn();
+				}
+			}
+			else if(guiState == GuiState.stationPurchasePanel) {
+				if(selectedTrainCards.size() == cost) {
+					discardDeck.addAll(selectedTrainCards);
+					getCurrentPlayer().addStation(europe.citySearch(currentCities.get(0)));
+					nextTurn();
+				}
+			}
+		}
+		if(x.equals(ActionEvents.Cancel)) {
+			if(guiState == GuiState.roadPurchasePanel) {
+				if(numToPay == 0 && paidInitialMountain)
+					return;
+				for(TrainCard tc : selectedTrainCards) {
+					getCurrentPlayer().addTrainCard(tc);
+				}
+				for(TrainCard tc : cardsForMountain) {
+					getCurrentPlayer().addTrainCard(tc);
+				}
+				if(road.hasMountains() && paidInitialMountain) {
+					discardDeck.addAll(selectedTrainCards);
+					discardDeck.addAll(mountainCards);
+					nextTurn();
+				}
+				selectedTrainCards = new ArrayList<TrainCard>();
+				currentCities.clear();
+				guiState = GuiState.nothing;
+				cardTurn = 0;
+				currentDrawnTrain = 0;
+				mountainCards = new ArrayList<TrainCard>();
+				paidInitialMountain = false;
+				cardsForMountain = new ArrayList<TrainCard>();
+				numToPay = 0;
+			}
+			else if(guiState == GuiState.stationPurchasePanel) {
+				for(TrainCard tc : selectedTrainCards) {
+					getCurrentPlayer().addTrainCard(tc);
+				}
+				selectedTrainCards = new ArrayList<TrainCard>();
+				currentCities.clear();
+				guiState = GuiState.nothing;
+				cardTurn = 0;
+				currentDrawnTrain = 0;
+				mountainCards = new ArrayList<TrainCard>();
+				paidInitialMountain = false;
+				cardsForMountain = new ArrayList<TrainCard>();
+				numToPay = 0;
+			}
+		}
+	}
+	
+	public ArrayList<TrainCard> getCardsForMountain(){
+		return cardsForMountain;
+	}
+	public boolean paidInitialMountain() {
+		return paidInitialMountain;
+	}
+	
+	public int getNumToPay() {
+		return numToPay;
+	}
+	
+	public void drawMountainCards(){
+		for(int i = 0; i < 3; i++) {
+			if(!deck.isEmpty())
+				mountainCards.add(deckDraw());
+			else {
+				deck.addAll(discardDeck);
+				discardDeck.clear();
+			}
+		}
+	}
+	
+	public ArrayList<TrainCard> getMountainCards(){
+		return mountainCards;
 	}
 	
 	public void deleteDontReplace(int x) {
 		show5.set(x, null);
 	}
-
+	
 	public ArrayList<TrainCard> getSelectedTrainCards(){
 		return selectedTrainCards;
 	}
@@ -341,6 +612,9 @@ public class GameController {
 		if(!currentCities.isEmpty()){
 			if(!c.equals(currentCities.get(0))) {
 				currentCities.add(c);
+			}
+			else {
+				clear = true;
 			}
 		}else {
 			currentCities.add(c);
