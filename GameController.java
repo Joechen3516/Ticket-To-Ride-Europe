@@ -99,8 +99,22 @@ public class GameController {
 		}
 		return turn;
 	}
+	
+	public void reshuffleDeck() {
+		for(TrainCard tc:discardDeck) {
+			deck.add(tc);
+		}
+		discardDeck.clear();
+		shuffledeck(deck);
+	}
 
 	public void nextTurn() {
+		
+		
+		if(deck.size() < 2) {
+			reshuffleDeck();
+		}
+		
 
 		if(turn > 0) {
 			if(getCurrentPlayer().getTrainPieces() <=2) {
