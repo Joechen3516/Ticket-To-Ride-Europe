@@ -48,11 +48,17 @@ public class Player {
 
 
 	public Color getColor() {
-		try {
-			return (Color) Class.forName("java.awt.Color").getField(color.name()).get(null);
+		if(color == PlayerColor.RED) {
+			return new Color(255,49,49);
 		}
-		catch(Exception e) {
-			return null;
+		else if(color == PlayerColor.BLUE) {
+			return new Color(0,74,173);
+		}
+		else if(color == PlayerColor.GREEN) {
+			return new Color(0,191,99);
+		}
+		else {
+			return new Color(193,255,114);
 		}
 	}
 
@@ -114,10 +120,6 @@ public class Player {
 		stationLocations.add(c);
 		numStations --;
 		return true;
-	}
-	
-	public void connectStation(City a, City b) {
-		roads.add(new Road(a, b));
 	}
 
 	//returns an ArrayList of the route cards the player has completed.
