@@ -154,6 +154,10 @@ public class GameController {
 	public void setGuiState(GuiState state) {
 		guiState = state;
 	}
+	
+	public void skipTurn() {
+		nextTurn();
+	}
 	public void HandleAction(ActionEvents x) {
 		if(x.equals(ActionEvents.Start)) {
 			switchScreen("Destination");
@@ -263,6 +267,10 @@ public class GameController {
 					nextTurn();
 				}
 			}
+		}
+		
+		if(x.equals(ActionEvents.Skip)){
+			skipTurn();
 		}
 
 
