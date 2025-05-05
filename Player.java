@@ -115,6 +115,10 @@ public class Player {
 		numStations --;
 		return true;
 	}
+	
+	public void connectStation(City a, City b) {
+		roads.add(new Road(a, b));
+	}
 
 	//returns an ArrayList of the route cards the player has completed.
 	public ArrayList<RouteCard> getCompletedRoutes() {

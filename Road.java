@@ -36,6 +36,12 @@ public class Road {
 		this.as = as;
 	}
 	
+	public Road(City a, City b) {
+		this.a = a;
+		this.b = b;
+		this.length = -1;
+	}
+	
 
 	public boolean hasMountains() {return mountainous;}
 	

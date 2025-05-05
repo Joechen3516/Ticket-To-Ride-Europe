@@ -16,6 +16,11 @@ public class City implements Comparable{
 		this.isDouble = d;
 	}
 	
+	
+	public boolean hasStation() {
+		return station;
+	}
+	
 
 
 
