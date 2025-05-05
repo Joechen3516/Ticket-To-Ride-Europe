@@ -47,6 +47,7 @@ public class GameController {
 	private boolean gotTrain = false;
 	private boolean paidInitialMountain = false;
 	private ArrayList<TrainCard> cardsForMountain = new ArrayList<TrainCard>();
+	private int endTurn = -1;
 	int numToPay = 0;
 
 	// Inital Setup
@@ -99,6 +100,11 @@ public class GameController {
 	}
 
 	public void nextTurn() {
+		
+		if(getCurrentPlayer().getTrainPieces() <=2) {
+			endTurn = getCurrentPlayerNumber();
+		}
+		
 		if(turn < 4) {
 			turn++;
 		}else {
@@ -113,6 +119,10 @@ public class GameController {
 		paidInitialMountain = false;
 		cardsForMountain = new ArrayList<TrainCard>();
 		numToPay = 0;
+		
+		if(endTurn > 0 && endTurn == getCurrentPlayerNumber() -1) {
+			switchScreen("end");
+		}
 	}
 
 	public ArrayList<String> getCurrentCities(){
