@@ -30,6 +30,7 @@ public class GameController {
 	private boolean wait;
 	private TrainCard j;
 	boolean clear = false;
+	private int endTurn = -999;
 
 
 	//FLAGS
@@ -47,7 +48,7 @@ public class GameController {
 	private boolean gotTrain = false;
 	private boolean paidInitialMountain = false;
 	private ArrayList<TrainCard> cardsForMountain = new ArrayList<TrainCard>();
-	private int endTurn = -1;
+
 	int numToPay = 0;
 
 	// Inital Setup
@@ -100,16 +101,19 @@ public class GameController {
 	}
 
 	public void nextTurn() {
-		
-		if(getCurrentPlayer().getTrainPieces() <=2) {
-			endTurn = getCurrentPlayerNumber();
+
+		if(turn > 0) {
+			if(getCurrentPlayer().getTrainPieces() <=2) {
+				endTurn = getCurrentPlayerNumber();
+			}
 		}
-		
+
 		if(turn < 4) {
 			turn++;
 		}else {
 			turn = 1;
 		}
+
 		selectedTrainCards = new ArrayList<TrainCard>();
 		currentCities.clear();
 		guiState = GuiState.nothing;
@@ -119,7 +123,7 @@ public class GameController {
 		paidInitialMountain = false;
 		cardsForMountain = new ArrayList<TrainCard>();
 		numToPay = 0;
-		
+
 		if(endTurn > 0 && endTurn == getCurrentPlayerNumber() -1) {
 			switchScreen("end");
 		}
@@ -133,22 +137,6 @@ public class GameController {
 		return currentCities.size();
 	}
 
-	public void chooseDestinations() {
-		if(turn < 0) {
-
-
-
-
-		}else if(turn >= 0) {
-
-
-
-		}
-
-
-
-	}
-	
 	public void setGuiState(GuiState state) {
 		guiState = state;
 	}
@@ -262,7 +250,7 @@ public class GameController {
 				}
 			}
 		}
-		
+
 
 	}
 
@@ -359,16 +347,16 @@ public class GameController {
 
 				// Count existing wilds and determine the consistent color
 				for (TrainCard card : selectedTrainCards) {
-				    if (card.getColor() == TrainColor.Wild) {
-				        wildCount++;
-				    } else {
-				        if (setColor == null) {
-				            setColor = card.getColor();
-				        } else if (card.getColor() != setColor) {
-				            // Invalid: more than one color selected
-				            return;
-				        }
-				    }
+					if (card.getColor() == TrainColor.Wild) {
+						wildCount++;
+					} else {
+						if (setColor == null) {
+							setColor = card.getColor();
+						} else if (card.getColor() != setColor) {
+							// Invalid: more than one color selected
+							return;
+						}
+					}
 				}
 
 				boolean needsMoreWilds = wildCount < ferryLength;
@@ -378,20 +366,20 @@ public class GameController {
 				if (selectionFull) return;
 
 				if (trainColor == TrainColor.Wild) {
-				    selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+					selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
 				} else {
-				    if (needsMoreWilds) {
-				        // Cannot play a non-Wild card until required ferry locomotives are in
-				        return;
-				    } else {
-				        // If first color, set it
-				        if (setColor == null || trainColor == setColor) {
-				            selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
-				        } else {
-				            // Invalid: trying to play a second color
-				            return;
-				        }
-				    }
+					if (needsMoreWilds) {
+						// Cannot play a non-Wild card until required ferry locomotives are in
+						return;
+					} else {
+						// If first color, set it
+						if (setColor == null || trainColor == setColor) {
+							selectedTrainCards.add(getCurrentPlayer().getHand().get(trainColor).removeLast());
+						} else {
+							// Invalid: trying to play a second color
+							return;
+						}
+					}
 				}
 			}
 			else {
@@ -529,18 +517,18 @@ public class GameController {
 			}
 		}
 	}
-	
+
 	public ArrayList<TrainCard> getCardsForMountain(){
 		return cardsForMountain;
 	}
 	public boolean paidInitialMountain() {
 		return paidInitialMountain;
 	}
-	
+
 	public int getNumToPay() {
 		return numToPay;
 	}
-	
+
 	public void drawMountainCards(){
 		for(int i = 0; i < 3; i++) {
 			if(!deck.isEmpty())
@@ -551,15 +539,15 @@ public class GameController {
 			}
 		}
 	}
-	
+
 	public ArrayList<TrainCard> getMountainCards(){
 		return mountainCards;
 	}
-	
+
 	public void deleteDontReplace(int x) {
 		show5.set(x, null);
 	}
-	
+
 	public ArrayList<TrainCard> getSelectedTrainCards(){
 		return selectedTrainCards;
 	}
