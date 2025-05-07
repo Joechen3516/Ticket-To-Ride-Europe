@@ -657,7 +657,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 				}
 				else if(roads.get(cnt).getLength()[1] > 0) {
 					g.setFont(tempF);
-					g.drawString("Cost: " + (roads.get(cnt).getLength()[cnt] - roads.get(cnt).getLength()[1]) + " wild first then " + roads.get(0).getLength()[1] + " of any color", (int)(getWidth()*0.03634), (int)(getHeight()*0.19212));
+					g.drawString("Cost: " + roads.get(0).getLength()[1] + " wild first then " + (roads.get(cnt).getLength()[cnt] - roads.get(cnt).getLength()[1]) + " of any color", (int)(getWidth()*0.03634), (int)(getHeight()*0.19212));
 					int addedTrainX = (int)(getWidth()*0.00525);
 					for(TrainCard t : game.getSelectedTrainCards()) {
 						BufferedImage temp = null;
@@ -984,14 +984,7 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
             g.drawString("Click anywhere to proceed", (int)(getWidth()*0.7576), (int)(getHeight()*0.42157));
             g.setFont(f);
     }
-		if(turn == 1)
-			g.setColor(new Color(255,49,49));
-		else if(turn == 2)
-			g.setColor(new Color(0,74,173));
-		else if(turn == 3)
-			g.setColor(new Color(0,191,99));
-		else 
-			g.setColor(new Color(193,255,114));
+		g.setColor(game.getCurrentPlayer().getColor());
 		g.drawString("Player " + turn, (int)(getWidth()*0.7976), (int)(getHeight()*0.72157));
 		g.drawImage(routecardback, getWidth()*1480/1920, getHeight()*50/1080 , getWidth()/12, getHeight()/5, null);
 		if(game.getGuiState() == GuiState.nothing) {

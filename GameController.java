@@ -56,7 +56,44 @@ public class GameController {
 		makeDecks();
 		createPlayers();
 	}
+	
+	public void restart() {
+		turn = -4;
+		routes = new Stack<>();
+		lRoutes = new Stack<>();
+		deck = new Stack<>();
+		discardDeck = new Stack<>();
+		show5 = new ArrayList<>();
+		players = new ArrayList<>();
+		listeners = new ArrayList<>();
+		currentScreen = "dest";
+		europe = new Europe();
+		wait = false;
+		j = null;
+		clear = false;
+		endTurn = -999;
 
+
+		//FLAGS
+		//DONT RESET THESE
+		initalChooseFlag = true;
+
+
+		//RESET THESE
+		mountainCards = new ArrayList<TrainCard>();
+		selectedTrainCards = new ArrayList<TrainCard>();
+		guiState = GuiState.nothing;
+		currentCities = new ArrayList<>();
+		currentDrawnTrain = 0;
+		cardTurn = 0;
+		gotTrain = false;
+		paidInitialMountain = false;
+		cardsForMountain = new ArrayList<TrainCard>();
+		makeDecks();
+		createPlayers();
+		switchScreen("Start");
+	}
+	
 	public void addPanelSwitch(String name,SwitchablePanel p) {
 		panels.put(name,p);
 	}
@@ -139,7 +176,7 @@ public class GameController {
 		numToPay = 0;
 
 		if(endTurn > 0 && endTurn == getCurrentPlayerNumber() -1) {
-			switchScreen("end");
+			switchScreen("End");
 		}
 	}
 
@@ -162,7 +199,6 @@ public class GameController {
 		if(x.equals(ActionEvents.Start)) {
 			switchScreen("Destination");
 		}
-
 		if(x.equals(ActionEvents.CardScreenConfirm)) {
 
 			if(initalChooseFlag) {
