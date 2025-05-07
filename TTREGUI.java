@@ -345,7 +345,6 @@ public class TTREGUI extends JPanel implements SwitchablePanel{
 					routeClicked = false; 
 				} else if (e.getSource() == wholescreen && game.checkThree()) {
 					game.replaceFive();
-					 
 				} else if (e.getSource() == wholescreen && game.getWait()) {
 					game.waitToFalse();
 					game.HandleAction(ActionEvents.LimboCard);

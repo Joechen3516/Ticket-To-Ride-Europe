@@ -31,6 +31,7 @@ public class GameController {
 	private TrainCard j;
 	boolean clear = false;
 	private int endTurn = -999;
+	boolean added = false;
 
 
 	//FLAGS
@@ -48,7 +49,6 @@ public class GameController {
 	private boolean gotTrain = false;
 	private boolean paidInitialMountain = false;
 	private ArrayList<TrainCard> cardsForMountain = new ArrayList<TrainCard>();
-
 	int numToPay = 0;
 
 	// Inital Setup
@@ -149,6 +149,7 @@ public class GameController {
 		
 		
 		if(deck.size() < 2) {
+			System.out.println("reshuffled");
 			reshuffleDeck();
 		}
 		
@@ -635,24 +636,26 @@ public class GameController {
 			}
 		}
 		if (x>2) {
-			discardDeck.addAll(show5);
+			if(!added) {
+				discardDeck.addAll(show5);
+				System.out.println(discardDeck.size());
+				added = true;
+			}
 			return true;
 		}
 		return false; 
 	}
 	public void replaceFive() {
-
-
+		
+		added = false;
 		if(deck.size() > 5) {
-			for(TrainCard tc : show5) {
-				discardDeck.add(tc);
-			}
-
+			System.out.println("fine on cards");
 			for(int i = 0; i < show5.size(); i++) {
-				show5.set(i, deck.pop());
+				if(!deck.isEmpty())
+					show5.set(i, deck.pop());
 			}
 		}else {
-
+			System.out.println("low on cards");
 			for(TrainCard tc : discardDeck) {
 				deck.add(tc);
 			}
@@ -797,7 +800,6 @@ public class GameController {
 			}
 		}
 		shuffledeck(deck);
-
 		try {
 			createDefaultRoutes();
 		} catch (IOException e) {
